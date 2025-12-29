@@ -1,0 +1,30 @@
+{
+  "name": "dev-tinder",
+  "version": "1.0.0",
+  "description": "A DevTinder project built while learning Node.js",
+  "main": "src/app.js", 
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon src/app.js",
+    "start": "node src/app.js"
+  },
+  "keywords": [
+    "node.js",
+    "devTinder",
+    "express",
+    "backend",
+    "learning-project"
+  ],
+  "author": "Raushan Kumar Saw",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^5.2.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.11"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=9.0.0"
+  }
+}
