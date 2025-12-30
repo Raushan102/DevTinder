@@ -2,7 +2,7 @@
   "name": "dev-tinder",
   "version": "1.0.0",
   "description": "A DevTinder project built while learning Node.js",
-  "main": "src/app.js", 
+  "main": "src/app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon src/app.js",
@@ -18,7 +18,9 @@
   "author": "Raushan Kumar Saw",
   "license": "ISC",
   "dependencies": {
-    "express": "^5.2.1"
+    "express": "^5.2.1",
+    "mongodb": "^7.0.0",
+    "mongoose": "^9.1.0"
   },
   "devDependencies": {
     "nodemon": "^3.1.11"
