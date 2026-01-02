@@ -73,15 +73,13 @@ exports.login = async (req, res) => {
       throw new Error("invalid credentials");
     }
 
-    const result = await bcrypt.compare(req.body.password, user.password);
+    const result = await user.IsPasswordCurrect(req.body.password);
 
     if (result) {
-      const token = jwt.sign(
-        { _id: user._id },
-        "sharda@deviRaushan@2003Augest",
-        { expiresIn: "7d" }
-      );
-      res.cookie("token", token,{expires: new Date(Date.now() + 8 * 3600000)});
+      const token = await user.getJWTToken();
+      res.cookie("token", token, {
+        expires: new Date(Date.now() + 8 * 3600000),
+      });
       res.status(200).send("user login successfully");
     } else {
       res.status(404).send("invalid credentailas");
@@ -119,6 +117,6 @@ exports.auth = async (req, res, next) => {
     req.user = user;
     next();
   } catch (error) {
-    res.status(400).send("Error : "+error.message);
+    res.status(400).send("Error : " + error.message);
   }
 };
