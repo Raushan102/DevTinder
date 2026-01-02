@@ -1,17 +1,14 @@
 const connect = require("../config/database");
-const User = require("../model/user");
+const dataValidation=require('./routes/validate')
+const cookieParse=require('cookie-parser')
+
 const express = require("express");
 const app = express();
+const userRouter=require('./routes/user')
 app.use(express.json());
-app.post("/signup", async (req, res) => {
-  try {
-    await new User(req.body).save();
-    res.send("data inserted successfully");
-  } catch (err) {
-    res.status(400).send("error saving the user : ", err.message);
-  }
-});
-
+app.use(cookieParse())
+app.use(dataValidation)
+app.use(userRouter);
 connect()
   .then(() => {
     console.log("connection established with database");
