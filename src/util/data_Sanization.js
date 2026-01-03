@@ -18,7 +18,7 @@ const validators = {
       return true;
     }
   },
-  
+
   Validate_email(data) {
     if (!validator.isEmail(data)) {
       throw new Error("email is not currect");
@@ -100,4 +100,33 @@ function sanization(data) {
   }
 }
 
-module.exports = sanization;
+function CanUpdateTheseFields(req) {
+  const editebleFields = [
+    "firstName",
+    "lastName",
+    "gender",
+    "age",
+    "skills",
+    "about",
+    "photoUrl",
+  ];
+  try {
+    const result = Object.keys(req.body).every((ele) =>
+      editebleFields.includes(ele)
+    );
+    if (!result) {
+      throw new Error(
+        "bad request please check fields . email and password are not updateble"
+      );
+    }
+
+    return result;
+  } catch (err) {
+    throw err;
+  }
+}
+
+module.exports = {
+  sanization,
+  CanUpdateTheseFields
+}

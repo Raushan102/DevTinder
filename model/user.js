@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
-const jwt=require('jsonwebtoken');
-const bcrypt=require('bcrypt')
-const userSchema = mongoose.Schema(
+const jwt = require("jsonwebtoken");
+const bcrypt = require("bcrypt");
+const userSchema = new mongoose.Schema(
   {
     firstName: {
       type: String,
@@ -18,7 +18,7 @@ const userSchema = mongoose.Schema(
     email: {
       type: String,
       required: true,
-      unique: true,
+      unique: [true, "email must be unique"],
       lowercase: true,
       trim: true,
     },
@@ -29,17 +29,22 @@ const userSchema = mongoose.Schema(
     gender: {
       type: String,
       required: true,
-      validate(value) {
-        if (!["male", "female", "other"].includes(value)) {
-          throw new Error(
-            "please check gender it should be male ,female and other"
-          );
-        }
+      enum: {
+        values: ["male", "female", "other"],
+        message:
+          "{VALUE} is not allowed as gender it could only be male , female and other ",
       },
+      // validate(value) {
+      //   if (!["male", "female", "other"].includes(value)) {
+      //     throw new Error(
+      //       "please check gender it should be male ,female and other"
+      //     );
+      //   }
+      // },
     },
     age: {
       type: Number,
-      min: 18,
+      min: [18, " min age should be 18 "],
       max: 150,
     },
     photoUrl: {
@@ -57,6 +62,9 @@ const userSchema = mongoose.Schema(
     timestamps: true,
   }
 );
+
+userSchema.index({firstName:1})
+
 // take care it always be simple function because arrow function have lexical this  it does not have there own this
 userSchema.methods.getJWTToken = function () {
   const user = this;
@@ -69,15 +77,13 @@ userSchema.methods.getJWTToken = function () {
   return jwtToken;
 };
 
-userSchema.methods.IsPasswordCurrect=async function (userPassword){
-  let user=this;
- const result= await bcrypt.compare(userPassword, user.password)
- return result
-}
 
 
-
-
+userSchema.methods.IsPasswordCurrect = async function (userPassword) {
+  let user = this;
+  const result = await bcrypt.compare(userPassword, user.password);
+  return result;
+};
 
 const User = mongoose.model("User", userSchema);
 module.exports = User;

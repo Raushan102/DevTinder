@@ -1,13 +1,20 @@
-const connect = require("../config/database");
-const dataValidation=require('./routes/validate')
-const cookieParse=require('cookie-parser')
-
 const express = require("express");
+const connect = require("../config/database");
+const dataValidation = require("./routes/validate");
+const cookieParse = require("cookie-parser");
+const authRouter = require("./routes/auth");
+const profileRouter=require('./routes/profile')
+const userRouter = require("./routes/user");
+const requestRouter=require('./routes/request')
+
 const app = express();
-const userRouter=require('./routes/user')
 app.use(express.json());
-app.use(cookieParse())
-app.use(dataValidation)
+app.use(cookieParse());
+app.use(dataValidation);
+app.use('/request',requestRouter)
+app.use("/profile",profileRouter)
+app.use('/',authRouter);
+
 app.use(userRouter);
 connect()
   .then(() => {
