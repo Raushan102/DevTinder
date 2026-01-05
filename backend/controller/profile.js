@@ -15,7 +15,7 @@ exports.updateUser = async (req, res) => {
       req.user[element] = req.body[element];
     });
 
-    console.log(req.user);
+ 
 
     await req.user.save();
 

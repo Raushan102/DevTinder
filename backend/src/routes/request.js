@@ -4,5 +4,5 @@ const router = Router();
 const authController=require('../../controller/auth')
 
 router.post("/send/:status/:toUserId",authController.auth, requestController.handleConnectionRequest);
-
+router.post('/review/:status/:connectionId',authController.auth,requestController.reviewConnectionRequest)
 module.exports=router;
