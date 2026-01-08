@@ -1,30 +1,26 @@
 import { useState, useEffect } from 'react'
+import { Palette, Check, Sparkles } from 'lucide-react'
 
 function ThemeSwitcher() {
   const themes = ["light", "dark", "sunset", "cupcake", "cyberpunk", "forest", "luxury", "synthwave"]
 
-  // Lazy initialization - only runs once on mount
   const [currentTheme, setCurrentTheme] = useState(() => {
     if (typeof window !== 'undefined') {
       try {
         return localStorage.getItem("theme") || "sunset"
       } catch (error) {
-        console.error("Error loading theme:", error)
         return "sunset"
       }
     }
     return "sunset"
   })
 
-  // Only handle DOM side effects in useEffect
   useEffect(() => {
     document.documentElement.setAttribute("data-theme", currentTheme)
   }, [currentTheme])
 
   const handleThemeChange = (theme) => {
     setCurrentTheme(theme)
-
-    // Save to localStorage
     if (typeof window !== 'undefined') {
       try {
         localStorage.setItem("theme", theme)
@@ -36,38 +32,46 @@ function ThemeSwitcher() {
 
   return (
     <div className="dropdown dropdown-end">
-      <div tabIndex={0} role="button" className="btn btn-ghost btn-circle">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          className="h-6 w-6"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth="2"
-            d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"
-          />
-        </svg>
+      {/* TRIGGER BUTTON */}
+      <div tabIndex={0} role="button" className="btn btn-ghost btn-circle hover:bg-primary/10 transition-colors">
+        <div className="relative">
+          <Palette size={20} className="opacity-70" />
+          <Sparkles size={8} className="absolute -top-1 -right-1 text-primary animate-pulse" />
+        </div>
       </div>
+
+      {/* THE DROPDOWN MENU */}
       <ul
         tabIndex={0}
-        className="dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow-lg border border-base-300 max-h-96 overflow-y-auto"
+        className="dropdown-content menu bg-base-100/95 backdrop-blur-md rounded-xl z-[50] w-52 p-2 shadow-2xl border border-base-300 mt-4 max-h-80 overflow-y-auto"
       >
-        <li className="menu-title">
-          <span>Choose Theme</span>
+        <li className="menu-title px-4 py-2">
+          <span className="text-[10px] font-black uppercase tracking-[0.2em] opacity-40">Visual Interface</span>
         </li>
+
+        <div className="divider my-0 opacity-20"></div>
+
         {themes.map((theme) => (
-          <li key={theme}>
-            <a
+          <li key={theme} className="px-1">
+            <button
               onClick={() => handleThemeChange(theme)}
-              className={currentTheme === theme ? "active" : ""}
+              className={`flex items-center justify-between py-3 rounded-lg mt-1 transition-all ${
+                currentTheme === theme
+                ? "bg-primary/10 text-primary font-bold"
+                : "hover:bg-base-200"
+              }`}
             >
-              <span className="capitalize">{theme}</span>
-              {currentTheme === theme && <span className="text-primary">✓</span>}
-            </a>
+              <div className="flex items-center gap-3">
+                {/* SMALL COLOR PREVIEW DOTS */}
+                <div data-theme={theme} className="flex gap-0.5 p-1 bg-neutral rounded-md">
+                  <div className="w-1.5 h-3 bg-primary rounded-full"></div>
+                  <div className="w-1.5 h-3 bg-secondary rounded-full"></div>
+                </div>
+                <span className="capitalize text-xs tracking-wide">{theme}</span>
+              </div>
+
+              {currentTheme === theme && <Check size={14} className="text-primary" />}
+            </button>
           </li>
         ))}
       </ul>

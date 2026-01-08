@@ -1,4 +1,3 @@
-
 const User = require("../model/user");
 const ConnectRequest = require("../model/connectionRequest");
 exports.handleConnectionRequest = async (req, res) => {
@@ -10,29 +9,29 @@ exports.handleConnectionRequest = async (req, res) => {
     // Better validation with proper status codes
     if (!toUserId) {
       return res.status(400).json({
-        message: "To user ID not found",
         status: 400,
+        message: "To user ID not found",
       });
     }
 
     if (!fromUserId) {
       return res.status(401).json({
-        message: "Sender not found: please login before sending the request",
         status: 401,
+        message: "Sender not found: please login before sending the request",
       });
     }
 
     if (!status) {
       return res.status(400).json({
-        message: "Status not found",
         status: 400,
+        message: "Status not found",
       });
     }
 
     if (!allowedStatus.includes(status)) {
       return res.status(400).json({
-        message: "invalid status",
         status: 400,
+        message: "invalid status",
       });
     }
 
@@ -47,15 +46,15 @@ exports.handleConnectionRequest = async (req, res) => {
 
     if (!receiver) {
       return res.status(400).json({
-        message: "invalid receiver",
         status: 400,
+        message: "invalid receiver",
       });
     }
 
     if (requestAllreadyExist) {
       return res.status(400).json({
-        message: "request all ready exist",
         status: 400,
+        message: "request all ready exist",
       });
     }
 
@@ -70,12 +69,12 @@ exports.handleConnectionRequest = async (req, res) => {
         status == "interested" ? "in" : ""
       } ${receiver.firstName}`,
       status: 200,
-      result,
+      data: result,
     });
   } catch (error) {
     res.status(400).json({
-      message: "Error: " + error.message,
       status: 400,
+      message: "Error: " + error.message,
     });
   }
 };
@@ -86,8 +85,8 @@ exports.reviewConnectionRequest = async (req, res) => {
 
     if (!req.user) {
       return res.status(400).json({
-        message: "invalid credentials",
         status: 400,
+        message: "invalid credentials",
       });
     }
 
@@ -97,8 +96,8 @@ exports.reviewConnectionRequest = async (req, res) => {
 
     if (!isValidStatus) {
       return res.status(400).json({
-        message: "invalid status ",
         status: 400,
+        message: "invalid status ",
       });
     }
 
@@ -107,15 +106,14 @@ exports.reviewConnectionRequest = async (req, res) => {
       status: "interested",
       toUserId: req.user._id,
     });
-    console.log(req.params.connectionId,status,req.user._id);
-
+    console.log(req.params.connectionId, status, req.user._id);
 
     console.log(checkConnectionRequest);
 
     if (!checkConnectionRequest) {
       return res.status(400).json({
-        message: "connection not found ",
         status: 400,
+        message: "connection not found ",
       });
     }
 
@@ -123,14 +121,14 @@ exports.reviewConnectionRequest = async (req, res) => {
 
     const result = await checkConnectionRequest.save();
     res.status(200).json({
-      message: `request is ${status}`,
       status: 200,
+      message: `request is ${status}`,
       data: result,
     });
   } catch (error) {
     res.status(400).json({
-      message: error.message,
       status: 400,
+      message: error.message,
     });
   }
 };

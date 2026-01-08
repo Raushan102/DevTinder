@@ -5,7 +5,10 @@ exports.sanization = async (req, res, next) => {
     try {
       sanization.sanization(req.body);
     } catch (error) {
-      res.status(400).send("something went wrong " + error.message);
+      return res.status(400).json({
+        status: 400,
+        message: error.message,
+      });
     }
   }
 

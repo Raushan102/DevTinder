@@ -6,12 +6,18 @@ const jwt = require("jsonwebtoken");
 exports.login = async (req, res) => {
   try {
     if (!req.body.email) {
-      throw new Error("invalid credentials");
+      return res.status(400).json({
+        status: 400,
+        message: "unable to read email",
+      });
     }
     const user = await User.findOne({ email: req.body.email });
 
     if (!user) {
-      throw new Error("invalid credentials");
+      return res.status(400).json({
+        status: 400,
+        message: "invalid credentials",
+      });
     }
 
     const result = await user.IsPasswordCurrect(req.body.password);
@@ -21,12 +27,22 @@ exports.login = async (req, res) => {
       res.cookie("token", token, {
         expires: new Date(Date.now() + 8 * 3600000),
       });
-      res.status(200).send("user login successfully");
+      res.status(200).json({
+        message: "login successfully",
+        status: 200,
+        data: user,
+      });
     } else {
-      res.status(404).send("invalid credentailas");
+      return res.status(404).json({
+        status: 404,
+        message: "invalid credentials",
+      });
     }
   } catch (err) {
-    res.status(404).send("Error: " + err.message);
+    res.status(400).json({
+      status: 400,
+      message: err.message,
+    });
   }
 };
 
@@ -43,17 +59,25 @@ exports.signUp = async (req, res) => {
       password: hasPassword,
       gender,
     }).save();
-    res.send("data inserted successfully");
-  } catch (err) {
-    res.status(400).send("error saving the user : " + err.message);
+    res.status(200).json({
+      status: 200,
+      message: "signup successfully",
+    });
+  } catch (error) {
+    res.status(400).json({
+      status: 400,
+      message: error.message,
+    });
   }
 };
 
 exports.logout = async (req, res) => {
+  console.log('logout request come');
+
   res
     .cookie("token", null, { expires: new Date(Date.now()) })
     .status(200)
-    .send("logout successfully");
+    .json({ status: 200, message: "logout successfully" });
 };
 
 exports.auth = async (req, res, next) => {
@@ -61,21 +85,33 @@ exports.auth = async (req, res, next) => {
     const { token } = req?.cookies;
 
     if (!token) {
-      throw new Error("token not found");
+      return res.status(401).json({
+        status: 401,
+        message: "unauthorized please login",
+      });
     }
     const { _id } = await jwt.verify(token, "sharda@deviRaushan@2003Augest");
 
     if (!_id) {
-      throw new Error("invalid token please login again to get the token");
+      return res.status(400).json({
+        status: 400,
+        message: "invalid token please login again to get the token",
+      });
     }
     const user = await User.findById(_id);
     if (!user) {
-      throw new Error("user not found");
+      return res.status(404).json({
+        status: 404,
+        message: "user not found",
+      });
     }
 
     req.user = user;
     next();
   } catch (error) {
-    res.status(400).send("Error : " + error.message);
+    res.status(404).json({
+      status: 404,
+      message: error.message,
+    });
   }
 };

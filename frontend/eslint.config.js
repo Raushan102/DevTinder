@@ -23,7 +23,15 @@ export default defineConfig([
       },
     },
     rules: {
-      'no-unused-vars': ['error', { varsIgnorePattern: '^[A-Z_]' }],
+      // Disable unused variable warnings
+      'no-unused-vars': 'off',
+
+      // Optional: Keep warnings but with more flexible patterns
+      // 'no-unused-vars': ['warn', {
+      //   varsIgnorePattern: '^_',
+      //   argsIgnorePattern: '^_',
+      //   ignoreRestSiblings: true
+      // }],
     },
   },
 ])

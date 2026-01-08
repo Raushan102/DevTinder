@@ -13,8 +13,8 @@ exports.getRequest = async (req, res) => {
   try {
     if (!req.user) {
       return res.status(400).json({
-        message: "invalid credentials please login",
         status: 400,
+        message: "invalid credentials please login",
       });
     }
 
@@ -36,7 +36,10 @@ exports.getRequest = async (req, res) => {
       data: connectionReqests,
     });
   } catch (error) {
-    res.status(400).send("error : " + error.message);
+    res.status(400).json({
+      status: 400,
+      message: error.message,
+    });
   }
 };
 
@@ -44,8 +47,8 @@ exports.getConnection = async (req, res) => {
   try {
     if (!req.user) {
       return res.status(400).json({
-        message: "invalid credentials please login",
         status: 400,
+        message: "invalid credentials please login",
       });
     }
 
@@ -64,7 +67,10 @@ exports.getConnection = async (req, res) => {
       data: result,
     });
   } catch (error) {
-    res.status(400).send("error : " + error.message);
+    return res.status(400).json({
+      status: 400,
+      message: error.message,
+    });
   }
 };
 
@@ -72,8 +78,8 @@ exports.getFeeds = async (req, res) => {
   try {
     if (!req.user) {
       return res.status(400).json({
-        message: "invalid credentials please login",
         status: 400,
+        message: "invalid credentials please login",
       });
     }
     console.log("Query params:", req.query);
@@ -86,7 +92,7 @@ exports.getFeeds = async (req, res) => {
     let startage = req.query?.startage ? parseInt(req.query.startage) : null;
     let endage = req.query?.endage ? parseInt(req.query.endage) : null;
     let gender = req.query?.gender;
-    let skillsParam = req.query?.skills;  // Keep as string first
+    let skillsParam = req.query?.skills; // Keep as string first
 
     let skip = (page - 1) * limit;
 
@@ -107,26 +113,29 @@ exports.getFeeds = async (req, res) => {
 
     // ✅ Fix: Correct query structure - Simplified approach
     let query = {
-      _id: { $nin: Array.from(blockedUsers) }  // Exclude all at once
+      _id: { $nin: Array.from(blockedUsers) }, // Exclude all at once
     };
 
     // ✅ Fix: Complete condition check
-    if (startage !== null && endage !== null && !isNaN(startage) && !isNaN(endage)) {
+    if (
+      startage !== null &&
+      endage !== null &&
+      !isNaN(startage) &&
+      !isNaN(endage)
+    ) {
       query.age = { $gte: startage, $lte: endage };
     }
 
     // ✅ Fix: Check if gender exists before using .length
     if (gender && gender.trim().length > 0) {
-      query.gender = gender;  
+      query.gender = gender;
     }
 
     // ✅ Fix: Check if skills exists before splitting
     if (skillsParam && skillsParam.trim().length > 0) {
-      const skillsArray = skillsParam.split(",").map(s => s.trim());
+      const skillsArray = skillsParam.split(",").map((s) => s.trim());
       query.skills = { $in: skillsArray };
     }
-
-    console.log("MongoDB Query:", JSON.stringify(query, null, 2));
 
     // Execute query
     let users = await User.find(query)
@@ -142,10 +151,9 @@ exports.getFeeds = async (req, res) => {
       data: users,
       count: users.length,
       page,
-      limit
+      limit,
     });
   } catch (err) {
-    console.error("Error in getFeeds:", err);
     res.status(400).json({
       status: 400,
       message: err.message,
