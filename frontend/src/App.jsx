@@ -5,6 +5,7 @@ import Profile from "./components/Profile";
 import ThemeSwitcher from "./components/ThemeSwitcher";
 import { Provider } from "react-redux";
 import store from "./util/store";
+import Feed from "./components/Feed";
 
 function App() {
   return (
@@ -12,8 +13,9 @@ function App() {
       <BrowserRouter basename="/">
         <Routes>
           <Route path="/" element={<Body />}>
-            <Route path="/login" element={<Login />} />
-            <Route path="/signUp" element={<Login />} />
+            <Route index element={<Feed />} />
+            <Route path="/login" element={<Login signUp={false} />}/>
+            <Route path="/signUp" element={<Login signUp={true} />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/theme" element={<ThemeSwitcher />} />
           </Route>
