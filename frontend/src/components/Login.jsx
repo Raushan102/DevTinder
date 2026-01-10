@@ -15,8 +15,12 @@ import {
   UserCircle,
 } from "lucide-react";
 import Notification from "./Notification";
+import Loader from "./loader";
+import LoaderButton from "./loaderButton";
 
 function Login({ signUp = false }) {
+  const [loading, isLoading] = useState(false);
+
   const firstNameRef = useRef(null);
   const lastNameRef = useRef(null);
   const emailRef = useRef(null);
@@ -38,6 +42,7 @@ function Login({ signUp = false }) {
   const dispatch = useDispatch();
 
   async function handleLoginSignUp() {
+    isLoading(true);
     try {
       if (signUp) {
         let res = await axios.post(
@@ -51,13 +56,13 @@ function Login({ signUp = false }) {
           },
           { withCredentials: true }
         );
-        console.log("sign up response", res);
 
         setNotify({
           open: true,
           type: "success",
           message: "Signup successful!",
         });
+
         navigate("/login");
       } else {
         let res = await axios.post(
@@ -72,6 +77,8 @@ function Login({ signUp = false }) {
         dispatch(addUser(res.data.data));
         navigate("/");
       }
+
+      isLoading(false);
     } catch (error) {
       setShowModal({
         open: true,
@@ -85,6 +92,7 @@ function Login({ signUp = false }) {
           error.response?.data?.message ||
           (signUp ? "Signup failed!" : "Login failed!"),
       });
+      isLoading(false);
     }
   }
 
@@ -250,12 +258,23 @@ function Login({ signUp = false }) {
               )}
 
               {/* ACTION BUTTON */}
+
               <button
                 className="btn btn-primary w-full mt-4 rounded-lg font-bold uppercase tracking-widest text-xs h-12 shadow-lg shadow-primary/20 hover:brightness-110 active:scale-[0.98] transition-all"
                 onClick={handleLoginSignUp}
               >
-                <LogIn size={16} />{" "}
-                {signUp ? "Create Account" : "Authorize Session"}
+               { !loading && <LogIn size={16} />}
+                {signUp ? (
+                  loading ? (
+                    <LoaderButton />
+                  ) : (
+                    `Create Account`
+                  )
+                ) : loading ? (
+                  <LoaderButton />
+                ) : (
+                  `Authorize Session`
+                )}
               </button>
 
               <div className="text-center mt-8 pt-6 border-t border-base-200">

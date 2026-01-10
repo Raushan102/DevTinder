@@ -16,10 +16,8 @@ function Body() {
     open: false,
     errorMessage: null,
   });
-
+  const [requestCount, setRequestCount] = useState();
   const fetchUser = async () => {
-    console.log("API calll is made", userData);
-
     try {
       const user = await axios.get(`${BASE_URL}/profile/view`, {
         withCredentials: true,

@@ -6,6 +6,7 @@ import ThemeSwitcher from "./components/ThemeSwitcher";
 import { Provider } from "react-redux";
 import store from "./util/store";
 import Feed from "./components/Feed";
+import ConnectionRequests from "./components/ConnectionRequests";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
             <Route path="/signUp" element={<Login signUp={true} />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/theme" element={<ThemeSwitcher />} />
+            <Route path="/requests" element={<ConnectionRequests />} />
           </Route>
         </Routes>
       </BrowserRouter>

@@ -1,14 +1,60 @@
-import React from "react";
+import { useEffect, useState, useRef } from "react";
 import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
-import { Flame, Compass, Users, UserCheck, Bell } from "lucide-react";
+import { useDispatch, useSelector } from "react-redux";
+import { Flame, Compass, Users, UserCheck } from "lucide-react";
+import axios from "axios";
 import ThemeSwitcher from "./ThemeSwitcher";
 import Avatar from "./Avatar";
+import { BASE_URL } from "./constent";
+import ErrorModal from "./ErrorModal";
+import { addConnectionRequest } from "../util/ConnectionRequestSlice";
+
 
 export default function Navbar() {
   const user = useSelector((store) => store.user);
-  // Assuming you have requests in your store, otherwise hardcode for now
-  const requestCount = 2;
+  let requestCount=useSelector((store) => store.connectionRequests)
+
+  const dispatcher = useDispatch();
+  const lastFetchedUserIdRef = useRef(null);
+  const [showModal, setShowModal] = useState({
+    open: false,
+    errorMessage: null,
+  });
+
+  async function fetchAllConnectionRequest() {
+    try {
+      const connectionRequest = await axios.get(
+        `${BASE_URL}/user/requests/receive`,
+        { withCredentials: true }
+      );
+
+      if (connectionRequest?.data?.data) {
+        dispatcher(addConnectionRequest(connectionRequest.data.data));
+
+      }
+    } catch (error) {
+      setShowModal({
+        open: true,
+        errorMessage:
+          error?.data?.message || "Error while fetching the connection request",
+      });
+    }
+  }
+
+  useEffect(() => {
+    // Fetch if user exists AND (no previous fetch OR different user)
+    if (user && user._id !== lastFetchedUserIdRef.current) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      fetchAllConnectionRequest();
+      lastFetchedUserIdRef.current = user._id;
+    }
+
+    // Reset when user logs out
+    if (!user) {
+      lastFetchedUserIdRef.current = null;
+      dispatcher(addConnectionRequest([]));
+    }
+  }, [user]);
 
   return (
     <div className="navbar bg-base-100/80 backdrop-blur-md sticky top-0 z-50 px-4 md:px-8 border-b border-base-300/50 shadow-sm">
@@ -30,7 +76,7 @@ export default function Navbar() {
         <ul className="menu menu-horizontal p-0 gap-2">
           <li>
             <Link
-              to="/feed"
+              to="/"
               className="font-bold text-xs uppercase tracking-widest rounded-xl"
             >
               <Compass size={16} /> Feed
@@ -47,15 +93,19 @@ export default function Navbar() {
           <li>
             <Link
               to="/requests"
-              className="font-bold text-xs uppercase tracking-widest rounded-xl"
+              className="font-bold text-xs uppercase tracking-widest rounded-xl relative"
             >
-              <div className="indicator">
-                <span className="indicator-item badge badge-secondary badge-sm border-2 border-base-100 font-black h-5 w-5 p-0 text-[10px]">
-                  {requestCount}
-                </span>
-                <UserCheck size={18} />
+              <div className="flex items-center gap-2">
+                <div className="relative">
+                  <UserCheck size={18} />
+                  {requestCount.length > 0 && (
+                    <span className="absolute -top-2 -right-2 bg-secondary text-secondary-content rounded-full h-5 w-5 flex items-center justify-center text-[10px] font-black border-2 border-base-100 shadow-lg">
+                      {requestCount.length > 99 ? "99+" : requestCount.length}
+                    </span>
+                  )}
+                </div>
+                <span>Requests</span>
               </div>
-              <span className="ml-1">Requests</span>
             </Link>
           </li>
         </ul>
@@ -63,9 +113,16 @@ export default function Navbar() {
 
       <div className="navbar-end gap-3">
         <ThemeSwitcher />
-
         <Avatar />
       </div>
+
+      <ErrorModal
+        title="Unauthorized"
+        message={showModal.errorMessage}
+        type="error"
+        isOpen={showModal.open}
+        onClose={() => setShowModal({ open: false, errorMessage: null })}
+      />
     </div>
   );
 }

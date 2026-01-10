@@ -75,6 +75,8 @@ exports.getConnection = async (req, res) => {
 };
 
 exports.getFeeds = async (req, res) => {
+  console.log("yes request it here");
+
   try {
     if (!req.user) {
       return res.status(400).json({
@@ -138,12 +140,14 @@ exports.getFeeds = async (req, res) => {
     }
 
     // Execute query
+    console.log("query is equal to  = ", query);
+
     let users = await User.find(query)
       .select(SHOW_FIELDS)
       .skip(skip)
       .limit(limit);
 
-    console.log(`Found ${users.length} users`);
+    console.log(`Found ,users, users` ,users);
 
     res.status(200).json({
       status: 200,

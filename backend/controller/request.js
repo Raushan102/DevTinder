@@ -106,9 +106,7 @@ exports.reviewConnectionRequest = async (req, res) => {
       status: "interested",
       toUserId: req.user._id,
     });
-    console.log(req.params.connectionId, status, req.user._id);
-
-    console.log(checkConnectionRequest);
+ 
 
     if (!checkConnectionRequest) {
       return res.status(400).json({
