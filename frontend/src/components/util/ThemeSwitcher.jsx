@@ -1,5 +1,6 @@
-import { useState, useEffect } from 'react'
-import { Palette, Check, Sparkles } from 'lucide-react'
+import { useState, useEffect } from "react";
+import { Palette, Check, Sparkles } from "lucide-react";
+import ErrorModal from "./ErrorModal";
 
 function ThemeSwitcher() {
   const themes = [
@@ -10,36 +11,45 @@ function ThemeSwitcher() {
     "cyberpunk",
     "forest",
     "luxury",
-    "synthwave"
-  ]
+    "synthwave",
+  ];
 
   // Initialize state with localStorage check
   const [currentTheme, setCurrentTheme] = useState(() => {
-    if (typeof window !== 'undefined') {
+    if (typeof window !== "undefined") {
       try {
-        return localStorage.getItem("theme") || "sunset"
+        return localStorage.getItem("theme") || "sunset";
       } catch (error) {
-        return "sunset"
+        return "sunset";
       }
     }
-    return "sunset"
-  })
+    return "sunset";
+  });
+
+  const [showModal, setShowModal] = useState({
+    open: false,
+    errorMessage: null,
+  });
 
   // Apply theme to the root HTML element
   useEffect(() => {
-    document.documentElement.setAttribute("data-theme", currentTheme)
-  }, [currentTheme])
+    document.documentElement.setAttribute("data-theme", currentTheme);
+  }, [currentTheme]);
 
   const handleThemeChange = (theme) => {
-    setCurrentTheme(theme)
-    if (typeof window !== 'undefined') {
+    setCurrentTheme(theme);
+    if (typeof window !== "undefined") {
       try {
-        localStorage.setItem("theme", theme)
+        localStorage.setItem("theme", theme);
       } catch (error) {
-        console.error("Error saving theme:", error)
+        setShowModal({
+          open: true,
+          errorMessage:
+            error?.message || "error occure while change the themes",
+        });
       }
     }
-  }
+  };
 
   return (
     <div className="dropdown dropdown-end">
@@ -105,8 +115,15 @@ function ThemeSwitcher() {
           ))}
         </div>
       </ul>
+      <ErrorModal
+        title={"themes change fail"}
+        message={showModal.errorMessage}
+        type="error"
+        isOpen={showModal.open}
+        onClose={() => setShowModal({ open: false, errorMessage: null })}
+      />
     </div>
-  )
+  );
 }
 
-export default ThemeSwitcher
+export default ThemeSwitcher;

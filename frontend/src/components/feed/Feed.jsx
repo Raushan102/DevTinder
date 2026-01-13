@@ -49,7 +49,7 @@ function Feed() {
 
         dispatch(addFeed(data));
       } catch (err) {
-        console.error("Fetch Error:", err);
+       
         setHasMore(false);
       } finally {
         setLoading(false);

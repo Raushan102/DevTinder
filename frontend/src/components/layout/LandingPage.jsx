@@ -22,7 +22,6 @@ const LandingPage = () => {
       const res = await axios.get(`${BASE_URL}/profile/view`, {
         withCredentials: true,
       });
-      console.log(res);
 
       if (res) {
         navigate("/feed");

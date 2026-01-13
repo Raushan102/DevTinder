@@ -30,7 +30,7 @@ const ConnectionRequest = ({ request }) => {
   });
 
   const requestAcceptedOrRejected = async (id, status) => {
-    console.log("id = ", id);
+  
 
     setLoading((previousState) => ({
       ...previousState,
