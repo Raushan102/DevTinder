@@ -1,5 +1,6 @@
 const User = require("../model/user");
 const ConnectRequest = require("../model/connectionRequest");
+const mongoose = require("mongoose");
 exports.handleConnectionRequest = async (req, res) => {
   try {
     const { toUserId, status } = req.params;
@@ -80,53 +81,79 @@ exports.handleConnectionRequest = async (req, res) => {
 };
 
 exports.reviewConnectionRequest = async (req, res) => {
+  const session = await mongoose.startSession();
+  session.startTransaction();
+  let user = null;
+
   try {
-    const { status } = req.params;
+    const { status, connectionId } = req.params;
 
     if (!req.user) {
+      await session.abortTransaction();
       return res.status(400).json({
         status: 400,
         message: "invalid credentials",
       });
     }
 
-    const allowedstatus = ["accepted", "rejected"];
+    const allowedStatus = ["accepted", "rejected"];
 
-    const isValidStatus = allowedstatus.includes(status);
-
-    if (!isValidStatus) {
+    if (!allowedStatus.includes(status)) {
+      await session.abortTransaction();
       return res.status(400).json({
         status: 400,
-        message: "invalid status ",
+        message: "invalid status",
       });
     }
 
     const checkConnectionRequest = await ConnectRequest.findOne({
-      _id: req.params.connectionId,
+      _id: connectionId,
       status: "interested",
       toUserId: req.user._id,
-    });
- 
+    }).session(session);
 
     if (!checkConnectionRequest) {
+      await session.abortTransaction();
       return res.status(400).json({
         status: 400,
-        message: "connection not found ",
+        message: "connection not found",
       });
     }
 
     checkConnectionRequest.status = status;
 
-    const result = await checkConnectionRequest.save();
+    if (status === "accepted") {
+      // Update both users atomically
+      user = await User.findByIdAndUpdate(
+        req.user._id,
+        {
+          $addToSet: { connections: checkConnectionRequest.fromUserId },
+        },
+        { session, returnDocument: "after" }
+      );
+
+      await User.findByIdAndUpdate(
+        checkConnectionRequest.fromUserId,
+        { $addToSet: { connections: req.user._id } },
+        { session }
+      );
+    }
+
+    await checkConnectionRequest.save({ session });
+    await session.commitTransaction();
+
     res.status(200).json({
       status: 200,
       message: `request is ${status}`,
-      data: result,
+      data: user ? user : req.user,
     });
   } catch (error) {
+    await session.abortTransaction();
     res.status(400).json({
       status: 400,
       message: error.message,
     });
+  } finally {
+    session.endSession();
   }
 };

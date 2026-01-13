@@ -3,10 +3,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { User, Settings, Users, LogOut, ChevronDown } from "lucide-react";
 import axios from "axios";
-import { BASE_URL } from "./constent";
-import ErrorModal from "./ErrorModal";
+import { BASE_URL } from "../util/constent";
+import ErrorModal from "../util/ErrorModal";
 import { useState } from "react";
-import { removeUser } from "../util/userSlice";
+import { removeUser } from "../../store/userSlice";
 
 function Avatar() {
   const user = useSelector((store) => store.user);
@@ -19,8 +19,6 @@ function Avatar() {
   });
 
   async function handleLogOut() {
-    console.log("logout ");
-
     try {
       await axios.post(`${BASE_URL}/logout`, {}, { withCredentials: true });
       dispatch(removeUser());

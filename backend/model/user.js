@@ -6,13 +6,13 @@ const userSchema = new mongoose.Schema(
     firstName: {
       type: String,
       required: true,
-      minLength: 4,
+      minLength: 1,
       maxLength: 50,
     },
     lastName: {
       type: String,
       required: true,
-      minLength: 4,
+      minLength: 1,
       maxLength: 50,
     },
     email: {
@@ -49,21 +49,28 @@ const userSchema = new mongoose.Schema(
     },
     photoUrl: {
       type: String,
+      default: "https://i.pinimg.com/736x/a6/49/e2/a649e2cd302fec12ba027249058ee420.jpg",
     },
     about: {
       type: String,
-      default: "this is default photo",
+      default: "without about",
     },
     skills: {
       type: [String],
     },
+    connections:{
+     type:[{
+      type:mongoose.Types.ObjectId,
+      ref:'User'
+     }]
+    }
   },
   {
     timestamps: true,
   }
 );
 
-userSchema.index({firstName:1})
+userSchema.index({ firstName: 1 });
 
 // take care it always be simple function because arrow function have lexical this  it does not have there own this
 userSchema.methods.getJWTToken = function () {
@@ -76,8 +83,6 @@ userSchema.methods.getJWTToken = function () {
 
   return jwtToken;
 };
-
-
 
 userSchema.methods.IsPasswordCurrect = async function (userPassword) {
   let user = this;

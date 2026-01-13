@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import axios from "axios";
-import { BASE_URL } from "./constent";
+import { BASE_URL } from "../util/constent";
 import {
   X,
   Heart,
@@ -31,7 +31,7 @@ function Card({ profile, onSwipe, isTopCard }) {
     if (!isDragging) return;
     const diff = currentX - startX;
 
-    if (Math.abs(diff) > 130) {
+    if (Math.abs(diff) > 100) {
       if (diff > 0) {
         await handleRightSwipe();
       } else {
@@ -98,11 +98,11 @@ function Card({ profile, onSwipe, isTopCard }) {
     <div
       ref={cardRef}
       style={{
-        width: '380px',
-        height: '640px',
+        width: '100%',
+        height: '100%',
         transform:
           isDragging && isTopCard
-            ? `translateX(${diff}px) rotate(${rotation}deg) scale(1.05)`
+            ? `translateX(${diff}px) rotate(${rotation}deg) scale(1.02)`
             : "translateX(0) rotate(0) scale(1)",
         transition: isDragging ? "none" : "all 0.6s cubic-bezier(0.23, 1, 0.32, 1)",
       }}
@@ -110,10 +110,10 @@ function Card({ profile, onSwipe, isTopCard }) {
       onMouseMove={onMouseMove}
       onTouchStart={onTouchStart}
       onTouchMove={onTouchMove}
-      className={`relative bg-base-300 rounded-[2.5rem] overflow-hidden border border-base-content/10 shadow-[0_35px_60px_-15px_rgba(0,0,0,0.6)] ${
+      className={`relative bg-base-300 rounded-2xl sm:rounded-3xl md:rounded-[2.5rem] overflow-hidden border border-base-content/10 shadow-2xl ${
         isTopCard
           ? "cursor-grab active:cursor-grabbing"
-          : "blur-md brightness-75 pointer-events-none"
+          : "blur-sm brightness-75 pointer-events-none"
       }`}
     >
       {/* SWIPE INDICATORS */}
@@ -124,14 +124,14 @@ function Card({ profile, onSwipe, isTopCard }) {
           }`}
         >
           <div
-            className={`p-8 rounded-full border-4 border-white shadow-2xl animate-bounce text-white ${
+            className={`p-6 sm:p-8 rounded-full border-4 border-white shadow-2xl animate-bounce text-white ${
               diff > 0 ? "bg-success" : "bg-error"
             }`}
           >
             {diff > 0 ? (
-              <Heart size={48} fill="currentColor" />
+              <Heart size={36} className="sm:w-12 sm:h-12" fill="currentColor" />
             ) : (
-              <X size={48} />
+              <X size={36} className="sm:w-12 sm:h-12" />
             )}
           </div>
         </div>
@@ -149,7 +149,7 @@ function Card({ profile, onSwipe, isTopCard }) {
             }}
           />
         ) : (
-          <div className="w-full h-full flex items-center justify-center text-7xl font-black text-base-content/10">
+          <div className="w-full h-full flex items-center justify-center text-5xl sm:text-7xl font-black text-base-content/10">
             {profile.firstName?.[0]}{profile.lastName?.[0]}
           </div>
         )}
@@ -157,60 +157,61 @@ function Card({ profile, onSwipe, isTopCard }) {
       </div>
 
       {/* TOP TAGS */}
-      <div className="absolute top-8 left-8 z-30 flex flex-col gap-2">
-        <span className="badge badge-primary badge-lg font-black uppercase tracking-wider shadow-lg">
+      <div className="absolute top-3 sm:top-4 md:top-6 lg:top-8 left-3 sm:left-4 md:left-6 lg:left-8 z-30 flex flex-col gap-2">
+        <span className="badge badge-primary badge-sm sm:badge-md md:badge-lg font-black uppercase tracking-wider shadow-lg">
           {profile.gender}
         </span>
       </div>
 
       {/* INFO PANEL */}
-      <div className="absolute bottom-0 left-0 w-full p-8 z-30 text-white">
-        <h2 className="text-4xl font-black italic tracking-tighter uppercase mb-1 drop-shadow-lg">
+      <div className="absolute bottom-6 left-0 w-full p-3 sm:p-4 md:p-6 lg:p-8 z-30 text-white">
+        <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-black italic tracking-tighter uppercase mb-1 drop-shadow-lg line-clamp-1">
           {profile.firstName}{" "}
           <span className="text-primary">{profile.lastName}</span>
         </h2>
 
-        <div className="flex items-center gap-3 text-[11px] font-bold tracking-wider uppercase opacity-70 mb-5">
-          <span className="flex items-center gap-1.5">
-            <MapPin size={13} /> Remote
+        <div className="flex items-center gap-2 sm:gap-3 text-[10px] sm:text-[11px] font-bold tracking-wider uppercase opacity-70 mb-2 sm:mb-3 md:mb-4 lg:mb-5">
+          <span className="flex items-center gap-1 sm:gap-1.5">
+            <MapPin size={11} className="sm:w-3 sm:h-3" /> Remote
           </span>
           <span>•</span>
-          <span className="flex items-center gap-1.5">
-            <Briefcase size={13} /> {profile.age} Years
+          <span className="flex items-center gap-1 sm:gap-1.5">
+            <Briefcase size={11} className="sm:w-3 sm:h-3" /> {profile.age} Years
           </span>
         </div>
 
-        <p className="text-sm font-medium leading-relaxed text-white/90 line-clamp-2 mb-6 italic border-l-4 border-primary pl-4 drop-shadow">
+        <p className="text-xs sm:text-sm font-medium leading-relaxed text-white/90 line-clamp-2 mb-3 sm:mb-4 md:mb-5 lg:mb-6 italic border-l-2 sm:border-l-4 border-primary pl-2 sm:pl-3 md:pl-4 drop-shadow">
           "{profile.about || "Building the future, one commit at a time."}"
         </p>
 
         {/* TECH STACK */}
-        <div className="flex flex-wrap gap-2 mb-8">
+        <div className="flex flex-wrap gap-1.5 sm:gap-2 mb-3 sm:mb-4 md:mb-6 lg:mb-8">
           {profile.skills?.slice(0, 3).map((skill, i) => (
             <div
               key={i}
-              className="flex items-center gap-2 px-3 py-2 bg-white/15 backdrop-blur-xl border border-white/20 rounded-xl text-[10px] font-black uppercase tracking-wide shadow-lg"
+              className="flex items-center gap-1.5 sm:gap-2 px-2 py-1.5 sm:px-3 sm:py-2 bg-white/15 backdrop-blur-xl border border-white/20 rounded-lg sm:rounded-xl text-[9px] sm:text-[10px] font-black uppercase tracking-wide shadow-lg"
             >
-              <Terminal size={11} className="text-primary" /> {skill}
+              <Terminal size={10} className="sm:w-3 sm:h-3 text-primary" />
+              <span className="line-clamp-1">{skill}</span>
             </div>
           ))}
         </div>
 
         {/* ACTION BUTTONS */}
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-2 gap-2 sm:gap-3 md:gap-4">
           <button
-            className="btn btn-lg btn-outline btn-error rounded-2xl border-2 hover:scale-105 active:scale-95 transition-transform shadow-lg"
+            className="btn btn-lg sm:btn-lg md:btn-lg btn-outline btn-error rounded-xl sm:rounded-2xl border-2 hover:scale-105 active:scale-95 transition-transform shadow-lg"
             onClick={isTopCard ? handleLeftSwipe : undefined}
             disabled={!isTopCard}
           >
-            <X size={32} strokeWidth={2.5} />
+            <X size={20} className="sm:w-6 sm:h-6 md:w-8 md:h-8" strokeWidth={2.5} />
           </button>
           <button
-            className="btn btn-lg btn-primary rounded-2xl border-2 hover:scale-105 active:scale-95 transition-transform shadow-xl"
+            className="btn btn-lg sm:btn-lg  md:btn-lg btn-primary rounded-xl sm:rounded-2xl border-2 hover:scale-105 active:scale-95 transition-transform shadow-xl"
             onClick={isTopCard ? handleRightSwipe : undefined}
             disabled={!isTopCard}
           >
-            <Heart size={32} fill="currentColor" strokeWidth={0} />
+            <Heart size={20} className="sm:w-6 sm:h-6 md:w-8 md:h-8" fill="currentColor" strokeWidth={0} />
           </button>
         </div>
       </div>

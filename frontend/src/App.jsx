@@ -1,25 +1,34 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import Body from "./components/Body";
-import Login from "./components/Login";
-import Profile from "./components/Profile";
-import ThemeSwitcher from "./components/ThemeSwitcher";
 import { Provider } from "react-redux";
-import store from "./util/store";
-import Feed from "./components/Feed";
-import ConnectionRequests from "./components/ConnectionRequests";
+import store from "./store/store";
+
+import LandingPage from "./components/layout/LandingPage";
+import Login from "./components/auth/Login";
+import Body from "./components/layout/Body";
+import Feed from "./components/feed/Feed";
+import Profile from "./components/profile/Profile";
+import ThemeSwitcher from "./components/util/ThemeSwitcher";
+import ConnectionRequests from "./components/connections/ConnectionRequests";
+import Connections from "./components/connections/Connections";
 
 function App() {
   return (
     <Provider store={store}>
-      <BrowserRouter basename="/">
+      <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Body />}>
-            <Route index element={<Feed />} />
-            <Route path="/login" element={<Login signUp={false} />}/>
-            <Route path="/signUp" element={<Login signUp={true} />} />
+          {/* 🌐 PUBLIC ROUTES */}
+          <Route path="/" element={<LandingPage />} />
+          <Route path="/login" element={<Login signUp={false} />} />
+          <Route path="/signUp" element={<Login signUp={true} />} />
+
+          {/* 🔒 PROTECTED ROUTES */}
+          <Route element={<Body />}>
+            <Route path="/feed" element={<Feed />} />
             <Route path="/profile" element={<Profile />} />
+            <Route path="/editProfile" element={<Login edit={true} />} />
             <Route path="/theme" element={<ThemeSwitcher />} />
             <Route path="/requests" element={<ConnectionRequests />} />
+            <Route path="/connections" element={<Connections />} />
           </Route>
         </Routes>
       </BrowserRouter>

@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/set-state-in-effect */
 import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import { X, CheckCircle, AlertCircle, Info, AlertTriangle } from "lucide-react";
@@ -6,27 +7,39 @@ export default function Notification({
   open,
   type = "info",
   message = "",
-  duration = 2000,
+  duration = 3000,
   onClose,
 }) {
   const [isVisible, setIsVisible] = useState(false);
+  const [timeLeft, setTimeLeft] = useState(duration);
 
   useEffect(() => {
     if (open) {
       setIsVisible(true);
-      const timer = setTimeout(() => {
-        handleClose();
-      }, duration);
-      return () => clearTimeout(timer);
-    }
-  }, [open, duration]);
+      setTimeLeft(duration);
 
-  function handleClose() {
-    setIsVisible(false);
-    setTimeout(() => {
-      onClose();
-    }, 300);
-  }
+      // Only ONE timer - handles both progress AND closing
+      const interval = setInterval(() => {
+        setTimeLeft((prev) => {
+          const newTime = prev - 10;
+
+          if (newTime <= 0) {
+            clearInterval(interval);
+            // Start close animation
+            setIsVisible(false);
+            // After animation, call onClose
+            onClose();
+
+            return 0;
+          }
+
+          return newTime;
+        });
+      }, 10);
+
+      return () => clearInterval(interval);
+    }
+  }, [open, duration, onClose]);
 
   if (!open) return null;
 
@@ -60,8 +73,8 @@ export default function Notification({
       <div
         className={`
           ${style.bg} text-white
-          rounded-xl shadow-2xl p-4 pr-12
-          min-w-80 max-w-md
+          rounded-md shadow-2xl py-1.5 sm:p-4 px-1 pr-12 min-w-50
+          sm:min-w-80 max-w-md
           flex items-center gap-3
           relative overflow-hidden
           transition-all duration-300 ease-out
@@ -79,30 +92,18 @@ export default function Notification({
         </div>
 
         <button
-          onClick={handleClose}
+          onClick={() => {
+            setIsVisible(false);
+            setTimeout(() => onClose(), 300);
+          }}
           className="absolute top-3 right-3 hover:bg-white/20 rounded-full p-1 transition-all"
         >
           <X className="w-4 h-4" />
         </button>
-
-        <div
-          className={`absolute bottom-0 left-0 h-1 ${style.progress}`}
-          style={{
-            animation: `shrink ${duration}ms linear forwards`,
-          }}
-        />
       </div>
-
-      <style>{`
-        @keyframes shrink {
-          from { width: 100%; }
-          to { width: 0%; }
-        }
-      `}</style>
     </div>
   );
 
-  // Use portal to render notification in notification-root div
   return createPortal(
     notificationContent,
     document.getElementById("notification")

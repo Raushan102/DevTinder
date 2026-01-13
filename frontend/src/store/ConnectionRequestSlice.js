@@ -12,7 +12,7 @@ const connectionRequestSlice = createSlice({
       return [];
     },
     removeConnectionRequest: (state, action) => {
-      return state.filter(profile => profile._id !== action.payload);
+      return state.filter(connection => connection._id !== action.payload);
     }
   }
 });

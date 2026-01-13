@@ -4,16 +4,16 @@ import { Flame, Github, Twitter, Linkedin, Heart, Code, Users, Zap } from "lucid
 function Footer() {
   return (
     <footer className="bg-primary text-primary-content">
-      <div className="container mx-auto px-6 py-16">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-12 mb-12">
+      <div className="container mx-auto px-4 sm:px-6 py-12 sm:py-16">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 sm:gap-10 lg:gap-12 mb-8 sm:mb-12">
 
           {/* Brand */}
           <div className="space-y-4">
             <div className="flex items-center gap-3">
               <div className="p-2 bg-white/10 rounded-lg">
-                <Flame size={28} fill="currentColor" />
+                <Flame size={24} className="sm:w-7 sm:h-7" fill="currentColor" />
               </div>
-              <span className="text-2xl font-black tracking-tighter uppercase">
+              <span className="text-xl sm:text-2xl font-black tracking-tighter uppercase">
                 DevTinder
               </span>
             </div>
@@ -38,11 +38,11 @@ function Footer() {
           </div>
 
           {/* Stats */}
-          <div>
+          <div className="sm:col-span-2 lg:col-span-1">
             <h3 className="text-xs font-bold uppercase tracking-widest opacity-60 mb-4">Why DevTinder?</h3>
             <div className="space-y-3">
               <div className="flex items-center gap-3">
-                <div className="p-2 bg-white/10 rounded-lg">
+                <div className="p-2 bg-white/10 rounded-lg flex-shrink-0">
                   <Users size={16} />
                 </div>
                 <div>
@@ -51,7 +51,7 @@ function Footer() {
                 </div>
               </div>
               <div className="flex items-center gap-3">
-                <div className="p-2 bg-white/10 rounded-lg">
+                <div className="p-2 bg-white/10 rounded-lg flex-shrink-0">
                   <Code size={16} />
                 </div>
                 <div>
@@ -60,7 +60,7 @@ function Footer() {
                 </div>
               </div>
               <div className="flex items-center gap-3">
-                <div className="p-2 bg-white/10 rounded-lg">
+                <div className="p-2 bg-white/10 rounded-lg flex-shrink-0">
                   <Zap size={16} />
                 </div>
                 <div>
@@ -72,18 +72,18 @@ function Footer() {
           </div>
         </div>
 
-        <div className="border-t border-white/20 my-8"></div>
+        <div className="border-t border-white/20 my-6 sm:my-8"></div>
 
         <div className="flex flex-col md:flex-row items-center justify-between gap-6">
-          <div className="flex items-center gap-4">
-            <a href="/" className="p-3 bg-white/10 hover:bg-white/20 rounded-lg transition-all">
-              <Github size={20} />
+          <div className="flex items-center gap-3 sm:gap-4">
+            <a href="/" className="p-2.5 sm:p-3 bg-white/10 hover:bg-white/20 rounded-lg transition-all">
+              <Github size={18} className="sm:w-5 sm:h-5" />
             </a>
-            <a href="/" className="p-3 bg-white/10 hover:bg-white/20 rounded-lg transition-all">
-              <Twitter size={20} />
+            <a href="/" className="p-2.5 sm:p-3 bg-white/10 hover:bg-white/20 rounded-lg transition-all">
+              <Twitter size={18} className="sm:w-5 sm:h-5" />
             </a>
-            <a href="/" className="p-3 bg-white/10 hover:bg-white/20 rounded-lg transition-all">
-              <Linkedin size={20} />
+            <a href="/" className="p-2.5 sm:p-3 bg-white/10 hover:bg-white/20 rounded-lg transition-all">
+              <Linkedin size={18} className="sm:w-5 sm:h-5" />
             </a>
           </div>
           <div className="text-center md:text-right">

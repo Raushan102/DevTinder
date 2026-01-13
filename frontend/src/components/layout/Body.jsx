@@ -1,53 +1,60 @@
-import Footer from "./Footer";
-import Navbar from "./Navbar";
+import Footer from "../footer/Footer";
+import Navbar from "../navbar/Navbar";
 import { Outlet, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { addUser } from "../util/userSlice";
+import { addUser } from "../../store/userSlice";
 import axios from "axios";
-import { BASE_URL } from "./constent";
+import { BASE_URL } from "../util/constent";
 import { useEffect, useState } from "react";
-import ErrorModal from "./ErrorModal";
+import ErrorModal from "../util/ErrorModal";
 
 function Body() {
-  const Dispatch = useDispatch();
+  const dispatch = useDispatch();
   const userData = useSelector((store) => store.user);
   const navigate = useNavigate();
+
   const [showModal, setShowModal] = useState({
     open: false,
     errorMessage: null,
   });
-  const [requestCount, setRequestCount] = useState();
+
   const fetchUser = async () => {
     try {
-      const user = await axios.get(`${BASE_URL}/profile/view`, {
+      const res = await axios.get(`${BASE_URL}/profile/view`, {
         withCredentials: true,
       });
-      Dispatch(addUser(user.data.data));
+      dispatch(addUser(res.data.data));
     } catch (error) {
-      if (error.response.data.status === 401) {
-        return navigate("/login");
+      if (error.response?.status === 401) {
+        navigate("/login");
+        return;
       }
 
       setShowModal({
         open: true,
-        errorMessage: error.response.data.message,
+        errorMessage: error.response?.data?.message,
       });
     }
   };
 
   useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    !userData && fetchUser();
+    if (!userData) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      fetchUser();
+    }
   }, []);
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col min-h-screen">
       <Navbar />
 
-      <main className="min-h-[calc(100vh-64px)] bg-base-200 flex items-center justify-center p-4">
-        <Outlet />
+      <main className="flex-1 bg-base-200">
+        <div className="w-full max-w-7xl mx-auto">
+          <Outlet />
+        </div>
+
         <ErrorModal
-          title="error"
+          title="Error"
           message={showModal.errorMessage}
           type="error"
           isOpen={showModal.open}
