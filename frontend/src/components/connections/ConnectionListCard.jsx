@@ -2,8 +2,7 @@ import React from "react";
 
 function ConnectionListCard({ profile }) {
   const { firstName, lastName, photoUrl, skills } = profile;
-  console.log(skills);
-  
+
   return (
     <li className="flex items-center gap-4 p-4 hover:bg-base-200 cursor-pointer transition-colors border-b border-base-300">
       {/* 🔍 Avatar Section */}

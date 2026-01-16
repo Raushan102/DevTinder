@@ -1,4 +1,4 @@
-import ConnectionList from "./connectionList";
+import ConnectionList from "./ConnectionList";
 import ChartWindow from "./ChartWindow";
 import ErrorModal from "../util/ErrorModal";
 import { useState, useEffect } from "react";
@@ -26,7 +26,7 @@ function Connections() {
       });
       dispatch(addConnections(profiles.data.data));
     } catch (error) {
-  
+
 
       setShowModal({
         open: true,
