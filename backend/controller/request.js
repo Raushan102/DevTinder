@@ -157,3 +157,40 @@ exports.reviewConnectionRequest = async (req, res) => {
     session.endSession();
   }
 };
+
+exports.getConnectedDeveloper = async (req, res) => {
+  try {
+    const user = req.user;
+    if (!user) {
+      return res.status(401).json({
+        status: 401,
+        message: "invalid credential please login  ",
+      });
+    }
+
+    if (!user.connections) {
+      return res.status(200).json({
+        status: 200,
+        message: "successful",
+        data: [],
+      });
+    }
+
+    const connectionsOfUser = await User.find({
+      _id: { $in: user.connections },
+    }).select("_id firstName lastName photoUrl about skills");
+
+    if (connectionsOfUser) {
+      res.status(200).json({
+        status: 200,
+        message: "connections fetched successfully",
+        data: connectionsOfUser,
+      });
+    }
+  } catch (error) {
+    res.status(400).json({
+      status: 200,
+      message: error.message || "unable to fetch the connections",
+    });
+  }
+};

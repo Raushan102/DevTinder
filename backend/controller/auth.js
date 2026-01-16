@@ -72,7 +72,7 @@ exports.signUp = async (req, res) => {
 };
 
 exports.logout = async (req, res) => {
-  console.log('logout request come');
+ 
 
   res
     .cookie("token", null, { expires: new Date(Date.now()) })
