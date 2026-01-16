@@ -100,7 +100,6 @@ function Feed() {
 
         dispatch(addFeed(data));
       } catch (err) {
-        console.error("Error fetching feed:", err);
         setHasMore(false);
       } finally {
         setLoading(false);
@@ -143,7 +142,7 @@ function Feed() {
       {/* Filter Toggle Button - Top Left (Mobile/Tablet only) */}
       <button
         onClick={toggleFilter}
-        className="lg:hidden fixed top-4 left-4 z-50 btn btn-primary btn-sm gap-2 shadow-lg"
+        className="lg:hidden fixed top-20 left-1 z-50 btn btn-primary btn-sm gap-2 shadow-lg"
       >
         <SlidersHorizontal className="w-4 h-4" />
         <span>Filters</span>

@@ -52,7 +52,6 @@ function Card({ profile, onSwipe, isTopCard, unDoFeed }) {
         { withCredentials: true }
       );
     } catch (error) {
-      console.error("Right swipe error:", error);
       setShowModal({
         open: true,
         errorMessage:
@@ -74,7 +73,6 @@ function Card({ profile, onSwipe, isTopCard, unDoFeed }) {
         { withCredentials: true }
       );
     } catch (error) {
-      console.error("Left swipe error:", error);
       setShowModal({
         open: true,
         errorMessage:

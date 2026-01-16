@@ -12,7 +12,6 @@ import ViewNavigator from "./ViewNavigator";
 function Connections() {
   const dispatch = useDispatch();
   const connections = useSelector((store) => store.connections);
-  const [currentWindowforFeed, setCurrentWindowForFeed] = useState(true);
   const user = useSelector((store) => store.user);
   const [loading, setLoading] = useState(false);
   const [showModal, setShowModal] = useState({
@@ -27,7 +26,7 @@ function Connections() {
       });
       dispatch(addConnections(profiles.data.data));
     } catch (error) {
-      console.log(error);
+  
 
       setShowModal({
         open: true,
@@ -52,8 +51,7 @@ function Connections() {
       </aside>
 
       <section className="flex-1 bg-base-200 min-h-screen">
-        {currentWindowforFeed && <Feed />}
-        {!currentWindowforFeed && <ChartWindow />}
+        <ChartWindow />
       </section>
 
       <ErrorModal
@@ -64,12 +62,7 @@ function Connections() {
         onClose={() => setShowModal({ open: false, errorMessage: null })}
         redirect="/requests"
       />
-      <ViewNavigator
-        currentView={currentWindowforFeed}
-        onToggle={() => {
-          setCurrentWindowForFeed((previousState) => !previousState);
-        }}
-      />
+
     </main>
   );
 }
