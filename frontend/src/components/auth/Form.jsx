@@ -67,7 +67,7 @@ function Form({
   return (
     <>
       {/* MOBILE BRANDING (TOP, NO BACKGROUND) */}
-      <div className="md:hidden px-6 pt-6 pb-4 text-center bg-neutral">
+      <div className="md:hidden  pb-4 text-center bg-neutral">
         <div className="flex items-center justify-center gap-2">
           <span className="text-primary text-xl">🔥</span>
           <span className="text-xl font-black tracking-tighter text-neutral-content">

@@ -8,7 +8,6 @@ import { BASE_URL } from "../util/constent";
 import { addUser } from "../../store/userSlice";
 import ErrorModal from "../util/ErrorModal";
 
-
 const LandingPage = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -35,7 +34,9 @@ const LandingPage = () => {
 
       setShowModal({
         open: true,
-        errorMessage: error.response?.data?.message,
+        errorMessage:
+          error.response?.data?.message ||
+          "error check your internet connection we get  problem while connection to the server ",
       });
     }
   };

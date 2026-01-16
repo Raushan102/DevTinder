@@ -49,7 +49,7 @@ function Body() {
       <Navbar />
 
       <main className="flex-1 bg-base-200">
-        <div className="w-full max-w-7xl mx-auto">
+        <div className="w-full  mx-auto">
           <Outlet />
         </div>
 

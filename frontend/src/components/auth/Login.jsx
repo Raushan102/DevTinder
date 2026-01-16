@@ -181,7 +181,7 @@ function Login({ signUp = false, edit = false }) {
   };
 
   return (
-    <div className="min-h-screen w-full flex items-center justify-center p-6 bg-base-200">
+    <div className="min-h-screen w-full flex items-center justify-center p-1 bg-base-200">
       <div className="card w-full max-w-4xl bg-base-100 border border-base-300 shadow-xl rounded-xl overflow-hidden">
         <div className="flex flex-col md:flex-row">
           <Form

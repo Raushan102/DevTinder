@@ -1,15 +1,13 @@
 import { useState, useRef, useEffect } from "react";
 import axios from "axios";
 import { BASE_URL } from "../util/constent";
-import {
-  X,
-  Heart,
-  MapPin,
-  Terminal,
-  Briefcase,
-} from "lucide-react";
-
-function Card({ profile, onSwipe, isTopCard }) {
+import { X, Heart, MapPin, Terminal, Briefcase } from "lucide-react";
+import ErrorModal from "../util/ErrorModal";
+function Card({ profile, onSwipe, isTopCard, unDoFeed }) {
+  const [showModal, setShowModal] = useState({
+    open: false,
+    errorMessage: null,
+  });
   const [startX, setStartX] = useState(0);
   const [currentX, setCurrentX] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
@@ -45,30 +43,45 @@ function Card({ profile, onSwipe, isTopCard }) {
   };
 
   const handleRightSwipe = async () => {
+    const previousState = profile;
     try {
+      onSwipe("interested", profile._id);
       await axios.post(
         `${BASE_URL}/request/send/interested/${profile._id}`,
         {},
         { withCredentials: true }
       );
-      onSwipe("interested", profile._id);
     } catch (error) {
       console.error("Right swipe error:", error);
-      onSwipe("interested", profile._id);
+      setShowModal({
+        open: true,
+        errorMessage:
+          error?.response?.data?.message ||
+          `something when wrong while sending connection request`,
+      });
+      unDoFeed(previousState);
     }
   };
 
   const handleLeftSwipe = async () => {
+    const previousState = profile;
+
     try {
+      onSwipe("ignored", profile._id);
       await axios.post(
         `${BASE_URL}/request/send/ignored/${profile._id}`,
         {},
         { withCredentials: true }
       );
-      onSwipe("ignored", profile._id);
     } catch (error) {
       console.error("Left swipe error:", error);
-      onSwipe("ignored", profile._id);
+      setShowModal({
+        open: true,
+        errorMessage:
+          error?.response?.data?.message ||
+          `something when wrong while ignoring the profile `,
+      });
+      unDoFeed(previousState);
     }
   };
 
@@ -98,13 +111,15 @@ function Card({ profile, onSwipe, isTopCard }) {
     <div
       ref={cardRef}
       style={{
-        width: '100%',
-        height: '100%',
+        width: "100%",
+        height: "100%",
         transform:
           isDragging && isTopCard
             ? `translateX(${diff}px) rotate(${rotation}deg) scale(1.02)`
             : "translateX(0) rotate(0) scale(1)",
-        transition: isDragging ? "none" : "all 0.6s cubic-bezier(0.23, 1, 0.32, 1)",
+        transition: isDragging
+          ? "none"
+          : "all 0.6s cubic-bezier(0.23, 1, 0.32, 1)",
       }}
       onMouseDown={onMouseDown}
       onMouseMove={onMouseMove}
@@ -129,7 +144,11 @@ function Card({ profile, onSwipe, isTopCard }) {
             }`}
           >
             {diff > 0 ? (
-              <Heart size={36} className="sm:w-12 sm:h-12" fill="currentColor" />
+              <Heart
+                size={36}
+                className="sm:w-12 sm:h-12"
+                fill="currentColor"
+              />
             ) : (
               <X size={36} className="sm:w-12 sm:h-12" />
             )}
@@ -145,12 +164,13 @@ function Card({ profile, onSwipe, isTopCard }) {
             alt={profile.firstName}
             className="w-full h-full object-cover"
             onError={(e) => {
-              e.target.style.display = 'none';
+              e.target.style.display = "none";
             }}
           />
         ) : (
           <div className="w-full h-full flex items-center justify-center text-5xl sm:text-7xl font-black text-base-content/10">
-            {profile.firstName?.[0]}{profile.lastName?.[0]}
+            {profile.firstName?.[0]}
+            {profile.lastName?.[0]}
           </div>
         )}
         <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent"></div>
@@ -176,7 +196,8 @@ function Card({ profile, onSwipe, isTopCard }) {
           </span>
           <span>•</span>
           <span className="flex items-center gap-1 sm:gap-1.5">
-            <Briefcase size={11} className="sm:w-3 sm:h-3" /> {profile.age} Years
+            <Briefcase size={11} className="sm:w-3 sm:h-3" /> {profile.age}{" "}
+            Years
           </span>
         </div>
 
@@ -204,17 +225,34 @@ function Card({ profile, onSwipe, isTopCard }) {
             onClick={isTopCard ? handleLeftSwipe : undefined}
             disabled={!isTopCard}
           >
-            <X size={20} className="sm:w-6 sm:h-6 md:w-8 md:h-8" strokeWidth={2.5} />
+            <X
+              size={20}
+              className="sm:w-6 sm:h-6 md:w-8 md:h-8"
+              strokeWidth={2.5}
+            />
           </button>
           <button
             className="btn btn-lg sm:btn-lg  md:btn-lg btn-primary rounded-xl sm:rounded-2xl border-2 hover:scale-105 active:scale-95 transition-transform shadow-xl"
             onClick={isTopCard ? handleRightSwipe : undefined}
             disabled={!isTopCard}
           >
-            <Heart size={20} className="sm:w-6 sm:h-6 md:w-8 md:h-8" fill="currentColor" strokeWidth={0} />
+            <Heart
+              size={20}
+              className="sm:w-6 sm:h-6 md:w-8 md:h-8"
+              fill="currentColor"
+              strokeWidth={0}
+            />
           </button>
         </div>
       </div>
+      <ErrorModal
+        title="error"
+        message={showModal.errorMessage}
+        type="error"
+        isOpen={showModal.open}
+        onClose={() => setShowModal({ open: false, errorMessage: null })}
+        redirect="/requests"
+      />
     </div>
   );
 }

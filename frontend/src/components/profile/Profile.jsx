@@ -24,7 +24,7 @@ export default function Profile() {
   }
 
   return (
-    <div className="min-h-screen bg-base-200 px-4 py-6 flex justify-center">
+    <div className="min-h-screen bg-base-200 px-1 py-1 flex justify-center">
       <div className="w-full max-w-5xl bg-base-100 rounded-xl shadow-lg border border-base-300 overflow-hidden">
 
         {/* ================= HEADER ================= */}
