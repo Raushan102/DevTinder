@@ -1,6 +1,7 @@
 const User = require("../model/user");
 const ConnectRequest = require("../model/connectionRequest");
 const mongoose = require("mongoose");
+const sendEmail = require("../src/util/sendEmail");
 exports.handleConnectionRequest = async (req, res) => {
   try {
     const { toUserId, status } = req.params;
@@ -64,6 +65,9 @@ exports.handleConnectionRequest = async (req, res) => {
       toUserId,
       status,
     }).save();
+
+    const emailResponse = await sendEmail();
+    console.log(emailResponse);
 
     res.status(200).json({
       message: `${req.user.firstName}  ${status} ${
@@ -129,17 +133,18 @@ exports.reviewConnectionRequest = async (req, res) => {
         {
           $addToSet: { connections: checkConnectionRequest.fromUserId },
         },
-        { session, returnDocument: "after" }
+        { session, returnDocument: "after" },
       );
 
       await User.findByIdAndUpdate(
         checkConnectionRequest.fromUserId,
         { $addToSet: { connections: req.user._id } },
-        { session }
+        { session },
       );
     }
 
     await checkConnectionRequest.save({ session });
+
     await session.commitTransaction();
 
     res.status(200).json({

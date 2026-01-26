@@ -91,8 +91,6 @@ function sanization(data) {
 
       if (validators[functionName]) {
         validators[functionName](data[ele]);
-      } else {
-        throw new Error(`invalid fields  ${ele}  please check field`);
       }
     });
   } catch (err) {

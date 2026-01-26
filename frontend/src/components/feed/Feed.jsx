@@ -126,7 +126,7 @@ function Feed() {
 
   /* ---------------- TOGGLE FILTER ---------------- */
   const toggleFilter = () => {
-    setIsFilterOpen(!isFilterOpen);
+    setIsFilterOpen(isFilterOpen => !isFilterOpen);
   };
 
   /* ---------------- GUARDS ---------------- */
@@ -203,9 +203,8 @@ function Feed() {
                   className="absolute inset-0"
                   style={{
                     zIndex: 10 - index,
-                    transform: `translateY(${index * 8}px) scale(${
-                      1 - index * 0.04
-                    })`,
+                    transform: `translateY(${index * 8}px) scale(${1 - index * 0.04
+                      })`,
                   }}
                 >
                   <Card

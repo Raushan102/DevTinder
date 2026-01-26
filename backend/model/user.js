@@ -77,7 +77,7 @@ userSchema.methods.getJWTToken = function () {
   const user = this;
   const jwtToken = jwt.sign(
     { _id: user._id },
-    "sharda@deviRaushan@2003Augest",
+    `${process.env.JWT_SECRET}`,
     { expiresIn: "7d" }
   );
 

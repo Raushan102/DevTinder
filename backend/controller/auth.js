@@ -4,6 +4,7 @@ const jwt = require("jsonwebtoken");
 
 // login
 exports.login = async (req, res) => {
+
   try {
     if (!req.body.email) {
       return res.status(400).json({
@@ -72,7 +73,7 @@ exports.signUp = async (req, res) => {
 };
 
 exports.logout = async (req, res) => {
- 
+
 
   res
     .cookie("token", null, { expires: new Date(Date.now()) })
@@ -90,7 +91,7 @@ exports.auth = async (req, res, next) => {
         message: "unauthorized please login",
       });
     }
-    const { _id } = await jwt.verify(token, "sharda@deviRaushan@2003Augest");
+    const { _id } = await jwt.verify(token, `${process.env.JWT_SECRET}`);
 
     if (!_id) {
       return res.status(400).json({

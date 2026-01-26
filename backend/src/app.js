@@ -7,6 +7,8 @@ const profileRouter = require("./routes/profile");
 const userRouter = require("./routes/user");
 const requestRouter = require("./routes/request");
 const cors = require("cors");
+require('dotenv').config()
+const otpRouter = require("./routes/otp");
 
 const app = express();
 //cors error solved
@@ -20,16 +22,20 @@ app.use(
 app.use(express.json());
 app.use(cookieParse());
 app.use(dataValidation);
+app.use("/otp", otpRouter);
 app.use("/request", requestRouter);
 app.use("/profile", profileRouter);
 app.use("/", authRouter);
+
 
 app.use(userRouter);
 connect()
   .then(() => {
     console.log("connection established with database");
-    app.listen(3000, () => {
+    app.listen(process.env.PORT, () => {
       console.log("server running on port 3000");
     });
   })
   .catch((err) => console.log(err));
+
+

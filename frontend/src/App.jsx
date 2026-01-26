@@ -14,7 +14,7 @@ import Connections from "./components/connections/Connections";
 function App() {
   return (
     <Provider store={store}>
-      <BrowserRouter>
+      <BrowserRouter basename="/devtinder">
         <Routes>
           {/* 🌐 PUBLIC ROUTES */}
           <Route path="/" element={<LandingPage />} />

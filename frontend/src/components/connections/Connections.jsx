@@ -6,9 +6,6 @@ import axios from "axios";
 import { BASE_URL } from "../util/constent";
 import { useDispatch, useSelector } from "react-redux";
 import { addConnections } from "../../store/ConnectionsLayer";
-import Feed from "../feed/Feed";
-import { current } from "@reduxjs/toolkit";
-import ViewNavigator from "./ViewNavigator";
 function Connections() {
   const dispatch = useDispatch();
   const connections = useSelector((store) => store.connections);
@@ -26,8 +23,6 @@ function Connections() {
       });
       dispatch(addConnections(profiles.data.data));
     } catch (error) {
-
-
       setShowModal({
         open: true,
         errorMessage:

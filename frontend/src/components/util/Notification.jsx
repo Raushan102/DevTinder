@@ -17,12 +17,10 @@ export default function Notification({
     if (open) {
       setIsVisible(true);
       setTimeLeft(duration);
-
       // Only ONE timer - handles both progress AND closing
       const interval = setInterval(() => {
         setTimeLeft((prev) => {
           const newTime = prev - 10;
-
           if (newTime <= 0) {
             clearInterval(interval);
             // Start close animation
