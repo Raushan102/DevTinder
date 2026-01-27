@@ -10,6 +10,7 @@ import Profile from "./components/profile/Profile";
 import ThemeSwitcher from "./components/util/ThemeSwitcher";
 import ConnectionRequests from "./components/connections/ConnectionRequests";
 import Connections from "./components/connections/Connections";
+import OTPInput from "./components/auth/OTPVerification/OTPInput";
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
           <Route path="/" element={<LandingPage />} />
           <Route path="/login" element={<Login signUp={false} />} />
           <Route path="/signUp" element={<Login signUp={true} />} />
+          <Route path="/otp" element={<OTPInput/>}/>
 
           {/* 🔒 PROTECTED ROUTES */}
           <Route element={<Body />}>

@@ -3,6 +3,7 @@ import userReducer from "./userSlice";
 import feedReducer from "./FeedSlice";
 import connectionRequest from "./ConnectionRequestSlice";
 import connections from "./ConnectionsLayer";
+import signUpSlice from "./signUpLayer";
 
 const store = configureStore({
   reducer: {
@@ -10,6 +11,7 @@ const store = configureStore({
     feed: feedReducer,
     connectionRequests: connectionRequest,
     connections: connections,
+    signUpData: signUpSlice,
   },
 });
 

@@ -9,6 +9,11 @@ import ErrorModal from "../util/ErrorModal";
 import Notification from "../util/Notification";
 import Form from "./Form";
 import ThemeSwitcher from "../util/ThemeSwitcher";
+import handleSignUp from "./util/SignUpfun";
+import handelEditFuncton from "./util/Editfun";
+import handleloginFunction from "./util/LoginFun";
+import { addSignUpData } from '../../store/signUpLayer'
+import sendOtp from "./OTPVerification/SendOtp";
 
 function Login({ signUp = false, edit = false }) {
   const dispatch = useDispatch();
@@ -94,81 +99,64 @@ function Login({ signUp = false, edit = false }) {
   };
 
   /* ===============================
-     SUBMIT HANDLER
+    SUBMIT HANDLER
      =============================== */
   const handleSubmit = async () => {
     setLoading(true);
     try {
       if (edit) {
-        const skills = skillsRef.current.value
-          .split(",")
-          .map((s) => s.trim())
-          .filter(Boolean);
-
-        const res = await axios.patch(
-          `${BASE_URL}/profile/edit`,
-          {
-            firstName: firstNameRef.current.value,
-            lastName: lastNameRef.current.value,
-            gender: genderRef.current.value,
-            age: ageRef.current.value
-              ? Number(ageRef.current.value)
-              : undefined,
-            photoUrl: photoUrlRef.current.value,
-            about: aboutRef.current.value,
-            skills,
-          },
-          { withCredentials: true }
+        await handelEditFuncton(
+          skillsRef,
+          firstNameRef,
+          lastNameRef,
+          genderRef,
+          ageRef,
+          photoUrlRef,
+          aboutRef,
+          dispatch,
+          addUser,
+          setNotify,
+          navigate,
         );
-        dispatch(addUser(res.data.user));
-        setNotify({
-          open: true,
-          type: "success",
-          message: "profile updated successfully",
-        });
-        setTimeout(() => {
-          navigate("/profile");
-        }, 1000);
       } else if (signUp) {
-        await axios.post(
-          `${BASE_URL}/signUp`,
-          {
-            firstName: firstNameRef.current.value,
-            lastName: lastNameRef.current.value,
-            email: emailRef.current.value,
-            password: passwordRef.current.value,
-            gender: genderRef.current.value,
-          },
-          { withCredentials: true }
-        );
-        setNotify({
-          open: true,
-          type: "success",
-          message: "signUp successfulluy",
-        });
-        setTimeout(() => {
-          navigate("/feed");
-        }, 1000);
+
+        dispatch(addSignUpData({
+          firstName: firstNameRef.current.value,
+          lastName: lastNameRef.current.value,
+          email: emailRef.current.value,
+          password: passwordRef.current.value,
+          gender: genderRef.current.value,
+        }))
+
+        try {
+          const response = await sendOtp(emailRef.current.value)
+          setNotify({
+            open: true,
+            type: "success",
+            message: "please check your mail box for otp",
+          });
+
+          if (response.data.status == 200) {
+            setTimeout(() => {
+              navigate('/otp')
+            }, 1000);
+          }
+        } catch (error) {
+          setShowModal({
+            open: true,
+            errorMessage: error?.response?.data?.message || error.message || "unable to send otp please check email",
+          });
+        }
+
       } else {
-        const res = await axios.post(
-          `${BASE_URL}/login`,
-          {
-            email: emailRef.current.value,
-            password: passwordRef.current.value,
-          },
-          { withCredentials: true }
+        await handleloginFunction(
+          emailRef,
+          passwordRef,
+          dispatch,
+          addUser,
+          setNotify,
+          navigate,
         );
-
-        dispatch(addUser(res.data.data));
-        setNotify({
-          open: true,
-          type: "success",
-          message: "login successful",
-        });
-
-        setTimeout(() => {
-          navigate("/feed");
-        }, 1000);
       }
     } catch (error) {
       setShowModal({

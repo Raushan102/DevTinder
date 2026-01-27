@@ -1,10 +1,10 @@
 const bcrypt = require("bcrypt");
 const User = require("../model/user");
 const jwt = require("jsonwebtoken");
+const OTP = require("../model/otp");
 
 // login
 exports.login = async (req, res) => {
-
   try {
     if (!req.body.email) {
       return res.status(400).json({
@@ -53,6 +53,19 @@ exports.signUp = async (req, res) => {
   const hasPassword = await bcrypt.hash(password, 10);
 
   try {
+    const responesData = await OTP.findOne({ email });
+
+    if (!responesData) {
+      return res.status(400).json({
+        status: 400,
+        message: "email is not verified please varify your email",
+      });
+    }
+
+    if (responesData) {
+      await OTP.findOneAndDelete({ email });
+    }
+
     await new User({
       firstName,
       lastName,
@@ -73,8 +86,6 @@ exports.signUp = async (req, res) => {
 };
 
 exports.logout = async (req, res) => {
-
-
   res
     .cookie("token", null, { expires: new Date(Date.now()) })
     .status(200)

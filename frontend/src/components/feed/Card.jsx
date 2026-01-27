@@ -8,6 +8,7 @@ function Card({ profile, onSwipe, isTopCard, unDoFeed }) {
     open: false,
     errorMessage: null,
   });
+  
   const [startX, setStartX] = useState(0);
   const [currentX, setCurrentX] = useState(0);
   const [isDragging, setIsDragging] = useState(false);

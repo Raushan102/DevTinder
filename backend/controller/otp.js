@@ -67,20 +67,27 @@ exports.sendOtp = async (req, res) => {
     }
 
     await Otp.findOneAndDelete({ email });
-     await new Otp({ email, otp }).save();
+    await new Otp({ email, otp }).save();
 
     const sendMailParameters = {
       toAddress: email,
       fromAddress: "auth@raushankumarsaw.in",
       subject: "🔐 Your devTinder verification code",
       body: otpTemplate(otp),
-      text: `Your devTinder OTP is: ${otp}. Valid for 5 minutes.`
-    }
+      text: `Your devTinder OTP is: ${otp}. Valid for 5 minutes.`,
+    };
 
-    const emailResponse = await sendEmail(sendMailParameters.toAddress, sendMailParameters.fromAddress, sendMailParameters.subject, sendMailParameters.body, sendMailParameters.text);
+    const emailResponse = await sendEmail(
+      sendMailParameters.toAddress,
+      sendMailParameters.fromAddress,
+      sendMailParameters.subject,
+      sendMailParameters.body,
+      sendMailParameters.text,
+    );
     console.log(emailResponse);
     res.status(200).json({
-      status: 200, message: "OTP sent successfully",
+      status: 200,
+      message: "OTP sent successfully",
     });
   } catch (error) {
     res.status(400).json({
@@ -88,7 +95,7 @@ exports.sendOtp = async (req, res) => {
       message: error.message,
     });
   }
-}
+};
 
 // verify the otp and return the user data
 exports.verifyOtp = async (req, res) => {
@@ -101,7 +108,7 @@ exports.verifyOtp = async (req, res) => {
         message: "invalid otp",
       });
     }
-    await otpData.deleteOne();
+
     res.status(200).json({
       status: 200,
       message: "otp verified successfully",
@@ -113,4 +120,4 @@ exports.verifyOtp = async (req, res) => {
       message: error.message,
     });
   }
-}
+};
