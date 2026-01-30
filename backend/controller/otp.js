@@ -1,4 +1,4 @@
-const sendEmail = require("../src/util/sendEmail");
+const sendEmail = require("../config/sendEmail");
 const Otp = require("../model/otp");
 const User = require("../model/user");
 const validator = require("validator");
@@ -84,7 +84,6 @@ exports.sendOtp = async (req, res) => {
       sendMailParameters.body,
       sendMailParameters.text,
     );
-    console.log(emailResponse);
     res.status(200).json({
       status: 200,
       message: "OTP sent successfully",
@@ -114,7 +113,6 @@ exports.verifyOtp = async (req, res) => {
       message: "otp verified successfully",
     });
   } catch (error) {
-    console.log(error);
     res.status(400).json({
       status: 400,
       message: error.message,

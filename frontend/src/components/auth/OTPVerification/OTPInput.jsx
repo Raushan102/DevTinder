@@ -91,9 +91,6 @@ function OTPInput() {
         navigate("/login");
       }, 1000);
     } catch (error) {
-
-      console.log("error", error);
-
       setNotify({
         open: true,
         type: "error",

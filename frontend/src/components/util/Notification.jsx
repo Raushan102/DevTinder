@@ -71,7 +71,7 @@ export default function Notification({
       <div
         className={`
           ${style.bg} text-white
-          rounded-md shadow-2xl py-1.5 sm:p-4 px-1 pr-12 min-w-50
+          rounded-md shadow-2xl  sm:p-4 p-3  pr-12 min-w-50
           sm:min-w-80 max-w-md
           flex items-center gap-3
           relative overflow-hidden
@@ -92,9 +92,9 @@ export default function Notification({
         <button
           onClick={() => {
             setIsVisible(false);
-            setTimeout(() => onClose(), 300);
+            setTimeout(() => onClose(), 5 * 60 * 1000);
           }}
-          className="absolute top-3 right-3 hover:bg-white/20 rounded-full p-1 transition-all"
+          className="absolute top-1 right-3 hover:bg-white/20 rounded-full p-1 transition-all"
         >
           <X className="w-4 h-4" />
         </button>

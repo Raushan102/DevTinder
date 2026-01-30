@@ -31,7 +31,7 @@ const validators = {
       return true;
     } else {
       throw new Error(
-        "please check password it should contain { minLength: 8, minLowercase: 1, minUppercase: 1, minNumbers: 1, minSymbols: 1, returnScore: false, pointsPerUnique: 1, pointsPerRepeat: 0.5, pointsForContainingLower: 10, pointsForContainingUpper: 10, pointsForContainingNumber: 10, pointsForContainingSymbol: 10 }"
+        "please check password it should contain { minLength: 8, minLowercase: 1, minUppercase: 1, minNumbers: 1, minSymbols: 1, returnScore: false, pointsPerUnique: 1, pointsPerRepeat: 0.5, pointsForContainingLower: 10, pointsForContainingUpper: 10, pointsForContainingNumber: 10, pointsForContainingSymbol: 10 }",
       );
     }
   },
@@ -40,7 +40,7 @@ const validators = {
       return true;
     } else {
       throw new Error(
-        "please check gender it should be male , female and other"
+        "please check gender it should be male , female and other",
       );
     }
   },
@@ -102,19 +102,26 @@ function CanUpdateTheseFields(req) {
   const editebleFields = [
     "firstName",
     "lastName",
-    "gender",
     "age",
-    "skills",
-    "about",
+    "gender",
     "photoUrl",
+    "headline", // ✅ NEW
+    "profession", // ✅ NEW
+    "about",
+    "skills",
+    "photoPublicId",
+    "socialMedia",
+    "github",
+    "linkedin",
+    "twitter"
   ];
   try {
     const result = Object.keys(req.body).every((ele) =>
-      editebleFields.includes(ele)
+      editebleFields.includes(ele),
     );
     if (!result) {
       throw new Error(
-        "bad request please check fields . email and password are not updateble"
+        "bad request please check fields . email and password are not updateble",
       );
     }
 
@@ -126,5 +133,5 @@ function CanUpdateTheseFields(req) {
 
 module.exports = {
   sanization,
-  CanUpdateTheseFields
-}
+  CanUpdateTheseFields,
+};

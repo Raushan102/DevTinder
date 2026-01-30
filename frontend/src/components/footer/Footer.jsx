@@ -1,11 +1,12 @@
 import React from "react";
-import { Flame, Github, Twitter, Linkedin, Heart, Code, Users, Zap } from "lucide-react";
+import { Link } from "react-router-dom";
+import { Flame, Github, Twitter, Linkedin, Heart, Code, Users, Zap, Mail, Phone } from "lucide-react";
 
 function Footer() {
   return (
     <footer className="bg-primary text-primary-content">
       <div className="container mx-auto px-4 sm:px-6 py-12 sm:py-16">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 sm:gap-10 lg:gap-12 mb-8 sm:mb-12">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-10 lg:gap-12 mb-8 sm:mb-12">
 
           {/* Brand */}
           <div className="space-y-4">
@@ -26,46 +27,90 @@ function Footer() {
             </div>
           </div>
 
-          {/* Links */}
+          {/* Company Links */}
           <div>
-            <h3 className="text-xs font-bold uppercase tracking-widest opacity-60 mb-4">Quick Links</h3>
+            <h3 className="text-xs font-bold uppercase tracking-widest opacity-60 mb-4">Company</h3>
             <ul className="space-y-2">
-              <li><a href="/" className="text-sm opacity-80 hover:opacity-100 transition-opacity">About Us</a></li>
-              <li><a href="/" className="text-sm opacity-80 hover:opacity-100 transition-opacity">How It Works</a></li>
-              <li><a href="/" className="text-sm opacity-80 hover:opacity-100 transition-opacity">Privacy Policy</a></li>
-              <li><a href="/" className="text-sm opacity-80 hover:opacity-100 transition-opacity">Terms of Service</a></li>
+              <li>
+                <Link to="/about-us" className="text-sm opacity-80 hover:opacity-100 transition-opacity">
+                  About Us
+                </Link>
+              </li>
+              <li>
+                <Link to="/team" className="text-sm opacity-80 hover:opacity-100 transition-opacity">
+                  Team
+                </Link>
+              </li>
+              <li>
+                <Link to="/contact-us" className="text-sm opacity-80 hover:opacity-100 transition-opacity">
+                  Contact Us
+                </Link>
+              </li>
+              <li>
+                <a href="mailto:raushankumarsaw15@gmail.com" className="text-sm opacity-80 hover:opacity-100 transition-opacity">
+                  Support
+                </a>
+              </li>
             </ul>
           </div>
 
-          {/* Stats */}
-          <div className="sm:col-span-2 lg:col-span-1">
-            <h3 className="text-xs font-bold uppercase tracking-widest opacity-60 mb-4">Why DevTinder?</h3>
-            <div className="space-y-3">
+          {/* Legal Links */}
+          <div>
+            <h3 className="text-xs font-bold uppercase tracking-widest opacity-60 mb-4">Legal</h3>
+            <ul className="space-y-2">
+              <li>
+                <Link to="/privacy-policy" className="text-sm opacity-80 hover:opacity-100 transition-opacity">
+                  Privacy Policy
+                </Link>
+              </li>
+              <li>
+                <Link to="/terms-of-service" className="text-sm opacity-80 hover:opacity-100 transition-opacity">
+                  Terms of Service
+                </Link>
+              </li>
+              <li>
+                <Link to="/refund-policy" className="text-sm opacity-80 hover:opacity-100 transition-opacity">
+                  Refund Policy
+                </Link>
+              </li>
+            </ul>
+          </div>
+
+          {/* Contact & Stats */}
+          <div>
+            <h3 className="text-xs font-bold uppercase tracking-widest opacity-60 mb-4">Get In Touch</h3>
+            <div className="space-y-3 mb-6">
+              <a
+                href="mailto:raushankumarsaw15@gmail.com"
+                className="flex items-center gap-2 text-sm opacity-80 hover:opacity-100 transition-opacity"
+              >
+                <Mail size={14} />
+                <span className="text-xs">raushankumarsaw15@gmail.com</span>
+              </a>
+              <a
+                href="tel:+918252341916"
+                className="flex items-center gap-2 text-sm opacity-80 hover:opacity-100 transition-opacity"
+              >
+                <Phone size={14} />
+                <span className="text-xs">+91 8252341916</span>
+              </a>
+            </div>
+
+            <div className="space-y-2">
               <div className="flex items-center gap-3">
-                <div className="p-2 bg-white/10 rounded-lg flex-shrink-0">
-                  <Users size={16} />
+                <div className="p-1.5 bg-white/10 rounded-lg flex-shrink-0">
+                  <Users size={14} />
                 </div>
                 <div>
-                  <p className="text-sm font-semibold">10K+ Developers</p>
-                  <p className="text-xs opacity-70">Active community</p>
+                  <p className="text-xs font-semibold">10K+ Developers</p>
                 </div>
               </div>
               <div className="flex items-center gap-3">
-                <div className="p-2 bg-white/10 rounded-lg flex-shrink-0">
-                  <Code size={16} />
+                <div className="p-1.5 bg-white/10 rounded-lg flex-shrink-0">
+                  <Code size={14} />
                 </div>
                 <div>
-                  <p className="text-sm font-semibold">500+ Projects</p>
-                  <p className="text-xs opacity-70">Collaborations made</p>
-                </div>
-              </div>
-              <div className="flex items-center gap-3">
-                <div className="p-2 bg-white/10 rounded-lg flex-shrink-0">
-                  <Zap size={16} />
-                </div>
-                <div>
-                  <p className="text-sm font-semibold">Lightning Fast</p>
-                  <p className="text-xs opacity-70">Real-time matching</p>
+                  <p className="text-xs font-semibold">500+ Projects</p>
                 </div>
               </div>
             </div>
@@ -76,14 +121,32 @@ function Footer() {
 
         <div className="flex flex-col md:flex-row items-center justify-between gap-6">
           <div className="flex items-center gap-3 sm:gap-4">
-            <a href="/" className="p-2.5 sm:p-3 bg-white/10 hover:bg-white/20 rounded-lg transition-all">
+            <a
+              href="https://github.com/Raushan102"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="p-2.5 sm:p-3 bg-white/10 hover:bg-white/20 rounded-lg transition-all"
+              aria-label="GitHub"
+            >
               <Github size={18} className="sm:w-5 sm:h-5" />
             </a>
-            <a href="/" className="p-2.5 sm:p-3 bg-white/10 hover:bg-white/20 rounded-lg transition-all">
-              <Twitter size={18} className="sm:w-5 sm:h-5" />
-            </a>
-            <a href="/" className="p-2.5 sm:p-3 bg-white/10 hover:bg-white/20 rounded-lg transition-all">
+            <a
+              href="https://www.linkedin.com/in/raushan-kumar-saw-39067b261/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="p-2.5 sm:p-3 bg-white/10 hover:bg-white/20 rounded-lg transition-all"
+              aria-label="LinkedIn"
+            >
               <Linkedin size={18} className="sm:w-5 sm:h-5" />
+            </a>
+            <a
+              href="https://twitter.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="p-2.5 sm:p-3 bg-white/10 hover:bg-white/20 rounded-lg transition-all"
+              aria-label="Twitter"
+            >
+              <Twitter size={18} className="sm:w-5 sm:h-5" />
             </a>
           </div>
           <div className="text-center md:text-right">

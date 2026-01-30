@@ -12,14 +12,13 @@ import ThemeSwitcher from "../util/ThemeSwitcher";
 import handleSignUp from "./util/SignUpfun";
 import handelEditFuncton from "./util/Editfun";
 import handleloginFunction from "./util/LoginFun";
-import { addSignUpData } from '../../store/signUpLayer'
+import { addSignUpData } from "../../store/signUpLayer";
 import sendOtp from "./OTPVerification/SendOtp";
 
 function Login({ signUp = false, edit = false }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  // Redux user (primary source of truth)
   const user = useSelector((store) => store.user);
 
   const [loading, setLoading] = useState(false);
@@ -43,9 +42,13 @@ function Login({ signUp = false, edit = false }) {
   const passwordRef = useRef(null);
   const genderRef = useRef(null);
   const ageRef = useRef(null);
-  const photoUrlRef = useRef(null);
+  const headlineRef = useRef(null);
+  const professionRef = useRef(null);
   const aboutRef = useRef(null);
   const skillsRef = useRef(null);
+  const githubRef = useRef(null);      // ✅ NEW
+  const linkedinRef = useRef(null);    // ✅ NEW
+  const twitterRef = useRef(null);     // ✅ NEW
 
   /* ===============================
      PREFILL (EDIT MODE ONLY)
@@ -53,7 +56,6 @@ function Login({ signUp = false, edit = false }) {
   useEffect(() => {
     if (!edit) return;
 
-    // Wait for next tick to ensure DOM is ready
     const timer = setTimeout(() => {
       if (user) {
         prefillForm(user);
@@ -93,9 +95,14 @@ function Login({ signUp = false, edit = false }) {
     lastNameRef.current.value = u.lastName || "";
     genderRef.current.value = u.gender || "";
     ageRef.current.value = u.age || "";
-    photoUrlRef.current.value = u.photoUrl || "";
+    headlineRef.current.value = u.headline || "";
+    professionRef.current.value = u.profession || "";
     aboutRef.current.value = u.about || "";
     skillsRef.current.value = u.skills?.join(", ") || "";
+    // ✅ NEW: Prefill social media
+    githubRef.current.value = u.socialMedia?.github || "";
+    linkedinRef.current.value = u.socialMedia?.linkedin || "";
+    twitterRef.current.value = u.socialMedia?.twitter || "";
   };
 
   /* ===============================
@@ -111,25 +118,30 @@ function Login({ signUp = false, edit = false }) {
           lastNameRef,
           genderRef,
           ageRef,
-          photoUrlRef,
+          headlineRef,
+          professionRef,
           aboutRef,
+          githubRef,      // ✅ NEW
+          linkedinRef,    // ✅ NEW
+          twitterRef,     // ✅ NEW
           dispatch,
           addUser,
           setNotify,
           navigate,
         );
       } else if (signUp) {
-
-        dispatch(addSignUpData({
-          firstName: firstNameRef.current.value,
-          lastName: lastNameRef.current.value,
-          email: emailRef.current.value,
-          password: passwordRef.current.value,
-          gender: genderRef.current.value,
-        }))
+        dispatch(
+          addSignUpData({
+            firstName: firstNameRef.current.value,
+            lastName: lastNameRef.current.value,
+            email: emailRef.current.value,
+            password: passwordRef.current.value,
+            gender: genderRef.current.value,
+          })
+        );
 
         try {
-          const response = await sendOtp(emailRef.current.value)
+          const response = await sendOtp(emailRef.current.value);
           setNotify({
             open: true,
             type: "success",
@@ -138,16 +150,18 @@ function Login({ signUp = false, edit = false }) {
 
           if (response.data.status == 200) {
             setTimeout(() => {
-              navigate('/otp')
+              navigate("/otp");
             }, 1000);
           }
         } catch (error) {
           setShowModal({
             open: true,
-            errorMessage: error?.response?.data?.message || error.message || "unable to send otp please check email",
+            errorMessage:
+              error?.response?.data?.message ||
+              error.message ||
+              "unable to send otp please check email",
           });
         }
-
       } else {
         await handleloginFunction(
           emailRef,
@@ -183,9 +197,13 @@ function Login({ signUp = false, edit = false }) {
             passwordRef={passwordRef}
             genderRef={genderRef}
             ageRef={ageRef}
-            photoUrlRef={photoUrlRef}
+            headlineRef={headlineRef}
+            professionRef={professionRef}
             aboutRef={aboutRef}
             skillsRef={skillsRef}
+            githubRef={githubRef}        // ✅ NEW
+            linkedinRef={linkedinRef}    // ✅ NEW
+            twitterRef={twitterRef}      // ✅ NEW
             onSubmit={handleSubmit}
           />
         </div>

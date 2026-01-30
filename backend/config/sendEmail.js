@@ -15,7 +15,7 @@ node ses_sendemail.js
 */
 // snippet-start:[ses.JavaScript.email.sendEmailV3]
 const { SendEmailCommand } = require("@aws-sdk/client-ses");
-const sesClient = require("./sesClient");
+const sesClient = require("../config/sesClient");
 
 const createSendEmailCommand = (toAddress, fromAddress, subject, body,text) => {
   return new SendEmailCommand({

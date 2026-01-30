@@ -1,8 +1,8 @@
-import React from "react";
+
 
 function LoaderButton() {
   return (
-    <span className="loading loading-infinity loading-sm"></span>
+    <span className="loading loading-dots loading-sm text-primary-content"></span>
   );
 }
 

@@ -8,8 +8,12 @@ async function handelEditFuncton(
   lastNameRef,
   genderRef,
   ageRef,
-  photoUrlRef,
+  headlineRef,
+  professionRef,
   aboutRef,
+  githubRef,      // ✅ NEW
+  linkedinRef,    // ✅ NEW
+  twitterRef,     // ✅ NEW
   dispatch,
   addUser,
   setNotify,
@@ -27,27 +31,41 @@ async function handelEditFuncton(
       lastName: lastNameRef.current.value,
       gender: genderRef.current.value,
       age: ageRef.current.value ? Number(ageRef.current.value) : undefined,
-      photoUrl: photoUrlRef.current.value,
+      headline: headlineRef.current.value,
+      profession: professionRef.current.value,
       about: aboutRef.current.value,
       skills,
+      // ✅ NEW: Social Media
+      socialMedia: {
+        github: githubRef.current.value,
+        linkedin: linkedinRef.current.value,
+        twitter: twitterRef.current.value,
+      },
     },
     { withCredentials: true },
   );
+
   dispatch(addUser(res.data.user));
   setNotify({
     open: true,
     type: "success",
     message: "profile updated successfully",
   });
+
   reset(
     firstNameRef,
     lastNameRef,
     genderRef,
     ageRef,
-    photoUrlRef,
+    headlineRef,
+    professionRef,
     aboutRef,
     skillsRef,
+    githubRef,      // ✅ NEW
+    linkedinRef,    // ✅ NEW
+    twitterRef,     // ✅ NEW
   );
+
   setTimeout(() => {
     navigate("/profile");
   }, 1000);
