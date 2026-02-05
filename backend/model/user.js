@@ -69,7 +69,7 @@ const userSchema = new mongoose.Schema(
       type: String,
       maxlength: [80, "Profession cannot exceed 80 characters"],
       trim: true,
-      default: "Exploring life",
+      default: "software engineer",
     },
     skills: {
       type: [String],

@@ -1,5 +1,5 @@
 import { useRef, useEffect } from "react";
-import { AlertCircle, X, CheckCircle2, Info, TriangleAlert, Sparkles } from "lucide-react";
+import { AlertCircle, X, CheckCircle2, TriangleAlert, ShieldAlert, Sparkles } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 function ErrorModal({ title, message, type = "error", isOpen, onClose, redirect = null }) {
@@ -14,25 +14,21 @@ function ErrorModal({ title, message, type = "error", isOpen, onClose, redirect 
     }
   }, [isOpen]);
 
-  // COLOR MAP: High saturation text and background gradients
   const theme = {
     error: {
-      bg: "from-red-500/20 to-base-100",
-      text: "text-red-500",
-      btn: "btn-error",
-      icon: <AlertCircle size={40} className="drop-shadow-[0_0_10px_rgba(239,68,68,0.5)]" />
+      color: "text-red-400",
+      glow: "bg-red-500/20",
+      icon: <ShieldAlert size={36} />
     },
     success: {
-      bg: "from-emerald-500/20 to-base-100",
-      text: "text-emerald-500",
-      btn: "btn-success",
-      icon: <CheckCircle2 size={40} className="drop-shadow-[0_0_10px_rgba(16,185,129,0.5)]" />
+      color: "text-emerald-400",
+      glow: "bg-emerald-500/20",
+      icon: <CheckCircle2 size={36} />
     },
     warning: {
-      bg: "from-amber-500/20 to-base-100",
-      text: "text-amber-500",
-      btn: "btn-warning",
-      icon: <TriangleAlert size={40} className="drop-shadow-[0_0_10px_rgba(245,158,11,0.5)]" />
+      color: "text-amber-400",
+      glow: "bg-amber-500/20",
+      icon: <TriangleAlert size={36} />
     }
   };
 
@@ -46,50 +42,78 @@ function ErrorModal({ title, message, type = "error", isOpen, onClose, redirect 
   return (
     <dialog
       ref={dialogRef}
-      className="modal backdrop:backdrop-blur-xl backdrop:bg-black/40"
+      className="modal backdrop:backdrop-blur-md backdrop:bg-black/50"
       onClose={handleClose}
     >
-      <div className={`modal-box p-0 bg-gradient-to-b ${active.bg} border border-white/10 shadow-[0_20px_50px_rgba(0,0,0,0.3)] rounded-2xl overflow-hidden max-w-sm`}>
+      <div className="modal-box p-0 bg-white/5 backdrop-blur-3xl border border-white/20 rounded-none overflow-hidden max-w-sm shadow-[0_0_80px_rgba(0,0,0,0.5)] relative">
 
-        {/* VISUAL HEADER */}
-        <div className="flex flex-col items-center pt-10 pb-4">
-          <div className="relative">
-            {/* Background Glow Orb */}
-            <div className={`absolute inset-0 blur-2xl opacity-40 scale-150 ${active.text.replace('text', 'bg')}`}></div>
-            <div className="relative z-10">
+        {/* LIGHT LEAK EFFECT */}
+        <div className={`absolute -top-10 -right-10 w-32 h-32 blur-[60px] opacity-40 ${active.glow}`} />
+        <div className={`absolute -bottom-10 -left-10 w-32 h-32 blur-[60px] opacity-20 ${active.glow}`} />
+
+        <div className="relative z-10">
+          {/* HEADER BAR */}
+          <div className="flex items-center justify-between px-6 py-4 border-b border-white/10 bg-white/5">
+            <div className="flex items-center gap-2">
+              <div className={`w-1.5 h-1.5 ${active.color.replace('text', 'bg')}`} />
+              <span className="text-[10px] font-black uppercase tracking-[0.4em] text-white/60">System.Status</span>
+            </div>
+            <button onClick={handleClose} className="text-white/40 hover:text-white transition-colors">
+              <X size={16} />
+            </button>
+          </div>
+
+          {/* MAIN CONTENT */}
+          <div className="px-8 pt-10 pb-12 text-center">
+            <div className={`inline-flex items-center justify-center mb-6 ${active.color}`}>
               {active.icon}
+            </div>
+
+            <h3 className="text-2xl font-black italic uppercase tracking-tighter text-white mb-3">
+              {title}
+            </h3>
+
+            <div className="w-8 h-[2px] bg-white/20 mx-auto mb-6" />
+
+            <p className="text-xs font-bold text-white/50 leading-relaxed uppercase tracking-widest mb-10 px-4">
+              {message}
+            </p>
+
+            {/* ACTION BUTTON */}
+            <div className="space-y-4">
+              <button
+                onClick={handleClose}
+                className="w-full h-14 bg-white/10 hover:bg-white/15 text-white border border-white/20 rounded-none font-black uppercase tracking-[0.3em] text-[10px] transition-all flex items-center justify-center gap-3 group relative overflow-hidden"
+              >
+                {/* Hover Shimmer */}
+                <div className="absolute inset-0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700 bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+                <span className="relative">Confirm Action</span>
+                <Sparkles size={12} className="opacity-40 group-hover:opacity-100 transition-opacity" />
+              </button>
+
+              <button
+                onClick={handleClose}
+                className="text-[9px] font-black uppercase tracking-[0.5em] text-white/20 hover:text-white/60 transition-colors"
+              >
+                Bypass Alert
+              </button>
             </div>
           </div>
         </div>
 
-        {/* TEXT CONTENT */}
-        <div className="px-8 pb-10 text-center">
-          <h3 className={`text-2xl font-black italic uppercase tracking-tighter ${active.text} mb-2`}>
-            {title}
-          </h3>
-
-          <div className="h-0.5 w-12 bg-current opacity-20 mx-auto mb-4"></div>
-
-          <p className="text-sm font-bold text-base-content/80 leading-relaxed mb-8">
-            {message}
-          </p>
-
-          {/* ACTION BUTTON */}
-          <button
-            className={`btn ${active.btn} w-full rounded-xl font-black uppercase tracking-[0.2em] text-[10px] shadow-lg border-none hover:brightness-110 active:scale-95 transition-all`}
-            onClick={handleClose}
-          >
-            Acknowledge
-          </button>
-
-          <button
-            onClick={handleClose}
-            className="mt-4 text-[9px] font-black uppercase tracking-widest opacity-30 hover:opacity-100 transition-opacity flex items-center justify-center gap-1 mx-auto"
-          >
-            Dismiss <X size={10} />
-          </button>
-        </div>
+        {/* BOTTOM ACCENT */}
+        <div className={`h-[2px] w-full ${active.color.replace('text', 'bg')} opacity-50`} />
       </div>
+
+      <style>{`
+        .modal-box {
+          animation: sharpAppear 0.3s ease-out;
+        }
+        @keyframes sharpAppear {
+          from { opacity: 0; transform: scale(0.98); }
+          to { opacity: 1; transform: scale(1); }
+        }
+      `}</style>
     </dialog>
   );
 }

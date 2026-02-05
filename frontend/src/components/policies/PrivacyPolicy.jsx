@@ -1,250 +1,145 @@
 import React from 'react';
-import { Shield, Lock, Eye, Database, Mail, CreditCard } from 'lucide-react';
+import { Shield, Lock, Eye, Database, CreditCard, ChevronRight } from 'lucide-react';
 
 const PrivacyPolicy = () => {
   return (
-    <div className="min-h-screen bg-base-200">
-      {/* Header */}
-      <div className="bg-primary text-primary-content py-16">
-        <div className="container mx-auto px-4">
-          <div className="flex items-center justify-center gap-3 mb-4">
-            <Shield className="w-12 h-12" />
-            <h1 className="text-4xl md:text-5xl font-bold">Privacy Policy</h1>
+    <div className="min-h-screen bg-transparent selection:bg-[#ff4d00] selection:text-white font-serif sm:px-6 md:px-8 sm:py-4">
+
+      {/* 1. HERO HEADER */}
+      <header className="pt-32 pb-20 border-b-2 border-white/20 md:border-black/10 transition-colors duration-500">
+        <div className="container mx-auto px-6">
+          <div className="max-w-4xl">
+            <div className="flex items-center gap-4 mb-8 text-white md:text-black">
+              <div className="bg-black md:bg-[#ff4d00] text-white p-3 backdrop-blur-md">
+                <Shield size={28} />
+              </div>
+              <span className="text-[11px] font-black uppercase tracking-[0.6em]">Protocol v.2026.01</span>
+            </div>
+            <h1 className="text-6xl md:text-9xl font-black uppercase tracking-tighter leading-none mb-10 text-white md:text-black">
+              Privacy<br />Policy<span className="text-[#ff4d00]">.</span>
+            </h1>
+            <p className="text-xs md:text-sm font-black uppercase tracking-[0.4em] text-white md:text-black opacity-60 md:opacity-100">
+              Last Updated — Feb 2026 // devTinder Compliance
+            </p>
           </div>
-          <p className="text-center text-lg opacity-90">
-            Last Updated: January 28, 2026
-          </p>
         </div>
-      </div>
+      </header>
 
-      {/* Content */}
-      <div className="container mx-auto px-4 py-12 max-w-4xl">
-        <div className="bg-base-100 rounded-lg shadow-xl p-8">
-          
-          {/* Introduction */}
-          <section className="mb-8">
-            <h2 className="text-3xl font-bold mb-4 flex items-center gap-2">
-              <Eye className="w-6 h-6" />
-              Introduction
-            </h2>
-            <p className="text-lg leading-relaxed mb-4">
-              Welcome to devTinder, a platform designed to help developers connect with each other. 
-              We value your privacy and are committed to protecting your personal information. This 
-              Privacy Policy explains how we collect, use, disclose, and safeguard your information 
-              when you use our platform.
-            </p>
-            <p className="text-lg leading-relaxed">
-              By using devTinder, you agree to the collection and use of information in accordance 
-              with this policy. If you do not agree with our policies and practices, please do not 
-              use our service.
-            </p>
-          </section>
+      <div className="container mx-auto px-6 py-24">
+        <div className="grid lg:grid-cols-12 gap-20">
 
-          <div className="divider"></div>
-
-          {/* Information We Collect */}
-          <section className="mb-8">
-            <h2 className="text-3xl font-bold mb-4 flex items-center gap-2">
-              <Database className="w-6 h-6" />
-              Information We Collect
-            </h2>
-            
-            <h3 className="text-xl font-semibold mb-3 mt-6">1. Personal Information</h3>
-            <p className="text-lg leading-relaxed mb-4">
-              When you register for devTinder, we collect the following information:
-            </p>
-            <ul className="list-disc list-inside space-y-2 ml-4 text-lg">
-              <li>Email address</li>
-              <li>Password (encrypted and securely stored)</li>
-              <li>Developer profile information (skills, bio, location)</li>
-              <li>Profile pictures and other media you upload</li>
+          {/* 2. STICKY NAVIGATION */}
+          <aside className="hidden lg:block lg:col-span-3 sticky top-10 h-fit text-black">
+            <h3 className="text-[11px] font-black uppercase tracking-widest mb-10 opacity-30">The Index</h3>
+            <ul className="space-y-6">
+              {['Introduction', 'Acquisition', 'Finance', 'Security', 'Legal'].map((item, idx) => (
+                <li key={item} className="group flex items-center gap-3 cursor-pointer transition-all hover:translate-x-2">
+                  <div className="w-0 h-[2px] bg-black group-hover:w-6 transition-all" />
+                  <span className="text-[12px] font-black uppercase tracking-widest">0{idx + 1} {item}</span>
+                </li>
+              ))}
             </ul>
+          </aside>
 
-            <h3 className="text-xl font-semibold mb-3 mt-6">2. Usage Information</h3>
-            <p className="text-lg leading-relaxed mb-4">
-              We automatically collect certain information when you use our platform:
-            </p>
-            <ul className="list-disc list-inside space-y-2 ml-4 text-lg">
-              <li>Connection requests and swipe activity</li>
-              <li>Chat messages (for premium users)</li>
-              <li>Device information and IP address</li>
-              <li>Browser type and operating system</li>
-              <li>Usage patterns and preferences</li>
-            </ul>
+          {/* 3. POLICY CONTENT */}
+          <main className="lg:col-span-9 max-w-3xl space-y-32">
 
-            <h3 className="text-xl font-semibold mb-3 mt-6">3. Payment Information</h3>
-            <p className="text-lg leading-relaxed">
-              For premium subscriptions (₹100), payment processing is handled securely through Razorpay. 
-              We do not store your complete credit card information on our servers. Razorpay collects 
-              and processes payment information according to their own privacy policy.
-            </p>
-          </section>
+            {/* Section 01: Introduction - Adaptive Glass */}
+            <section className="text-white md:text-black">
+              <div className="flex items-center gap-6 mb-10">
+                <span className="text-5xl font-black italic opacity-20">01</span>
+                <h2 className="text-3xl font-black uppercase tracking-tighter flex items-center gap-4">
+                  <Eye size={24} className="text-[#ff4d00]" /> Introduction
+                </h2>
+              </div>
+              <div className="p-10 backdrop-blur-3xl bg-white/10 md:bg-black/5 border border-white/20 md:border-black/10 rounded-3xl md:rounded-none">
+                <p className="text-sm md:text-lg font-black leading-relaxed uppercase tracking-tight">
+                  Welcome to <span className="text-[#ff4d00]">devTinder</span>. We value your intelligence and are committed to protecting your data ecosystem through rigorous encryption.
+                </p>
+              </div>
+            </section>
 
-          <div className="divider"></div>
+            {/* Section 02: Acquisition - Black Morphism (Desktop) / White Morphism (Mobile) */}
+            <section className="p-10 backdrop-blur-3xl bg-white/10 md:bg-black/5 border border-white/20 md:border-black/10 shadow-2xl">
+              <div className="flex items-center gap-6 mb-12 text-white md:text-black">
+                <span className="text-5xl font-black italic opacity-20">02</span>
+                <h2 className="text-3xl font-black uppercase tracking-tighter flex items-center gap-4">
+                  <Database size={24} className="text-[#ff4d00]" /> Acquisition
+                </h2>
+              </div>
 
-          {/* How We Use Your Information */}
-          <section className="mb-8">
-            <h2 className="text-3xl font-bold mb-4 flex items-center gap-2">
-              <Lock className="w-6 h-6" />
-              How We Use Your Information
-            </h2>
-            <p className="text-lg leading-relaxed mb-4">
-              We use the collected information for the following purposes:
-            </p>
-            <ul className="list-disc list-inside space-y-3 ml-4 text-lg">
-              <li>To create and manage your developer account</li>
-              <li>To authenticate your identity through OTP email verification</li>
-              <li>To show your profile to other developers in the feed</li>
-              <li>To facilitate connection requests between developers</li>
-              <li>To enable chat functionality for premium users</li>
-              <li>To process payments for premium subscriptions</li>
-              <li>To send important notifications about your account and connections</li>
-              <li>To improve our platform and develop new features</li>
-              <li>To ensure platform security and prevent fraudulent activities</li>
-            </ul>
-          </section>
-
-          <div className="divider"></div>
-
-          {/* Information Sharing */}
-          <section className="mb-8">
-            <h2 className="text-3xl font-bold mb-4">Information Sharing and Disclosure</h2>
-            
-            <h3 className="text-xl font-semibold mb-3">With Other Users</h3>
-            <p className="text-lg leading-relaxed mb-4">
-              Your profile information is visible to other developers on the platform. When you send 
-              a connection request or when it's accepted, both users can see each other's profiles. 
-              Chat messages are only visible between connected users who have premium subscriptions.
-            </p>
-
-            <h3 className="text-xl font-semibold mb-3 mt-6">With Third-Party Service Providers</h3>
-            <p className="text-lg leading-relaxed mb-4">
-              We may share your information with trusted third-party service providers:
-            </p>
-            <ul className="list-disc list-inside space-y-2 ml-4 text-lg">
-              <li><strong>Razorpay:</strong> For secure payment processing</li>
-              <li><strong>Email Service Providers:</strong> For sending OTP and notifications</li>
-              <li><strong>Cloud Hosting Services:</strong> For data storage and platform hosting</li>
-            </ul>
-
-            <h3 className="text-xl font-semibold mb-3 mt-6">Legal Requirements</h3>
-            <p className="text-lg leading-relaxed">
-              We may disclose your information if required by law, court order, or government 
-              regulation, or if we believe such action is necessary to comply with legal obligations 
-              or protect our rights and safety.
-            </p>
-          </section>
-
-          <div className="divider"></div>
-
-          {/* Data Security */}
-          <section className="mb-8">
-            <h2 className="text-3xl font-bold mb-4 flex items-center gap-2">
-              <Shield className="w-6 h-6" />
-              Data Security
-            </h2>
-            <p className="text-lg leading-relaxed mb-4">
-              We implement industry-standard security measures to protect your personal information:
-            </p>
-            <ul className="list-disc list-inside space-y-2 ml-4 text-lg">
-              <li>Passwords are encrypted using secure hashing algorithms</li>
-              <li>Data transmission is secured using SSL/TLS encryption</li>
-              <li>OTP verification for account authentication</li>
-              <li>Regular security audits and updates</li>
-              <li>Secure payment processing through Razorpay</li>
-            </ul>
-            <p className="text-lg leading-relaxed mt-4">
-              However, no method of transmission over the internet is 100% secure. While we strive 
-              to protect your information, we cannot guarantee absolute security.
-            </p>
-          </section>
-
-          <div className="divider"></div>
-
-          {/* Your Rights */}
-          <section className="mb-8">
-            <h2 className="text-3xl font-bold mb-4">Your Rights and Choices</h2>
-            <p className="text-lg leading-relaxed mb-4">
-              You have the following rights regarding your personal information:
-            </p>
-            <ul className="list-disc list-inside space-y-2 ml-4 text-lg">
-              <li><strong>Access:</strong> You can access and review your profile information at any time</li>
-              <li><strong>Update:</strong> You can update your profile details through your account settings</li>
-              <li><strong>Delete:</strong> You can request account deletion by contacting us</li>
-              <li><strong>Opt-out:</strong> You can manage email notification preferences in settings</li>
-              <li><strong>Data Portability:</strong> You can request a copy of your data</li>
-            </ul>
-          </section>
-
-          <div className="divider"></div>
-
-          {/* Cookies */}
-          <section className="mb-8">
-            <h2 className="text-3xl font-bold mb-4">Cookies and Tracking</h2>
-            <p className="text-lg leading-relaxed">
-              We use cookies and similar tracking technologies to maintain your session, remember 
-              your preferences, and analyze platform usage. You can control cookies through your 
-              browser settings, but disabling cookies may affect platform functionality.
-            </p>
-          </section>
-
-          <div className="divider"></div>
-
-          {/* Changes to Policy */}
-          <section className="mb-8">
-            <h2 className="text-3xl font-bold mb-4">Changes to This Privacy Policy</h2>
-            <p className="text-lg leading-relaxed">
-              We may update this Privacy Policy from time to time. We will notify you of any changes 
-              by posting the new Privacy Policy on this page and updating the "Last Updated" date. 
-              We encourage you to review this Privacy Policy periodically for any changes.
-            </p>
-          </section>
-
-          <div className="divider"></div>
-
-          {/* Contact Section */}
-          <section className="mb-8">
-            <h2 className="text-3xl font-bold mb-4 flex items-center gap-2">
-              <Mail className="w-6 h-6" />
-              Contact Us
-            </h2>
-            <p className="text-lg leading-relaxed mb-4">
-              If you have any questions, concerns, or requests regarding this Privacy Policy or 
-              your personal information, please contact us:
-            </p>
-            <div className="bg-base-200 p-6 rounded-lg">
-              <div className="space-y-3">
-                <div className="flex items-center gap-3">
-                  <Mail className="w-5 h-5 text-primary" />
-                  <span className="text-lg">
-                    <strong>Email:</strong> raushankumarsaw15@gmail.com
-                  </span>
+              <div className="space-y-12">
+                <div className="text-white md:text-black">
+                  <h3 className="text-[12px] font-black uppercase tracking-[0.3em] mb-6 border-l-4 border-[#ff4d00] pl-4">1.0 Identity</h3>
+                  <ul className="space-y-4 text-xs font-black uppercase tracking-widest">
+                    <li className="flex items-center gap-4 opacity-70 md:opacity-100">
+                      <ChevronRight size={16} className="text-[#ff4d00]" /> Email & Credentials
+                    </li>
+                    <li className="flex items-center gap-4 opacity-70 md:opacity-100">
+                      <ChevronRight size={16} className="text-[#ff4d00]" /> Skill Taxonomy
+                    </li>
+                  </ul>
                 </div>
-                <div className="flex items-center gap-3">
-                  <CreditCard className="w-5 h-5 text-primary" />
-                  <span className="text-lg">
-                    <strong>Phone:</strong> +91 8252341916
-                  </span>
+
+                <div className="text-white md:text-black">
+                  <h3 className="text-[12px] font-black uppercase tracking-[0.3em] mb-6 border-l-4 border-[#ff4d00] pl-4">2.0 Interaction</h3>
+                  <div className="grid md:grid-cols-2 gap-4">
+                    <div className="p-5 backdrop-blur-md bg-white/10 md:bg-white/20 border border-white/10 md:border-black/5 text-[10px] font-black uppercase">Swipe Directionality</div>
+                    <div className="p-5 backdrop-blur-md bg-white/10 md:bg-white/20 border border-white/10 md:border-black/5 text-[10px] font-black uppercase">Device Metadata</div>
+                  </div>
                 </div>
               </div>
-            </div>
-            <p className="text-lg leading-relaxed mt-4">
-              We will respond to your inquiry within 7 business days.
-            </p>
-          </section>
+            </section>
 
-          {/* Footer Note */}
-          <div className="alert alert-info mt-8">
-            <Shield className="w-6 h-6" />
-            <div>
-              <h3 className="font-bold">Your Privacy Matters</h3>
-              <div className="text-sm">
-                At devTinder, we are committed to protecting your privacy and ensuring transparency 
-                in how we handle your data.
+            {/* Section 03: Finance - Solid contrast anchor */}
+            <section className="bg-black text-white p-12 shadow-[0_0_50px_rgba(0,0,0,0.3)]">
+              <div className="flex items-center gap-6 mb-8">
+                <CreditCard size={32} className="text-[#ff4d00]" />
+                <h2 className="text-2xl font-black uppercase tracking-[0.2em]">Finance</h2>
               </div>
-            </div>
-          </div>
+              <p className="text-sm font-black uppercase tracking-widest leading-loose opacity-80">
+                PREMIUM SUBSCRIPTIONS (₹100) ARE PROCESSED VIA RAZORPAY. WE DO NOT STORE CARDS LOCALLY.
+              </p>
+            </section>
 
+            {/* Section 04: Security - Adaptive Glass Grids */}
+            <section className="text-white md:text-black">
+              <div className="flex items-center gap-6 mb-12">
+                <span className="text-5xl font-black italic opacity-20">03</span>
+                <h2 className="text-3xl font-black uppercase tracking-tighter flex items-center gap-4">
+                  <Lock size={24} className="text-[#ff4d00]" /> Security
+                </h2>
+              </div>
+              <div className="grid md:grid-cols-2 gap-8">
+                <div className="p-8 backdrop-blur-3xl bg-white/5 md:bg-black/5 border border-white/10 md:border-black/10 transition-all hover:bg-[#ff4d00] group">
+                  <h4 className="text-[12px] font-black uppercase mb-4 group-hover:text-white">Hashing</h4>
+                  <p className="text-[10px] uppercase font-black opacity-60 group-hover:text-white/80 group-hover:opacity-100">Salted BCRYPT Algorithms.</p>
+                </div>
+                <div className="p-8 backdrop-blur-3xl bg-white/5 md:bg-black/5 border border-white/10 md:border-black/10 transition-all hover:bg-[#ff4d00] group">
+                  <h4 className="text-[12px] font-black uppercase mb-4 group-hover:text-white">TLS 1.3</h4>
+                  <p className="text-[10px] uppercase font-black opacity-60 group-hover:text-white/80 group-hover:opacity-100">End-to-End Encryption.</p>
+                </div>
+              </div>
+            </section>
+
+            {/* Footer Legal - Final Glass Morphism */}
+            <footer className="pt-24">
+              <div className="backdrop-blur-3xl bg-white/10 md:bg-black/5 p-16 text-center border-2 border-white/20 md:border-black/10 text-white md:text-black rounded-3xl md:rounded-none shadow-2xl">
+                <h2 className="text-5xl font-black uppercase tracking-tighter mb-6">Inquiries?</h2>
+                <div className="flex flex-col md:flex-row justify-center gap-12 mt-12">
+                  <div className="space-y-2">
+                    <p className="text-[10px] font-black uppercase opacity-40">Electronic</p>
+                    <p className="text-sm font-black uppercase border-b-2 border-[#ff4d00] pb-1 inline-block">raushankumarsaw15@gmail.com</p>
+                  </div>
+                  <div className="space-y-2">
+                    <p className="text-[10px] font-black uppercase opacity-40">Direct</p>
+                    <p className="text-sm font-black uppercase border-b-2 border-[#ff4d00] pb-1 inline-block">+91 8252341916</p>
+                  </div>
+                </div>
+              </div>
+            </footer>
+
+          </main>
         </div>
       </div>
     </div>

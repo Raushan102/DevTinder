@@ -18,10 +18,13 @@ import ContactUs from "./components/policies/ContactUs";
 import AboutUs from "./components/policies/AboutUs";
 import Team from "./components/policies/Team";
 
+
 function App() {
   return (
     <Provider store={store}>
       <BrowserRouter basename="/devtinder">
+
+
         <Routes>
           {/* 🌐 PUBLIC ROUTES */}
           <Route path="/" element={<LandingPage />} />
@@ -45,6 +48,7 @@ function App() {
             <Route path="/team" element={<Team />} />
           </Route>
         </Routes>
+
       </BrowserRouter>
     </Provider>
   );

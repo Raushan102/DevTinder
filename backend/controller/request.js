@@ -180,7 +180,9 @@ exports.getConnectedDeveloper = async (req, res) => {
 
     const connectionsOfUser = await User.find({
       _id: { $in: user.connections },
-    }).select("_id firstName lastName photoUrl about skills");
+    }).select(
+      "firstName lastName age gender photoUrl headline profession about skills socialMedia github linkedin twitter",
+    );
 
     if (connectionsOfUser) {
       res.status(200).json({

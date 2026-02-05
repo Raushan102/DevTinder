@@ -5,9 +5,16 @@ const SHOW_FIELDS = [
   "firstName",
   "lastName",
   "age",
-  "photoUrl",
-  "about",
   "gender",
+  "photoUrl",
+  "headline", // ✅ NEW
+  "profession", // ✅ NEW
+  "about",
+  "skills",
+  "socialMedia",
+  "github",
+  "linkedin",
+  "twitter",
 ];
 exports.getRequest = async (req, res) => {
   try {

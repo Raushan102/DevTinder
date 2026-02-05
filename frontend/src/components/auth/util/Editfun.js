@@ -11,9 +11,9 @@ async function handelEditFuncton(
   headlineRef,
   professionRef,
   aboutRef,
-  githubRef,      // ✅ NEW
-  linkedinRef,    // ✅ NEW
-  twitterRef,     // ✅ NEW
+  githubRef,
+  linkedinRef,
+  twitterRef,
   dispatch,
   addUser,
   setNotify,
@@ -23,6 +23,11 @@ async function handelEditFuncton(
     .split(",")
     .map((s) => s.trim())
     .filter(Boolean);
+
+  // Construct full URLs from usernames
+  const githubUsername = githubRef.current.value.trim();
+  const linkedinUsername = linkedinRef.current.value.trim();
+  const twitterUsername = twitterRef.current.value.trim();
 
   const res = await axios.patch(
     `${BASE_URL}/profile/edit`,
@@ -35,11 +40,10 @@ async function handelEditFuncton(
       profession: professionRef.current.value,
       about: aboutRef.current.value,
       skills,
-      // ✅ NEW: Social Media
       socialMedia: {
-        github: githubRef.current.value,
-        linkedin: linkedinRef.current.value,
-        twitter: twitterRef.current.value,
+        github: githubUsername ? `https://github.com/${githubUsername}` : "",
+        linkedin: linkedinUsername ? `https://linkedin.com/in/${linkedinUsername}` : "",
+        twitter: twitterUsername ? `https://twitter.com/${twitterUsername}` : "",
       },
     },
     { withCredentials: true },
@@ -49,7 +53,7 @@ async function handelEditFuncton(
   setNotify({
     open: true,
     type: "success",
-    message: "profile updated successfully",
+    message: "Profile updated successfully!",
   });
 
   reset(
@@ -61,9 +65,9 @@ async function handelEditFuncton(
     professionRef,
     aboutRef,
     skillsRef,
-    githubRef,      // ✅ NEW
-    linkedinRef,    // ✅ NEW
-    twitterRef,     // ✅ NEW
+    githubRef,
+    linkedinRef,
+    twitterRef,
   );
 
   setTimeout(() => {

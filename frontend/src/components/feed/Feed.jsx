@@ -1,7 +1,9 @@
+// Feed.jsx - Premium Feed Layout (No Scroll, Glassmorphism)
 import axios from "axios";
 import { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { BASE_URL } from "../util/constent";
+import GlassmorphismLayout from "../util/Glassmorphismlayout";
 import {
   addFeed,
   removeUserFromFeed,
@@ -33,13 +35,10 @@ function Feed() {
     dispatch(undoFeed(PreviousProfile));
   }
 
-  /* ---------------- RESET WHEN USER CHANGES ---------------- */
   useEffect(() => {
     const currentUserId = user?._id || null;
-
     if (prevUserIdRef.current !== currentUserId) {
       prevUserIdRef.current = currentUserId;
-
       dispatch(removeFeed());
       setPage(1);
       setHasMore(true);
@@ -52,10 +51,8 @@ function Feed() {
     }
   }, [user, dispatch]);
 
-  /* ---------------- RESET WHEN FILTERS CHANGE ---------------- */
   useEffect(() => {
     const filtersChanged = JSON.stringify(activeFilters) !== JSON.stringify(prevFiltersRef.current);
-
     if (filtersChanged && prevFiltersRef.current !== null) {
       prevFiltersRef.current = activeFilters;
       dispatch(removeFeed());
@@ -66,31 +63,25 @@ function Feed() {
     }
   }, [activeFilters, dispatch]);
 
-  /* ---------------- FETCH FEED WITH FILTERS (PAGE-DRIVEN) ---------------- */
   useEffect(() => {
     if (!user || !hasMore || loading) return;
 
     const fetchFeed = async () => {
       setLoading(true);
       try {
-        // Build URL with filters
         let url = `${BASE_URL}/user/feeds?page=${page}&limit=10`;
 
-        // Add skills filter (comma-separated)
         if (activeFilters.skills.length > 0) {
           url += `&skills=${activeFilters.skills.join(',')}`;
         }
 
-        // Add experience levels filter (comma-separated)
         if (activeFilters.experienceLevels.length > 0) {
           url += `&experience=${activeFilters.experienceLevels.join(',')}`;
         }
 
-        // Add age range filters
         url += `&minAge=${activeFilters.minAge}&maxAge=${activeFilters.maxAge}`;
 
         const res = await axios.get(url, { withCredentials: true });
-
         const data = res?.data?.data ?? [];
 
         if (data.length === 0) {
@@ -109,51 +100,56 @@ function Feed() {
     fetchFeed();
   }, [page, user, hasMore, dispatch, activeFilters]);
 
-  /* ---------------- SWIPE HANDLER ---------------- */
   const handleSwipeAction = (_, id) => {
     dispatch(removeUserFromFeed(id));
-
-    // If cards are running low → load next page
     if (feed.length - 1 < 3 && hasMore && !loading) {
       setPage((prev) => prev + 1);
     }
   };
 
-  /* ---------------- FILTER HANDLER ---------------- */
   const handleApplyFilters = (newFilters) => {
     setActiveFilters(newFilters);
   };
 
-  /* ---------------- TOGGLE FILTER ---------------- */
   const toggleFilter = () => {
-    setIsFilterOpen(isFilterOpen => !isFilterOpen);
+    setIsFilterOpen(!isFilterOpen);
   };
 
-  /* ---------------- GUARDS ---------------- */
   if (!user) return null;
 
   const isInitialLoading = loading && feed.length === 0;
   const isEmptyFeed = feed.length === 0 && !loading;
   const activeFilterCount = activeFilters.skills.length + activeFilters.experienceLevels.length;
 
-  /* ---------------- UI ---------------- */
   return (
-    <div className="flex h-screen overflow-hidden relative">
-      {/* Filter Toggle Button - Top Left (Mobile/Tablet only) */}
+      <GlassmorphismLayout
+          backgroundImage="/assets/hero-bg.jpg"
+          mobileBackgroundImage="/assets/c1.jpg"
+          overlayStyle="editorial"
+          loaderDuration={500}
+          showShutterEffect={true}
+        >
+    <div className="flex w-full h-full overflow-hidden p-1 sm:px-6 md:px-8 py-4">
+
+      {/* Mobile Filter Toggle */}
       <button
         onClick={toggleFilter}
-        className="lg:hidden fixed top-20 left-1 z-50 btn btn-primary btn-sm gap-2 shadow-lg"
+        className="lg:hidden fixed top-30 left-4 z-40 px-4 py-2
+                 backdrop-blur-xl bg-white/10 border border-white/20  shadow-xl
+                 hover:bg-white/20 transition-all"
       >
-        <SlidersHorizontal className="w-4 h-4" />
-        <span>Filters</span>
-        {activeFilterCount > 0 && (
-          <div className="badge badge-secondary badge-sm">
-            {activeFilterCount}
-          </div>
-        )}
+        <div className="flex items-center gap-2">
+          <SlidersHorizontal className="w-4 h-4  text-white sm:text-black" strokeWidth={2.5} />
+          <span className="text-sm font-bold text-white sm:text-black">Filters</span>
+          {activeFilterCount > 0 && (
+            <div className="px-1.5 py-0.5 bg-black text-white text-xs font-bold rounded">
+              {activeFilterCount}
+            </div>
+          )}
+        </div>
       </button>
 
-      {/* Left Sidebar - Filters */}
+      {/* Filter Sidebar */}
       <FilterSidebar
         onApplyFilters={handleApplyFilters}
         initialFilters={activeFilters}
@@ -161,50 +157,42 @@ function Feed() {
         onToggle={toggleFilter}
       />
 
-      {/* Main Content - Feed Cards */}
-      <div className="flex-1 overflow-y-auto bg-base-200">
+      {/* Main Content Area */}
+      <div className="flex-1 flex items-center justify-center overflow-hidden ">
         {isInitialLoading ? (
-          // Initial Loading State
-          <div className="flex items-center justify-center w-full h-screen">
-            <div className="text-center">
-              <Loader2 size={48} className="animate-spin text-primary mx-auto mb-4" />
-              <p className="text-lg font-semibold">Loading developers...</p>
-            </div>
+          <div className="text-center">
+            <Loader2 size={48} className="animate-spin text-gray-400 mx-auto mb-4" />
+            <p className="text-gray-300 text-lg font-semibold">
+              Loading developers...
+            </p>
           </div>
         ) : isEmptyFeed ? (
-          // Empty State
-          <div className="flex flex-col items-center justify-center w-full h-screen px-4">
-            <Ghost size={84} className="sm:w-40 sm:h-40 opacity-30 mb-4" />
-            <p className="mt-4 font-semibold text-xl sm:text-2xl text-center">
-              {hasMore ? "Loading developers..." : "No developers found"}
+          <div className="flex flex-col items-center justify-center">
+            <Ghost size={80} className="text-gray-400 mb-6" strokeWidth={1.5} />
+            <p className="text-gray-300 font-bold text-2xl text-center mb-2">
+              {hasMore ? "Loading..." : "No developers found"}
             </p>
             {!hasMore && activeFilterCount > 0 && (
-              <div className="mt-4 text-center">
-                <p className="text-sm text-base-content/60 mb-3 max-w-md">
-                  Try adjusting your filters to see more developers
-                </p>
-                <button
-                  onClick={toggleFilter}
-                  className="btn btn-primary btn-sm gap-2"
-                >
-                  <SlidersHorizontal className="w-4 h-4" />
-                  Adjust Filters
-                </button>
-              </div>
+              <button
+                onClick={toggleFilter}
+                className="mt-4 px-6 py-2.5 bg-black text-white hover:bg-gray-900
+                         rounded-xl transition-all font-semibold text-sm"
+              >
+                Adjust Filters
+              </button>
             )}
           </div>
         ) : (
-          // Feed Cards
-          <div className="flex justify-center items-center w-full px-2 py-2 sm:py-4 md:py-6 min-h-screen pt-16 lg:pt-2">
-            <div className="relative w-full mb-10 sm:max-w-[360px] md:max-w-[380px] h-[calc(100vh-157px)] sm:h-auto sm:aspect-[9/14] sm:min-h-[78vh] md:min-h-[85vh]">
+          <div className="flex items-start justify-center w-full sm:max-w-[25rem] h-full pt-0 sm:pt-0 lg:pt-0">
+            {/* Compact Card Container - Max 500px height */}
+            <div className="relative w-full aspect-[3/4] h-[600px] sm:max-h-[600px]">
               {feed.slice(0, 3).map((profile, index) => (
                 <div
                   key={profile._id}
                   className="absolute inset-0"
                   style={{
                     zIndex: 10 - index,
-                    transform: `translateY(${index * 8}px) scale(${1 - index * 0.04
-                      })`,
+                    transform: `translateY(${index * 5}px) scale(${1 - index * 0.03})`,
                   }}
                 >
                   <Card
@@ -216,26 +204,32 @@ function Feed() {
                 </div>
               ))}
             </div>
+          </div>
+        )}
 
-            {/* Loading More Indicator */}
-            {loading && (
-              <div className="fixed bottom-6 right-4 sm:right-6 bg-primary text-primary-content px-3 py-2 sm:px-4 rounded-xl flex items-center gap-2 text-xs sm:text-sm shadow-lg z-30">
-                <Loader2 size={14} className="sm:w-4 sm:h-4 animate-spin" />
-                <span className="hidden sm:inline">Loading more...</span>
-                <span className="sm:hidden">Loading...</span>
-              </div>
-            )}
+        {/* Loading Indicator */}
+        {loading && feed.length > 0 && (
+          <div className="fixed bottom-6 right-6 z-30
+                     px-4 py-2.5 backdrop-blur-xl bg-white/10 border border-white/20 rounded-xl shadow-xl">
+            <div className="flex items-center gap-2">
+              <Loader2 size={16} className="animate-spin text-white" />
+              <span className="text-sm font-semibold text-white">Loading...</span>
+            </div>
+          </div>
+        )}
 
-            {/* End of Feed Message */}
-            {!hasMore && feed.length > 0 && (
-              <div className="fixed bottom-6 left-1/2 -translate-x-1/2 bg-base-300 text-base-content px-4 py-2 rounded-xl text-sm shadow-lg z-30">
-                You've seen all developers
-              </div>
-            )}
+        {/* End Message */}
+        {!hasMore && feed.length > 0 && (
+          <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-30
+                     px-4 py-2.5 backdrop-blur-xl bg-white/10 border border-white/20 rounded-xl shadow-xl">
+            <span className="text-sm font-semibold text-white">
+              You've seen all developers
+            </span>
           </div>
         )}
       </div>
     </div>
+    </GlassmorphismLayout>
   );
 }
 

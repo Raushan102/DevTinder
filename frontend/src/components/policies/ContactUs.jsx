@@ -1,360 +1,163 @@
 import React, { useState } from 'react';
-import { Mail, Phone, MessageSquare, Send, MapPin, Clock, HelpCircle } from 'lucide-react';
+import { Mail, Phone, Send, MapPin, Clock, HelpCircle, ArrowRight } from 'lucide-react';
 
 const ContactUs = () => {
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    subject: '',
-    message: ''
-  });
-
+  const [formData, setFormData] = useState({ name: '', email: '', subject: '', message: '' });
   const [submitted, setSubmitted] = useState(false);
 
   const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    });
+    setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Here you would typically send the form data to your backend
-    console.log('Form submitted:', formData);
     setSubmitted(true);
     setTimeout(() => setSubmitted(false), 5000);
   };
 
   return (
-    <div className="min-h-screen bg-base-200">
-      {/* Header */}
-      <div className="bg-info text-info-content py-16">
-        <div className="container mx-auto px-4">
-          <div className="flex items-center justify-center gap-3 mb-4">
-            <MessageSquare className="w-12 h-12" />
-            <h1 className="text-4xl md:text-5xl font-bold">Contact Us</h1>
+    <div className="min-h-screen bg-transparent selection:bg-[#ff4d00] selection:text-white font-serif">
+
+      {/* 1. HERO HEADER - Line removed on Desktop */}
+      <div className="pt-32 pb-20 border-b-4 border-white md:border-none transition-colors duration-500">
+        <div className="container mx-auto px-6">
+          <div className="flex flex-col items-center text-center">
+            <span className="text-[11px] font-black uppercase tracking-[0.8em] text-white md:text-black opacity-60 md:opacity-100 mb-6">
+              Establish Connection
+            </span>
+            <h1 className="text-7xl md:text-9xl font-black uppercase tracking-tighter text-white md:text-black leading-none drop-shadow-sm">
+              Contact<span className="text-[#ff4d00]">.</span>
+            </h1>
           </div>
-          <p className="text-center text-lg opacity-90">
-            We're here to help! Reach out to us with any questions or concerns.
-          </p>
         </div>
       </div>
 
-      {/* Content */}
-      <div className="container mx-auto px-4 py-12 max-w-6xl">
-        <div className="grid md:grid-cols-2 gap-8">
-          
-          {/* Contact Information */}
-          <div className="space-y-6">
-            <div className="bg-base-100 rounded-lg shadow-xl p-8">
-              <h2 className="text-3xl font-bold mb-6">Get In Touch</h2>
-              <p className="text-lg leading-relaxed mb-6">
-                Have questions about devTinder? Need help with your account? Want to report an 
-                issue? We're here to assist you!
+      <div className="container mx-auto px-6 py-24 max-w-7xl">
+        <div className="grid lg:grid-cols-12 gap-20">
+
+          {/* 2. LEFT COLUMN - INFO */}
+          <div className="lg:col-span-5 space-y-16">
+            <div className="text-white md:text-black">
+              <h2 className="text-4xl font-black uppercase mb-8 italic tracking-tighter">The Studio</h2>
+              <p className="text-sm font-black uppercase tracking-widest leading-relaxed md:opacity-100 opacity-70">
+                Have questions about devTinder? Our collective is here to bridge the gap between inquiry and solution.
               </p>
-
-              {/* Contact Cards */}
-              <div className="space-y-4">
-                {/* Email */}
-                <div className="flex items-start gap-4 p-4 bg-base-200 rounded-lg hover:shadow-md transition-shadow">
-                  <div className="bg-info text-info-content p-3 rounded-full">
-                    <Mail className="w-6 h-6" />
-                  </div>
-                  <div>
-                    <h3 className="font-semibold text-lg mb-1">Email Us</h3>
-                    <a 
-                      href="mailto:raushankumarsaw15@gmail.com" 
-                      className="text-info hover:underline"
-                    >
-                      raushankumarsaw15@gmail.com
-                    </a>
-                    <p className="text-sm mt-1 opacity-70">
-                      We'll respond within 24-48 hours
-                    </p>
-                  </div>
-                </div>
-
-                {/* Phone */}
-                <div className="flex items-start gap-4 p-4 bg-base-200 rounded-lg hover:shadow-md transition-shadow">
-                  <div className="bg-success text-success-content p-3 rounded-full">
-                    <Phone className="w-6 h-6" />
-                  </div>
-                  <div>
-                    <h3 className="font-semibold text-lg mb-1">Call Us</h3>
-                    <a 
-                      href="tel:+918252341916" 
-                      className="text-success hover:underline"
-                    >
-                      +91 8252341916
-                    </a>
-                    <p className="text-sm mt-1 opacity-70">
-                      Monday - Friday, 9 AM - 6 PM IST
-                    </p>
-                  </div>
-                </div>
-
-                {/* Location */}
-                <div className="flex items-start gap-4 p-4 bg-base-200 rounded-lg">
-                  <div className="bg-warning text-warning-content p-3 rounded-full">
-                    <MapPin className="w-6 h-6" />
-                  </div>
-                  <div>
-                    <h3 className="font-semibold text-lg mb-1">Location</h3>
-                    <p className="opacity-80">India</p>
-                    <p className="text-sm mt-1 opacity-70">
-                      Serving developers worldwide
-                    </p>
-                  </div>
-                </div>
-
-                {/* Business Hours */}
-                <div className="flex items-start gap-4 p-4 bg-base-200 rounded-lg">
-                  <div className="bg-secondary text-secondary-content p-3 rounded-full">
-                    <Clock className="w-6 h-6" />
-                  </div>
-                  <div>
-                    <h3 className="font-semibold text-lg mb-1">Business Hours</h3>
-                    <p className="text-sm opacity-80">Monday - Friday: 9:00 AM - 6:00 PM IST</p>
-                    <p className="text-sm opacity-80">Saturday: 10:00 AM - 4:00 PM IST</p>
-                    <p className="text-sm opacity-80">Sunday: Closed</p>
-                  </div>
-                </div>
-              </div>
             </div>
 
-            {/* FAQ Quick Links */}
-            <div className="bg-base-100 rounded-lg shadow-xl p-8">
-              <h2 className="text-2xl font-bold mb-4 flex items-center gap-2">
-                <HelpCircle className="w-6 h-6" />
-                Common Questions
-              </h2>
-              <div className="space-y-3">
-                <div className="collapse collapse-arrow bg-base-200">
-                  <input type="radio" name="faq-accordion" defaultChecked /> 
-                  <div className="collapse-title font-medium">
-                    How do I upgrade to premium?
-                  </div>
-                  <div className="collapse-content"> 
-                    <p>Go to your profile settings and click on "Upgrade to Premium". The premium subscription costs ₹100 and gives you access to chat features with your connections.</p>
-                  </div>
-                </div>
-
-                <div className="collapse collapse-arrow bg-base-200">
-                  <input type="radio" name="faq-accordion" /> 
-                  <div className="collapse-title font-medium">
-                    How do connection requests work?
-                  </div>
-                  <div className="collapse-content"> 
-                    <p>Browse developer profiles and swipe right to send a connection request. If they accept, you'll be connected! Premium users can then chat with each other.</p>
-                  </div>
-                </div>
-
-                <div className="collapse collapse-arrow bg-base-200">
-                  <input type="radio" name="faq-accordion" /> 
-                  <div className="collapse-title font-medium">
-                    Can I get a refund?
-                  </div>
-                  <div className="collapse-content"> 
-                    <p>Yes! Check our Refund Policy for details. Refunds are available within 7 days if you meet the eligibility criteria.</p>
-                  </div>
-                </div>
-
-                <div className="collapse collapse-arrow bg-base-200">
-                  <input type="radio" name="faq-accordion" /> 
-                  <div className="collapse-title font-medium">
-                    How do I reset my password?
-                  </div>
-                  <div className="collapse-content"> 
-                    <p>Click on "Forgot Password" on the login page. We'll send an OTP to your registered email to verify your identity and let you create a new password.</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Contact Form */}
-          <div className="bg-base-100 rounded-lg shadow-xl p-8">
-            <h2 className="text-3xl font-bold mb-6">Send Us a Message</h2>
-            
-            {submitted && (
-              <div className="alert alert-success mb-6">
-                <svg xmlns="http://www.w3.org/2000/svg" className="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-                <span>Your message has been sent successfully! We'll get back to you soon.</span>
-              </div>
-            )}
-
-            <form onSubmit={handleSubmit} className="space-y-4">
-              {/* Name */}
-              <div className="form-control">
-                <label className="label">
-                  <span className="label-text font-semibold">Your Name</span>
-                </label>
-                <input
-                  type="text"
-                  name="name"
-                  value={formData.name}
-                  onChange={handleChange}
-                  placeholder="John Doe"
-                  className="input input-bordered w-full"
-                  required
-                />
-              </div>
-
-              {/* Email */}
-              <div className="form-control">
-                <label className="label">
-                  <span className="label-text font-semibold">Email Address</span>
-                </label>
-                <input
-                  type="email"
-                  name="email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  placeholder="john@example.com"
-                  className="input input-bordered w-full"
-                  required
-                />
-              </div>
-
-              {/* Subject */}
-              <div className="form-control">
-                <label className="label">
-                  <span className="label-text font-semibold">Subject</span>
-                </label>
-                <select
-                  name="subject"
-                  value={formData.subject}
-                  onChange={handleChange}
-                  className="select select-bordered w-full"
-                  required
+            <div className="grid gap-6">
+              {[
+                { icon: <Mail size={20} />, label: "Inquiries", val: "raushankumarsaw15@gmail.com", link: "mailto:raushankumarsaw15@gmail.com" },
+                { icon: <Phone size={20} />, label: "Direct Line", val: "+91 8252341916", link: "tel:+918252341916" },
+                { icon: <MapPin size={20} />, label: "Base", val: "Jharkhand, India", link: "#" }
+              ].map((item, i) => (
+                <a
+                  key={i}
+                  href={item.link}
+                  className="group flex items-center justify-between p-8 border-2 border-white md:border-black/20 hover:bg-[#ff4d00] hover:border-[#ff4d00] hover:text-white transition-all duration-500 backdrop-blur-sm bg-white/5 md:bg-white/10"
                 >
-                  <option value="">Select a subject</option>
-                  <option value="general">General Inquiry</option>
-                  <option value="technical">Technical Support</option>
-                  <option value="account">Account Issues</option>
-                  <option value="premium">Premium Subscription</option>
-                  <option value="refund">Refund Request</option>
-                  <option value="report">Report a Problem</option>
-                  <option value="feedback">Feedback & Suggestions</option>
-                  <option value="partnership">Partnership Inquiry</option>
-                </select>
+                  <div className="flex items-center gap-6">
+                    <span className="text-[#ff4d00] group-hover:text-white transition-colors">{item.icon}</span>
+                    <div className="text-white md:text-black group-hover:text-white">
+                      <p className="text-[10px] font-black uppercase tracking-widest opacity-60">{item.label}</p>
+                      <p className="text-xs font-black uppercase mt-1">{item.val}</p>
+                    </div>
+                  </div>
+                  <ArrowRight size={20} className="opacity-0 -translate-x-4 group-hover:opacity-100 group-hover:translate-x-0 transition-all" />
+                </a>
+              ))}
+            </div>
+
+            <div className="pt-12 border-t-2 border-white/20 md:border-black/20 text-white md:text-black">
+              <h3 className="text-xs font-black uppercase tracking-[0.4em] mb-8 flex items-center gap-3">
+                <HelpCircle size={16} className="text-[#ff4d00]" /> Intelligence Base
+              </h3>
+              <div className="space-y-4">
+                {["Premium Access", "Connection Logic"].map((q, i) => (
+                  <div key={i} className="border-b-2 border-current/20 pb-4">
+                    <p className="text-[12px] font-black uppercase tracking-widest mb-2">{q}</p>
+                    <p className="text-[10px] font-bold uppercase opacity-60 md:opacity-100 leading-relaxed">
+                      High-tier networking starting at ₹100. Logic-based matching ensures quality over quantity.
+                    </p>
+                  </div>
+                ))}
               </div>
+            </div>
+          </div>
 
-              {/* Message */}
-              <div className="form-control">
-                <label className="label">
-                  <span className="label-text font-semibold">Message</span>
-                </label>
-                <textarea
-                  name="message"
-                  value={formData.message}
-                  onChange={handleChange}
-                  placeholder="Tell us how we can help you..."
-                  className="textarea textarea-bordered h-32 w-full"
-                  required
-                ></textarea>
-              </div>
+          {/* 3. RIGHT COLUMN - GLASSMORPHISM FORM */}
+          <div className="lg:col-span-7">
+            <div className="relative border-2 border-white/30 md:border-black/10 p-8 md:p-16 backdrop-blur-2xl bg-white/10 md:bg-white/30 shadow-[0_20px_50px_rgba(0,0,0,0.1)] rounded-3xl md:rounded-none">
+              <h2 className="text-5xl font-black uppercase mb-12 tracking-tighter text-white md:text-black">Send Message</h2>
 
-              {/* Submit Button */}
-              <button type="submit" className="btn btn-info w-full text-white">
-                <Send className="w-5 h-5 mr-2" />
-                Send Message
-              </button>
-            </form>
+              {submitted && (
+                <div className="mb-10 p-6 bg-[#ff4d00] text-white text-[11px] font-black uppercase tracking-[0.3em] animate-pulse">
+                  Transmission Received. Standing by.
+                </div>
+              )}
 
-            <div className="divider my-6">OR</div>
+              <form onSubmit={handleSubmit} className="space-y-10">
+                <div className="grid md:grid-cols-2 gap-10">
+                  <div className="flex flex-col gap-3">
+                    <label className="text-[11px] font-black uppercase tracking-widest text-white md:text-black">Full Name</label>
+                    <input
+                      type="text" name="name" onChange={handleChange} required
+                      className="bg-transparent border-b-4 border-white/20 md:border-black/20 focus:border-[#ff4d00] outline-none p-3 text-sm font-black text-white md:text-black transition-all uppercase placeholder:opacity-30"
+                      placeholder="e.g. RAUSHAN SAW"
+                    />
+                  </div>
+                  <div className="flex flex-col gap-3">
+                    <label className="text-[11px] font-black uppercase tracking-widest text-white md:text-black">Email</label>
+                    <input
+                      type="email" name="email" onChange={handleChange} required
+                      className="bg-transparent border-b-4 border-white/20 md:border-black/20 focus:border-[#ff4d00] outline-none p-3 text-sm font-black text-white md:text-black transition-all uppercase placeholder:opacity-30"
+                      placeholder="EMAIL@STUDIO.COM"
+                    />
+                  </div>
+                </div>
 
-            {/* Direct Contact Options */}
-            <div className="grid grid-cols-2 gap-4">
-              <a
-                href="mailto:raushankumarsaw15@gmail.com"
-                className="btn btn-outline btn-info"
-              >
-                <Mail className="w-5 h-5 mr-2" />
-                Email
-              </a>
-              <a
-                href="tel:+918252341916"
-                className="btn btn-outline btn-success"
-              >
-                <Phone className="w-5 h-5 mr-2" />
-                Call
-              </a>
+                <div className="flex flex-col gap-3">
+                  <label className="text-[11px] font-black uppercase tracking-widest text-white md:text-black">Subject</label>
+                  <select
+                    name="subject" onChange={handleChange} required
+                    className="bg-transparent border-b-4 border-white/20 md:border-black/20 focus:border-[#ff4d00] outline-none p-3 text-sm font-black text-white md:text-black transition-all uppercase cursor-pointer"
+                  >
+                    <option value="" className="text-black">SELECT DEPARTMENT</option>
+                    <option value="general" className="text-black">GENERAL INQUIRY</option>
+                    <option value="premium" className="text-black">PREMIUM ACCESS</option>
+                    <option value="partnership" className="text-black">PARTNERSHIP</option>
+                  </select>
+                </div>
+
+                <div className="flex flex-col gap-3">
+                  <label className="text-[11px] font-black uppercase tracking-widest text-white md:text-black">Message</label>
+                  <textarea
+                    name="message" onChange={handleChange} required rows="5"
+                    className="bg-transparent border-b-4 border-white/20 md:border-black/20 focus:border-[#ff4d00] outline-none p-3 text-sm font-black text-white md:text-black transition-all uppercase resize-none placeholder:opacity-30"
+                    placeholder="YOUR TRANSMISSION..."
+                  ></textarea>
+                </div>
+
+                <button
+                  type="submit"
+                  className="w-full group relative overflow-hidden bg-[#ff4d00] md:bg-black text-white py-8 font-black uppercase tracking-[0.5em] text-xs transition-all active:scale-95 shadow-xl"
+                >
+                  <span className="relative z-10 flex items-center justify-center gap-4">
+                    Initiate Send <Send size={18} />
+                  </span>
+                  <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-500" />
+                </button>
+              </form>
+            </div>
+
+            <div className="mt-16 flex items-center gap-5 py-6 border-y border-white/10 md:border-black/10">
+              <Clock size={20} className="text-[#ff4d00]" />
+              <p className="text-[10px] font-black uppercase tracking-[0.4em] text-white md:text-black opacity-50 md:opacity-100">
+                Response Latency: 24-48 Hours // GMT+5:30
+              </p>
             </div>
           </div>
 
         </div>
-
-        {/* Additional Information */}
-        <div className="mt-12 bg-base-100 rounded-lg shadow-xl p-8">
-          <h2 className="text-3xl font-bold mb-6 text-center">Other Ways to Reach Us</h2>
-          
-          <div className="grid md:grid-cols-3 gap-6">
-            {/* Technical Support */}
-            <div className="text-center p-6 bg-base-200 rounded-lg">
-              <div className="flex justify-center mb-4">
-                <div className="bg-error text-error-content p-4 rounded-full">
-                  <HelpCircle className="w-8 h-8" />
-                </div>
-              </div>
-              <h3 className="font-bold text-xl mb-2">Technical Support</h3>
-              <p className="text-sm opacity-80 mb-4">
-                Experiencing technical issues? Our support team is here to help resolve any problems.
-              </p>
-              <a href="mailto:raushankumarsaw15@gmail.com?subject=Technical%20Support" className="btn btn-sm btn-error">
-                Get Support
-              </a>
-            </div>
-
-            {/* Premium Help */}
-            <div className="text-center p-6 bg-base-200 rounded-lg">
-              <div className="flex justify-center mb-4">
-                <div className="bg-warning text-warning-content p-4 rounded-full">
-                  <MessageSquare className="w-8 h-8" />
-                </div>
-              </div>
-              <h3 className="font-bold text-xl mb-2">Premium Support</h3>
-              <p className="text-sm opacity-80 mb-4">
-                Questions about premium features or need help with your subscription?
-              </p>
-              <a href="mailto:raushankumarsaw15@gmail.com?subject=Premium%20Support" className="btn btn-sm btn-warning">
-                Contact Now
-              </a>
-            </div>
-
-            {/* Feedback */}
-            <div className="text-center p-6 bg-base-200 rounded-lg">
-              <div className="flex justify-center mb-4">
-                <div className="bg-primary text-primary-content p-4 rounded-full">
-                  <Send className="w-8 h-8" />
-                </div>
-              </div>
-              <h3 className="font-bold text-xl mb-2">Feedback</h3>
-              <p className="text-sm opacity-80 mb-4">
-                We value your feedback! Share your ideas to help us improve devTinder.
-              </p>
-              <a href="mailto:raushankumarsaw15@gmail.com?subject=Feedback" className="btn btn-sm btn-primary">
-                Share Feedback
-              </a>
-            </div>
-          </div>
-        </div>
-
-        {/* Response Time Notice */}
-        <div className="alert alert-info mt-8">
-          <Clock className="w-6 h-6" />
-          <div>
-            <h3 className="font-bold">Expected Response Time</h3>
-            <div className="text-sm">
-              We typically respond to all inquiries within 24-48 hours during business days. 
-              For urgent matters, please call us directly at +91 8252341916.
-            </div>
-          </div>
-        </div>
-
       </div>
     </div>
   );

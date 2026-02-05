@@ -1,0 +1,9 @@
+import io from "socket.io-client";
+import { BASE_URL } from "../util/constent";
+
+export const createSocketConnection = () => {
+  return io(BASE_URL, {
+    withCredentials: true,
+    transports: ["websocket", "polling"] // Fallback mechanism
+  });
+};

@@ -1,22 +1,22 @@
+/* eslint-disable react-hooks/static-components */
+// FilterSidebar.jsx - Premium Glassmorphism Filter (Matching Navbar/Footer)
 import { useState } from "react";
 import { X, SlidersHorizontal, Search } from "lucide-react";
 
 const SKILLS_OPTIONS = [
   "JavaScript", "TypeScript", "React", "Node.js", "Python", "Java",
   "C++", "Go", "Rust", "PHP", "Ruby", "Swift", "Kotlin", "Angular",
-  "Vue.js", "Django", "Flask", "Spring Boot", "MongoDB", "PostgreSQL",
+  "Vue.js", "Django", "Flask", "Spring", "MongoDB", "PostgreSQL",
   "MySQL", "Docker", "Kubernetes", "AWS", "Azure", "GCP", "Git",
-  "Redux", "Next.js", "Express", "GraphQL", "REST API", "HTML", "CSS",
-  "Tailwind CSS", "Bootstrap", "Material UI", "Firebase", "Redis",
-  "Kafka", "RabbitMQ", "Jenkins", "CI/CD", "Terraform", "Ansible"
+  "Redux", "Next.js", "Express", "GraphQL", "REST API"
 ];
 
 const EXPERIENCE_LEVELS = [
-  { value: "fresher", label: "Fresher (0-1 yr)" },
-  { value: "junior", label: "Junior (1-3 yrs)" },
-  { value: "mid", label: "Mid (3-5 yrs)" },
-  { value: "senior", label: "Senior (5-8 yrs)" },
-  { value: "expert", label: "Expert (8+ yrs)" }
+  { value: "fresher", label: "Fresher" },
+  { value: "junior", label: "Junior" },
+  { value: "mid", label: "Mid-level" },
+  { value: "senior", label: "Senior" },
+  { value: "expert", label: "Expert" }
 ];
 
 function FilterSidebar({ onApplyFilters, initialFilters = {}, isOpen, onToggle }) {
@@ -46,209 +46,143 @@ function FilterSidebar({ onApplyFilters, initialFilters = {}, isOpen, onToggle }
     }));
   };
 
-  const handleMinAgeChange = (value) => {
-    const numValue = Math.max(18, Math.min(65, parseInt(value) || 18));
-    setFilters(prev => ({
-      ...prev,
-      minAge: numValue,
-      maxAge: Math.max(numValue, prev.maxAge)
-    }));
-  };
-
-  const handleMaxAgeChange = (value) => {
-    const numValue = Math.max(18, Math.min(65, parseInt(value) || 65));
-    setFilters(prev => ({
-      ...prev,
-      maxAge: numValue,
-      minAge: Math.min(numValue, prev.minAge)
-    }));
-  };
-
   const handleReset = () => {
-    const resetFilters = {
+    setFilters({
       skills: [],
       minAge: 18,
       maxAge: 65,
       experienceLevels: [],
       searchSkill: ""
-    };
-    setFilters(resetFilters);
+    });
   };
 
   const handleApply = () => {
-    const appliedFilters = {
+    onApplyFilters({
       skills: filters.skills,
       minAge: filters.minAge,
       maxAge: filters.maxAge,
       experienceLevels: filters.experienceLevels
-    };
-    onApplyFilters(appliedFilters);
-    if (onToggle && window.innerWidth < 1024) onToggle(); // Close only on mobile
-  };
-
-  const handleClose = () => {
-    if (onToggle && window.innerWidth < 1024) onToggle(); // Close only on mobile
+    });
+    if (onToggle && window.innerWidth < 1024) onToggle();
   };
 
   const filteredSkills = SKILLS_OPTIONS.filter(skill =>
     skill.toLowerCase().includes(filters.searchSkill.toLowerCase())
   );
 
-  const activeFilterCount = filters.skills.length + filters.experienceLevels.length;
+  const activeCount = filters.skills.length + filters.experienceLevels.length;
 
   const FilterContent = () => (
-    <div className="h-full flex flex-col bg-base-100">
-      {/* Header - Compact */}
-      <div className="flex items-center justify-between px-3 py-2.5 lg:px-4 lg:py-3 border-b border-base-300 bg-base-100 flex-shrink-0">
-        <div className="flex items-center gap-2">
-          <SlidersHorizontal className="w-4 h-4 lg:w-5 lg:h-5 text-primary" />
-          <h2 className="text-base lg:text-lg font-bold">Filters</h2>
-          {activeFilterCount > 0 && (
-            <div className="badge badge-primary badge-xs">{activeFilterCount}</div>
-          )}
-        </div>
-        <button
-          onClick={handleClose}
-          className="btn btn-ghost btn-xs btn-circle lg:hidden"
-        >
-          <X className="w-4 h-4" />
-        </button>
-      </div>
+    <div className="h-full flex flex-col backdrop-blur-xl bg-white/20 border-r border-white/20"  style={{
+          backgroundImage: 'linear-gradient(to bottom, rgba(255,255,255,0.2), rgba(255,255,255,0.1))',
+        }}>
 
-      {/* Content - Scrollable - More Compact */}
-      <div className="flex-1 overflow-y-auto overscroll-contain px-3 py-3 lg:px-4 lg:py-4 space-y-4">
-        {/* Skills Section */}
-        <div className="space-y-2">
-          <div className="flex items-center justify-between">
-            <span className="text-sm font-semibold">Skills</span>
-            {filters.skills.length > 0 && (
-              <span className="badge badge-primary badge-xs">
-                {filters.skills.length}
-              </span>
+      {/* Header - Glassmorphism */}
+      <div className="px-5 py-4 border-b border-white/20">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2.5">
+            <SlidersHorizontal className="w-5 h-5 text-black" strokeWidth={2} />
+            <h2 className="text-base font-bold text-black uppercase tracking-wider">Filters</h2>
+            {activeCount > 0 && (
+              <div className="px-2 py-0.5 bg-black text-white text-xs font-bold">
+                {activeCount}
+              </div>
             )}
           </div>
+          <button
+            onClick={onToggle}
+            className="lg:hidden p-1.5 hover:bg-white/10 transition-all"
+          >
+            <X className="w-5 h-5 text-white" />
+          </button>
+        </div>
+      </div>
 
-          {/* Search Input - Compact */}
+      {/* Content - Scrollable */}
+      <div className="flex-1 overflow-y-auto px-5 py-4 space-y-5">
+
+        {/* Skills Section */}
+        <div className="space-y-2.5">
+          <h3 className="text-xs font-bold uppercase tracking-wider text-black">Skills</h3>
+
+          {/* Search */}
           <div className="relative">
-            <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-base-content/40 pointer-events-none" />
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 sm:text-gray-500" />
             <input
               type="text"
               placeholder="Search..."
               value={filters.searchSkill}
               onChange={(e) => setFilters(prev => ({ ...prev, searchSkill: e.target.value }))}
-              className="input input-sm input-bordered w-full pl-8 text-sm"
+              className="w-full px-3 py-2 pl-9 bg-white/10 border border-white/20
+                       backdrop-blur-md text-white sm:text-black placeholder-gray-400 sm:placeholder-gray-500
+                       focus:outline-none focus:bg-white/15 focus:border-white/30
+                       transition-all text-sm"
+
             />
           </div>
 
-          {/* Selected Skills - Compact */}
+          {/* Selected Skills */}
           {filters.skills.length > 0 && (
-            <div className="p-2 bg-primary/10 rounded-lg">
-              <div className="flex flex-wrap gap-1">
-                {filters.skills.map(skill => (
-                  <div key={skill} className="badge badge-primary badge-sm gap-1">
-                    <span className="text-xs">{skill}</span>
-                    <button
-                      onClick={(e) => {
-                        e.preventDefault();
-                        handleSkillToggle(skill);
-                      }}
-                      className="hover:text-error"
-                      type="button"
-                    >
-                      <X className="w-2.5 h-2.5" />
-                    </button>
-                  </div>
-                ))}
-              </div>
+            <div className="flex flex-wrap gap-1.5">
+              {filters.skills.map(skill => (
+                <button
+                  key={skill}
+                  onClick={() => handleSkillToggle(skill)}
+                  className="flex items-center gap-1.5 px-2.5 py-1 bg-black text-white text-xs font-semibold
+                           hover:bg-gray-800 transition-all"
+                >
+                  <span>{skill}</span>
+                  <X className="w-3 h-3" />
+                </button>
+              ))}
             </div>
           )}
 
-          {/* Skills Grid - More Compact */}
-          <div className="border border-base-300 rounded-lg p-2 max-h-48 overflow-y-auto bg-base-200/50">
-            {filteredSkills.length > 0 ? (
-              <div className="flex flex-wrap gap-1.5">
-                {filteredSkills.map(skill => (
-                  <button
-                    key={skill}
-                    onClick={(e) => {
-                      e.preventDefault();
-                      handleSkillToggle(skill);
-                    }}
-                    type="button"
-                    className={`btn btn-xs transition-all text-xs ${
-                      filters.skills.includes(skill)
-                        ? "btn-primary"
-                        : "btn-ghost hover:btn-outline"
-                    }`}
-                  >
-                    {skill}
-                  </button>
-                ))}
-              </div>
-            ) : (
-              <div className="text-center py-4 text-base-content/60">
-                <Search className="w-8 h-8 mx-auto mb-1 opacity-30" />
-                <p className="text-xs">No skills found</p>
-              </div>
-            )}
+          {/* Skills Grid */}
+          <div className="   p-2.5 max-h-48 overflow-y-auto" style={{
+          backgroundImage: 'linear-gradient(to bottom, rgba(255,255,255,0.2), rgba(255,255,255,0.1))',
+        }}>
+            <div className="flex flex-wrap gap-1.5">
+              {filteredSkills.map(skill => (
+                <button
+                  key={skill}
+                  onClick={() => handleSkillToggle(skill)}
+                  className={`px-2.5 py-1.5 text-xs font-semibold transition-all ${
+                    filters.skills.includes(skill)
+                      ? " text-black"
+                      : " text-black hover:bg-white/20 "
+                  }`}
+                >
+                  {skill}
+                </button>
+              ))}
+            </div>
           </div>
-
-          {/* Quick Actions - Compact */}
-          {filters.searchSkill === "" && (
-            <div className="flex gap-1.5">
-              <button
-                onClick={(e) => {
-                  e.preventDefault();
-                  const popular = ["JavaScript", "React", "Node.js", "Python", "TypeScript"];
-                  setFilters(prev => ({
-                    ...prev,
-                    skills: [...new Set([...prev.skills, ...popular])]
-                  }));
-                }}
-                type="button"
-                className="btn btn-xs btn-outline text-xs"
-              >
-                + Popular
-              </button>
-              <button
-                onClick={(e) => {
-                  e.preventDefault();
-                  setFilters(prev => ({ ...prev, skills: [] }));
-                }}
-                type="button"
-                className="btn btn-xs btn-ghost text-xs"
-                disabled={filters.skills.length === 0}
-              >
-                Clear
-              </button>
-            </div>
-          )}
         </div>
 
-        <div className="divider my-2"></div>
-
-        {/* Age Range - Compact */}
-        <div className="space-y-2">
+        {/* Age Range */}
+        <div className="space-y-2.5">
           <div className="flex items-center justify-between">
-            <span className="text-sm font-semibold">Age</span>
-            <span className="text-xs font-mono font-semibold">
+            <h3 className="text-xs font-bold uppercase tracking-wider text-black">Age</h3>
+            <span className="text-sm font-mono font-bold text-black">
               {filters.minAge}-{filters.maxAge}
             </span>
           </div>
 
-          {/* Number Inputs - Compact */}
-          <div className="grid grid-cols-2 gap-2">
+          <div className="grid grid-cols-2 gap-2.5">
             <input
               type="number"
               min="18"
               max="65"
               value={filters.minAge}
               onChange={(e) => {
-                e.preventDefault();
-                handleMinAgeChange(e.target.value);
+                const val = Math.max(18, Math.min(65, parseInt(e.target.value) || 18));
+                setFilters(prev => ({ ...prev, minAge: val, maxAge: Math.max(val, prev.maxAge) }));
               }}
-              className="input input-sm input-bordered w-full text-sm"
-              placeholder="Min"
+              className="px-3 py-2 bg-white/10 border border-white/20
+                       backdrop-blur-md text-white sm:text-black text-center font-semibold
+                       focus:outline-none focus:bg-white/15 focus:border-white/30
+                       transition-all text-sm"
             />
             <input
               type="number"
@@ -256,166 +190,65 @@ function FilterSidebar({ onApplyFilters, initialFilters = {}, isOpen, onToggle }
               max="65"
               value={filters.maxAge}
               onChange={(e) => {
-                e.preventDefault();
-                handleMaxAgeChange(e.target.value);
+                const val = Math.max(18, Math.min(65, parseInt(e.target.value) || 65));
+                setFilters(prev => ({ ...prev, maxAge: val, minAge: Math.min(val, prev.minAge) }));
               }}
-              className="input input-sm input-bordered w-full text-sm"
-              placeholder="Max"
+              className="px-3 py-2 bg-white/10 border border-white/20
+                       backdrop-blur-md text-white sm:text-black text-center font-semibold
+                       focus:outline-none focus:bg-white/15 focus:border-white/30
+                       transition-all text-sm"
             />
-          </div>
-
-          {/* Range Sliders - Compact */}
-          <div className="space-y-1">
-            <input
-              type="range"
-              min="18"
-              max="65"
-              value={filters.minAge}
-              onChange={(e) => handleMinAgeChange(e.target.value)}
-              className="range range-primary range-xs"
-            />
-            <input
-              type="range"
-              min="18"
-              max="65"
-              value={filters.maxAge}
-              onChange={(e) => handleMaxAgeChange(e.target.value)}
-              className="range range-primary range-xs"
-            />
-          </div>
-
-          {/* Age Presets - Compact */}
-          <div className="flex flex-wrap gap-1.5">
-            <button
-              onClick={(e) => {
-                e.preventDefault();
-                setFilters(prev => ({ ...prev, minAge: 18, maxAge: 25 }));
-              }}
-              type="button"
-              className="btn btn-xs btn-outline text-xs"
-            >
-              18-25
-            </button>
-            <button
-              onClick={(e) => {
-                e.preventDefault();
-                setFilters(prev => ({ ...prev, minAge: 26, maxAge: 35 }));
-              }}
-              type="button"
-              className="btn btn-xs btn-outline text-xs"
-            >
-              26-35
-            </button>
-            <button
-              onClick={(e) => {
-                e.preventDefault();
-                setFilters(prev => ({ ...prev, minAge: 36, maxAge: 50 }));
-              }}
-              type="button"
-              className="btn btn-xs btn-outline text-xs"
-            >
-              36-50
-            </button>
           </div>
         </div>
 
-        <div className="divider my-2"></div>
+        {/* Experience */}
+        <div className="space-y-2.5">
+          <h3 className="text-xs font-bold uppercase tracking-wider text-black">Experience</h3>
 
-        {/* Experience Level - Compact */}
-        <div className="space-y-2">
-          <div className="flex items-center justify-between">
-            <span className="text-sm font-semibold">Experience</span>
-            {filters.experienceLevels.length > 0 && (
-              <span className="badge badge-primary badge-xs">
-                {filters.experienceLevels.length}
-              </span>
-            )}
-          </div>
           <div className="space-y-1.5">
             {EXPERIENCE_LEVELS.map(exp => (
               <label
                 key={exp.value}
-                className={`flex items-center gap-2 p-2 border rounded-lg transition-all cursor-pointer ${
+                className={`flex items-center gap-2.5 px-3 py-2.5 cursor-pointer transition-all ${
                   filters.experienceLevels.includes(exp.value)
-                    ? "border-primary bg-primary/10"
-                    : "border-base-300 hover:bg-base-200"
+                    ? "bg-white/15 border border-white/30"
+                    : "bg-white/5 border border-white/10 hover:bg-white/10"
                 }`}
               >
                 <input
                   type="checkbox"
                   checked={filters.experienceLevels.includes(exp.value)}
                   onChange={() => handleExperienceToggle(exp.value)}
-                  className="checkbox checkbox-primary checkbox-sm"
+                  className="w-4 h-4 accent-orange-400"
                 />
-                <span className="text-sm flex-1">{exp.label}</span>
+                <span className="text-sm font-semibold text-white sm:text-black flex-1">
+                  {exp.label}
+                </span>
               </label>
             ))}
           </div>
-
-          {/* Quick Select - Compact */}
-          <div className="flex gap-1.5">
-            <button
-              onClick={(e) => {
-                e.preventDefault();
-                setFilters(prev => ({
-                  ...prev,
-                  experienceLevels: ["fresher", "junior"]
-                }));
-              }}
-              type="button"
-              className="btn btn-xs btn-outline text-xs"
-            >
-              Entry
-            </button>
-            <button
-              onClick={(e) => {
-                e.preventDefault();
-                setFilters(prev => ({
-                  ...prev,
-                  experienceLevels: ["senior", "expert"]
-                }));
-              }}
-              type="button"
-              className="btn btn-xs btn-outline text-xs"
-            >
-              Senior
-            </button>
-          </div>
         </div>
-
-        {/* Extra padding for mobile */}
-        <div className="h-16 lg:h-2"></div>
       </div>
 
-      {/* Footer - Compact & Sticky */}
-      <div className="border-t border-base-300 px-3 py-2.5 lg:px-4 lg:py-3 bg-base-100 space-y-2 flex-shrink-0">
-        {/* Active Filters Summary */}
-        {activeFilterCount > 0 && (
-          <div className="text-xs text-base-content/70 text-center">
-            {activeFilterCount} active
-          </div>
-        )}
-
-        {/* Action Buttons - Compact */}
-        <div className="flex gap-2">
+      {/* Footer - Glassmorphism */}
+      <div className="px-5 py-4 border-t border-white/20">
+        <div className="flex gap-2.5">
           <button
-            onClick={(e) => {
-              e.preventDefault();
-              handleReset();
-            }}
-            type="button"
-            className="btn btn-sm btn-outline flex-1 text-sm"
-            disabled={activeFilterCount === 0}
+            onClick={handleReset}
+            className="flex-1 px-4 py-2.5 bg-white/10 hover:bg-white/15
+                     border border-white/20 backdrop-blur-md
+                     text-sm font-bold uppercase tracking-wider text-black
+                     transition-all disabled:opacity-40"
+            disabled={activeCount === 0}
           >
             Reset
           </button>
           <button
-            onClick={(e) => {
-              e.preventDefault();
-              handleApply();
-            }}
-            type="button"
-            className="btn btn-sm btn-primary flex-1 text-sm"
+            onClick={handleApply}
+            className="flex-1 px-4 py-2.5 bg-black hover:bg-gray-900
+                     text-white
+                     text-sm font-bold uppercase tracking-wider
+                     transition-all hover:scale-105 active:scale-95"
           >
             Apply
           </button>
@@ -426,48 +259,24 @@ function FilterSidebar({ onApplyFilters, initialFilters = {}, isOpen, onToggle }
 
   return (
     <>
-      {/* Desktop Sidebar - Smaller width */}
-      <div className={`hidden lg:block w-64 xl:w-72 border-r border-base-300 bg-base-100 h-screen sticky top-0 overflow-hidden transition-all duration-300`}>
+      {/* Desktop Sidebar */}
+      <div className="hidden lg:block w-80 h-full">
         <FilterContent />
       </div>
 
-      {/* Mobile/Tablet Overlay */}
+      {/* Mobile Overlay */}
       {isOpen && (
         <>
-          {/* Backdrop */}
           <div
-            className="lg:hidden fixed inset-0 z-[60] bg-black/60 backdrop-blur-sm animate-fadeIn"
-            onClick={handleClose}
+            className="lg:hidden fixed inset-0 z-[60] bg-black/50 backdrop-blur-sm"
+            onClick={onToggle}
           />
-
-          {/* Filter Panel - Smaller width */}
-          <div className="lg:hidden fixed inset-y-0 left-0 z-[70] w-[280px] sm:w-[320px] bg-base-100 shadow-2xl animate-slideInLeft overflow-hidden">
+          <div className="lg:hidden fixed inset-y-0 left-0 z-[70] w-80 shadow-2xl">
+            // eslint-disable-next-line react-hooks/static-components
             <FilterContent />
           </div>
         </>
       )}
-
-      <style>{`
-        @keyframes fadeIn {
-          from { opacity: 0; }
-          to { opacity: 1; }
-        }
-        @keyframes slideInLeft {
-          from { transform: translateX(-100%); }
-          to { transform: translateX(0); }
-        }
-        .animate-fadeIn {
-          animation: fadeIn 0.2s ease-out;
-        }
-        .animate-slideInLeft {
-          animation: slideInLeft 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        /* Prevent scroll jump */
-        .overscroll-contain {
-          overscroll-behavior: contain;
-        }
-      `}</style>
     </>
   );
 }

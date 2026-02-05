@@ -1,38 +1,92 @@
 import React from "react";
+import { User, Briefcase } from "lucide-react";
+import { motion } from "framer-motion";
 
-function ConnectionListCard({ profile }) {
-  const { firstName, lastName, photoUrl, skills } = profile;
+function ConnectionListCard({ profile, onSelectprofile, isActive }) {
+  const { firstName, lastName, photoUrl, skills, about } = profile;
+
+  // Fallback profession if not explicitly in your schema
+  const profession = profile.profession || "Developer";
 
   return (
-    <li className="flex items-center gap-4 p-4 hover:bg-base-200 cursor-pointer transition-colors border-b border-base-300">
-      {/* 🔍 Avatar Section */}
-      <div className="avatar online">
-        <div className="w-14 rounded-full">
-          <img src={photoUrl} alt={`${firstName}'s profile`} />
+    <motion.li
+      whileHover={{ backgroundColor: "rgba(255,255,255,0.4)", x: 4 }}
+      whileTap={{ scale: 0.98 }}
+      onClick={() => onSelectprofile(profile)}
+      className={`
+        flex items-start gap-4 p-5 cursor-pointer transition-all duration-500
+        border-b border-white/20 backdrop-blur-md 
+        ${isActive ? 'border-l-4 border-l-black' : ''}
+      `}
+      style={{
+        backgroundImage: isActive
+          ? 'linear-gradient(to right, rgba(255,255,255,0.5), rgba(255,255,255,0.3))'
+          : 'linear-gradient(to right, rgba(255,255,255,0.15), rgba(255,255,255,0.05))'
+      }}
+    >
+      {/* 🖼️ Sharp Avatar */}
+      <div className={`w-14 h-14 flex-shrink-0 border-2 transition-all duration-500 overflow-hidden shadow-sm ${isActive ? 'border-black scale-105 shadow-xl' : 'border-white/50'}`}>
+        {photoUrl ? (
+          <img src={photoUrl} alt={firstName} className="w-full h-full object-cover" />
+        ) : (
+          <div className="w-full h-full flex items-center justify-center bg-white/20">
+            <User className="text-black/40" size={20} />
+          </div>
+        )}
+      </div>
+
+      {/* 📝 Info Section */}
+      <div className="flex-1 min-w-0 ">
+        <div className="flex justify-between items-start">
+          <div>
+            <h3 className={`font-black text-xs sm:text-sm uppercase tracking-widest truncate ${isActive ? 'text-black' : 'text-black/90'}`}>
+              {firstName} {lastName}
+            </h3>
+            {/* 🛠️ PROFESSION DISPLAY */}
+            <p className="text-[9px] font-bold text-black/50 uppercase tracking-widest flex items-center gap-1 mt-0.5">
+              <Briefcase size={8} /> {profession}
+            </p>
+          </div>
+          <span className="text-[7px] font-black text-black/30 uppercase tracking-tighter mt-1">Active Now</span>
+        </div>
+
+        {/* 🏷️ 5 SKILLS - EXTRA SMALL SIZE */}
+        <div className="flex flex-wrap gap-1 mt-3">
+          {skills && skills.length > 0 ? (
+            skills.slice(0, 5).map((skill, i) => (
+              <motion.span
+                key={i}
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: i * 0.03 }}
+                className="px-1.5 py-0.5 bg-white/30 border border-white/40 text-[7px] font-black uppercase tracking-tighter text-black/80 shadow-sm"
+              >
+                {skill}
+              </motion.span>
+            ))
+          ) : (
+            <span className="text-[7px] text-black/30 uppercase italic">No skills listed</span>
+          )}
+
+          {skills?.length > 5 && (
+            <span className="text-[7px] font-black text-black/40 self-center ml-1">
+              +{skills.length - 5}
+            </span>
+          )}
         </div>
       </div>
 
-      {/* 📝 Content Section */}
-      <div className="flex-1">
-        <div className="flex justify-between items-baseline">
-          <h3 className="font-bold text-lg">
-            {firstName} {lastName}
-          </h3>
-          <span className="text-xs opacity-50">12:45 PM</span>
-        </div>
-
-        <div className="flex flex-wrap gap-1 mt-1">
-          {skills.map((skill, index) => (
-            <div
-              key={index}
-              className="badge badge-outline badge-sm text-primary"
-            >
-              {skill}
-            </div>
-          ))}
-        </div>
-      </div>
-    </li>
+      {/* ✓ Indicator */}
+      {isActive && (
+        <motion.div
+          initial={{ scale: 0 }}
+          animate={{ scale: 1 }}
+          className="text-black font-black text-xs ml-2"
+        >
+          ●
+        </motion.div>
+      )}
+    </motion.li>
   );
 }
 

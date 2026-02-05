@@ -1,3 +1,5 @@
+// Navbar.jsx - Fashion Editorial Glassmorphism Design
+// Features: Premium glass effect, refined spacing, responsive white/black text
 import { useEffect, useState, useRef } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -55,120 +57,152 @@ export default function Navbar() {
 
   return (
     <>
-      <div className="navbar bg-base-100/80 backdrop-blur-md sticky top-0 z-50 px-3 sm:px-4 md:px-8 border-b border-base-300/50 shadow-sm min-h-16">
-        <div className="navbar-start flex-1">
-          <Link
-            to="/feed"
-            className="flex items-center gap-2 hover:scale-105 transition-transform"
-          >
-            <div className="p-1.5 sm:p-2 bg-primary/10 rounded-lg">
-              <Flame className="text-primary" size={18} fill="currentColor" />
-            </div>
-            <span className="text-lg sm:text-xl font-black tracking-tighter uppercase italic">
-              Dev<span className="text-primary">Tinder</span>
-            </span>
-          </Link>
-        </div>
+      {/* ========================================
+          NAVBAR - Glassmorphism with premium blur
+          ======================================== */}
+      <nav className="sticky top-0 z-50 sm:px-6 md:px-8 sm:py-4">
+        <div
+          className="w-full backdrop-blur-xl bg-white/20 border border-white/30 shadow-2xl"
+          style={{
+            backgroundImage: 'linear-gradient(to bottom, rgba(255,255,255,0.25), rgba(255,255,255,0.15))',
+          }}
+        >
+          <div className="flex items-center justify-between px-4 sm:px-6 py-3.5">
 
-        {/* Desktop Navigation */}
-        <div className="navbar-center hidden lg:flex">
-          <ul className="menu menu-horizontal p-0 gap-2">
-            <li>
+            {/* ========================================
+                LOGO SECTION
+                ======================================== */}
+            <Link
+              to="/feed"
+              className="flex items-center gap-2 sm:gap-2.5 group"
+            >
+              <div className="text-xl sm:text-2xl transition-transform group-hover:scale-110">
+                🔥
+              </div>
+              <h1 className="text-white sm:text-black text-xl sm:text-2xl tracking-[0.15em] sm:tracking-[0.2em] font-bold uppercase drop-shadow-lg">
+                DEVTINDER
+              </h1>
+            </Link>
+
+            {/* ========================================
+                DESKTOP NAVIGATION
+                ======================================== */}
+            <div className="hidden lg:flex items-center gap-1">
               <Link
                 to="/feed"
-                className="font-bold text-xs uppercase tracking-widest rounded-xl"
+                className="px-5 py-2.5 text-white sm:text-black text-[10px] uppercase tracking-[0.15em] font-bold
+                         transition-all duration-300 hover:bg-white/30 backdrop-blur-sm
+                         flex items-center gap-2"
               >
-                <Compass size={16} /> Feed
+                <Compass size={14} strokeWidth={2.5} />
+                <span>Feed</span>
               </Link>
-            </li>
-            <li>
+
               <Link
                 to="/connections"
-                className="font-bold text-xs uppercase tracking-widest rounded-xl"
+                className="px-5 py-2.5 text-white sm:text-black text-[10px] uppercase tracking-[0.15em] font-bold
+                         transition-all duration-300 hover:bg-white/30 backdrop-blur-sm
+                         flex items-center gap-2"
               >
-                <Users size={16} /> Connections
+                <Users size={14} strokeWidth={2.5} />
+                <span>Connections</span>
               </Link>
-            </li>
-            <li>
+
               <Link
                 to="/requests"
-                className="font-bold text-xs uppercase tracking-widest rounded-xl relative"
+                className="px-5 py-2.5 text-white sm:text-black text-[10px] uppercase tracking-[0.15em] font-bold
+                         transition-all duration-300 hover:bg-white/30 backdrop-blur-sm
+                         flex items-center gap-2 relative"
               >
-                <div className="flex items-center gap-2">
-                  <div className="relative">
-                    <UserCheck size={18} />
-                    {requestCount.length > 0 && (
-                      <span className="absolute -top-2 -right-2 bg-secondary text-secondary-content rounded-full h-5 w-5 flex items-center justify-center text-[10px] font-black border-2 border-base-100 shadow-lg">
-                        {requestCount.length > 99 ? "99+" : requestCount.length}
-                      </span>
-                    )}
-                  </div>
-                  <span>Requests</span>
+                <div className="relative">
+                  <UserCheck size={14} strokeWidth={2.5} />
+                  {requestCount.length > 0 && (
+                    <span className="absolute -top-2 -right-2 bg-black text-white rounded-full h-4 w-4 flex items-center justify-center text-[8px] font-black shadow-lg">
+                      {requestCount.length > 99 ? "99" : requestCount.length}
+                    </span>
+                  )}
                 </div>
+                <span>Requests</span>
               </Link>
-            </li>
-          </ul>
+            </div>
+
+            {/* ========================================
+                RIGHT SECTION - Theme + Avatar + Mobile Menu
+                ======================================== */}
+            <div className="flex items-center gap-2 sm:gap-3">
+
+              <Avatar />
+
+              {/* Mobile Menu Toggle */}
+              <button
+                className="lg:hidden p-2 text-white sm:text-black hover:bg-white/30 transition-all"
+                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              >
+                {mobileMenuOpen ? <X size={20} strokeWidth={2.5} /> : <Menu size={20} strokeWidth={2.5} />}
+              </button>
+            </div>
+          </div>
         </div>
+      </nav>
 
-        <div className="navbar-end gap-1.5 sm:gap-3">
-          <ThemeSwitcher />
-          <Avatar />
-
-          {/* Mobile Menu Button */}
-          <button
-            className="btn btn-ghost btn-circle lg:hidden"
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          >
-            {mobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
-          </button>
-        </div>
-      </div>
-
-      {/* Mobile Menu Dropdown */}
+      {/* ========================================
+          MOBILE MENU DROPDOWN - Glassmorphism
+          ======================================== */}
       {mobileMenuOpen && (
-        <div className="lg:hidden bg-base-100 border-b border-base-300 shadow-lg sticky top-16 z-40">
-          <ul className="menu menu-vertical w-full p-3 gap-1">
-            <li>
-              <Link
-                to="/"
-                className="font-bold text-sm uppercase tracking-widest rounded-xl"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                <Compass size={18} /> Feed
-              </Link>
-            </li>
-            <li>
-              <Link
-                to="/connections"
-                className="font-bold text-sm uppercase tracking-widest rounded-xl"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                <Users size={18} /> Connections
-              </Link>
-            </li>
-            <li>
-              <Link
-                to="/requests"
-                className="font-bold text-sm uppercase tracking-widest rounded-xl"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                <div className="flex items-center gap-2">
-                  <div className="relative">
-                    <UserCheck size={18} />
-                    {requestCount.length > 0 && (
-                      <span className="absolute -top-2 -right-2 bg-secondary text-secondary-content rounded-full h-5 w-5 flex items-center justify-center text-[10px] font-black border-2 border-base-100 shadow-lg">
-                        {requestCount.length > 99 ? "99+" : requestCount.length}
-                      </span>
-                    )}
-                  </div>
-                  <span>Requests</span>
-                </div>
-              </Link>
-            </li>
-          </ul>
+        <div
+          className="lg:hidden sticky top-20 z-40 mx-4 mb-4 backdrop-blur-xl bg-white/20 border border-white/30 shadow-2xl"
+          style={{
+            backgroundImage: 'linear-gradient(to bottom, rgba(255,255,255,0.25), rgba(255,255,255,0.15))',
+            animation: 'slideDown 0.3s ease-out'
+          }}
+        >
+          <div className="px-4 py-3 space-y-1">
+            <Link
+              to="/feed"
+              className="block px-4 py-3 text-white sm:text-black text-xs uppercase tracking-[0.15em] font-bold
+                       hover:bg-white/30 backdrop-blur-sm transition-all
+                       flex items-center gap-3"
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              <Compass size={16} strokeWidth={2.5} />
+              <span>Feed</span>
+            </Link>
+
+            <Link
+              to="/connections"
+              className="block px-4 py-3 text-white sm:text-black text-xs uppercase tracking-[0.15em] font-bold
+                       hover:bg-white/30 backdrop-blur-sm transition-all
+                       flex items-center gap-3"
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              <Users size={16} strokeWidth={2.5} />
+              <span>Connections</span>
+            </Link>
+
+            <Link
+              to="/requests"
+              className="block px-4 py-3 text-white sm:text-black text-xs uppercase tracking-[0.15em] font-bold
+                       hover:bg-white/30 backdrop-blur-sm transition-all
+                       flex items-center gap-3"
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              <div className="relative">
+                <UserCheck size={16} strokeWidth={2.5} />
+                {requestCount.length > 0 && (
+                  <span className="absolute -top-2 -right-2 bg-black text-white rounded-full h-4 w-4 flex items-center justify-center text-[8px] font-black shadow-lg">
+                    {requestCount.length > 99 ? "99" : requestCount.length}
+                  </span>
+                )}
+              </div>
+              <span>Requests</span>
+            </Link>
+          </div>
         </div>
       )}
 
+      {/* ========================================
+          ERROR MODAL
+          ======================================== */}
       <ErrorModal
         title="Unauthorized"
         message={showModal.errorMessage}
@@ -176,6 +210,22 @@ export default function Navbar() {
         isOpen={showModal.open}
         onClose={() => setShowModal({ open: false, errorMessage: null })}
       />
+
+      {/* ========================================
+          ANIMATIONS
+          ======================================== */}
+      <style>{`
+        @keyframes slideDown {
+          0% {
+            opacity: 0;
+            transform: translateY(-10px);
+          }
+          100% {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+      `}</style>
     </>
   );
 }

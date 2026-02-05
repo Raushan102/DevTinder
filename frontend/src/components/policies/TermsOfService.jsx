@@ -1,312 +1,141 @@
 import React from 'react';
-import { FileText, CheckCircle, AlertTriangle, Scale, Users } from 'lucide-react';
+import { FileText, CheckCircle, AlertTriangle, Scale, Users, ChevronRight } from 'lucide-react';
 
 const TermsOfService = () => {
   return (
-    <div className="min-h-screen bg-base-200">
-      {/* Header */}
-      <div className="bg-secondary text-secondary-content py-16">
-        <div className="container mx-auto px-4">
-          <div className="flex items-center justify-center gap-3 mb-4">
-            <FileText className="w-12 h-12" />
-            <h1 className="text-4xl md:text-5xl font-bold">Terms of Service</h1>
+    <div className="min-h-screen bg-transparent selection:bg-[#ff4d00] selection:text-white font-serif sm:px-6 md:px-8 sm:py-4">
+
+      {/* 1. HERO HEADER */}
+      <header className="pt-32 pb-20 border-b-2 border-white/20 md:border-black/10 transition-colors duration-500">
+        <div className="container mx-auto px-6">
+          <div className="max-w-4xl">
+            <div className="flex items-center gap-4 mb-8 text-white md:text-black">
+              <div className="bg-black md:bg-[#ff4d00] text-white p-3 shadow-xl">
+                <FileText size={28} />
+              </div>
+              <span className="text-[11px] font-black uppercase tracking-[0.6em]">System Protocol 1.0</span>
+            </div>
+            <h1 className="text-6xl md:text-9xl font-black uppercase tracking-tighter leading-none mb-10 text-white md:text-black">
+              Terms of<br />Service<span className="text-[#ff4d00]">.</span>
+            </h1>
+            <p className="text-xs md:text-sm font-black uppercase tracking-[0.4em] text-white md:text-black opacity-60 md:opacity-100">
+              Revised — Feb 2026 // devTinder Legal Dept.
+            </p>
           </div>
-          <p className="text-center text-lg opacity-90">
-            Last Updated: January 28, 2026
-          </p>
         </div>
-      </div>
+      </header>
 
-      {/* Content */}
-      <div className="container mx-auto px-4 py-12 max-w-4xl">
-        <div className="bg-base-100 rounded-lg shadow-xl p-8">
-          
-          {/* Introduction */}
-          <section className="mb-8">
-            <h2 className="text-3xl font-bold mb-4">Agreement to Terms</h2>
-            <p className="text-lg leading-relaxed mb-4">
-              Welcome to devTinder! These Terms of Service ("Terms") govern your access to and use 
-              of devTinder, a platform that connects developers with each other for networking and 
-              professional collaboration.
-            </p>
-            <p className="text-lg leading-relaxed">
-              By accessing or using devTinder, you agree to be bound by these Terms. If you do not 
-              agree to these Terms, you may not access or use the platform.
-            </p>
+      <div className="container mx-auto px-6 py-24 max-w-5xl">
+        <div className="space-y-32">
+
+          {/* 01. AGREEMENT - Adaptive Glass */}
+          <section className="text-white md:text-black">
+            <div className="flex items-center gap-6 mb-10">
+              <span className="text-5xl font-black italic opacity-20">01</span>
+              <h2 className="text-3xl font-black uppercase tracking-tighter">Agreement</h2>
+            </div>
+            <div className="p-10 backdrop-blur-3xl bg-white/10 md:bg-black/5 border border-white/20 md:border-black/10 rounded-3xl md:rounded-none">
+              <p className="text-sm md:text-lg font-black leading-relaxed uppercase tracking-tight mb-6">
+                Welcome to <span className="text-[#ff4d00]">devTinder</span>. By accessing this platform, you enter a binding legal contract.
+              </p>
+              <p className="text-xs font-bold uppercase opacity-60 leading-loose">
+                Engagement with our services implies absolute consent to these protocols. Non-compliance requires immediate termination of session.
+              </p>
+            </div>
           </section>
 
-          <div className="divider"></div>
-
-          {/* Eligibility */}
-          <section className="mb-8">
-            <h2 className="text-3xl font-bold mb-4 flex items-center gap-2">
-              <CheckCircle className="w-6 h-6" />
-              Eligibility
-            </h2>
-            <p className="text-lg leading-relaxed mb-4">
-              To use devTinder, you must:
-            </p>
-            <ul className="list-disc list-inside space-y-2 ml-4 text-lg">
-              <li>Be at least 18 years of age</li>
-              <li>Have the legal capacity to enter into a binding agreement</li>
-              <li>Not be prohibited from using the service under applicable laws</li>
-              <li>Provide accurate and complete registration information</li>
-              <li>Maintain the security of your account credentials</li>
-            </ul>
-          </section>
-
-          <div className="divider"></div>
-
-          {/* Account Registration */}
-          <section className="mb-8">
-            <h2 className="text-3xl font-bold mb-4 flex items-center gap-2">
-              <Users className="w-6 h-6" />
-              Account Registration and Security
-            </h2>
-            
-            <h3 className="text-xl font-semibold mb-3 mt-6">Registration Process</h3>
-            <p className="text-lg leading-relaxed mb-4">
-              To use devTinder, you must create an account by:
-            </p>
-            <ul className="list-disc list-inside space-y-2 ml-4 text-lg">
-              <li>Providing a valid email address</li>
-              <li>Creating a secure password</li>
-              <li>Verifying your email through OTP (One-Time Password) sent to your email</li>
-              <li>Completing your developer profile with accurate information</li>
-            </ul>
-
-            <h3 className="text-xl font-semibold mb-3 mt-6">Account Security</h3>
-            <p className="text-lg leading-relaxed mb-4">
-              You are responsible for:
-            </p>
-            <ul className="list-disc list-inside space-y-2 ml-4 text-lg">
-              <li>Maintaining the confidentiality of your password</li>
-              <li>All activities that occur under your account</li>
-              <li>Notifying us immediately of any unauthorized use of your account</li>
-              <li>Ensuring your account information is accurate and up-to-date</li>
-            </ul>
-
-            <h3 className="text-xl font-semibold mb-3 mt-6">Account Termination</h3>
-            <p className="text-lg leading-relaxed">
-              We reserve the right to suspend or terminate your account at any time if you violate 
-              these Terms or engage in activities that harm the platform or other users.
-            </p>
-          </section>
-
-          <div className="divider"></div>
-
-          {/* Platform Services */}
-          <section className="mb-8">
-            <h2 className="text-3xl font-bold mb-4">Platform Services</h2>
-            
-            <h3 className="text-xl font-semibold mb-3">Free Features</h3>
-            <p className="text-lg leading-relaxed mb-4">
-              All registered users have access to:
-            </p>
-            <ul className="list-disc list-inside space-y-2 ml-4 text-lg">
-              <li>Creating and managing a developer profile</li>
-              <li>Browsing developer feed</li>
-              <li>Sending connection requests by swiping left or right on developer cards</li>
-              <li>Receiving connection requests from other developers</li>
-              <li>Accepting or rejecting connection requests</li>
-            </ul>
-
-            <h3 className="text-xl font-semibold mb-3 mt-6">Premium Features</h3>
-            <p className="text-lg leading-relaxed mb-4">
-              Premium subscription (₹100) includes:
-            </p>
-            <ul className="list-disc list-inside space-y-2 ml-4 text-lg">
-              <li>Chat functionality with accepted connections</li>
-              <li>Real-time messaging with other premium developers</li>
-              <li>Access to premium support</li>
-            </ul>
-            <p className="text-lg leading-relaxed mt-4">
-              <strong>Important:</strong> Chat feature is only available to users who have purchased 
-              the premium subscription. Both users in a connection must have premium access to chat 
-              with each other.
-            </p>
-          </section>
-
-          <div className="divider"></div>
-
-          {/* Payment Terms */}
-          <section className="mb-8">
-            <h2 className="text-3xl font-bold mb-4">Payment Terms</h2>
-            
-            <h3 className="text-xl font-semibold mb-3">Premium Subscription</h3>
-            <p className="text-lg leading-relaxed mb-4">
-              The premium subscription fee is ₹100 (Indian Rupees). Payment processing is handled 
-              securely through Razorpay, our trusted payment gateway partner.
-            </p>
-
-            <h3 className="text-xl font-semibold mb-3 mt-6">Payment Processing</h3>
-            <ul className="list-disc list-inside space-y-2 ml-4 text-lg">
-              <li>All payments are processed through Razorpay's secure payment gateway</li>
-              <li>We accept credit cards, debit cards, UPI, and other payment methods supported by Razorpay</li>
-              <li>Payment information is encrypted and processed securely</li>
-              <li>We do not store complete credit card information on our servers</li>
-            </ul>
-
-            <h3 className="text-xl font-semibold mb-3 mt-6">Subscription Duration</h3>
-            <p className="text-lg leading-relaxed">
-              Premium subscription details including duration, renewal terms, and any applicable 
-              refund policies are provided at the time of purchase and in our Refund Policy.
-            </p>
-          </section>
-
-          <div className="divider"></div>
-
-          {/* User Conduct */}
-          <section className="mb-8">
-            <h2 className="text-3xl font-bold mb-4 flex items-center gap-2">
-              <AlertTriangle className="w-6 h-6" />
-              User Conduct and Prohibited Activities
-            </h2>
-            <p className="text-lg leading-relaxed mb-4">
-              When using devTinder, you agree NOT to:
-            </p>
-            <ul className="list-disc list-inside space-y-2 ml-4 text-lg">
-              <li>Provide false, inaccurate, or misleading information</li>
-              <li>Impersonate another person or entity</li>
-              <li>Use the platform for any illegal or unauthorized purpose</li>
-              <li>Harass, abuse, or harm other users</li>
-              <li>Send spam, unsolicited messages, or advertisements</li>
-              <li>Upload malicious code, viruses, or harmful content</li>
-              <li>Scrape, crawl, or use automated systems to access the platform</li>
-              <li>Circumvent security features or access controls</li>
-              <li>Use the platform for commercial purposes without authorization</li>
-              <li>Share your account credentials with others</li>
-              <li>Engage in any activity that disrupts the platform's operation</li>
-            </ul>
-          </section>
-
-          <div className="divider"></div>
-
-          {/* Content and Intellectual Property */}
-          <section className="mb-8">
-            <h2 className="text-3xl font-bold mb-4">Content and Intellectual Property</h2>
-            
-            <h3 className="text-xl font-semibold mb-3">Your Content</h3>
-            <p className="text-lg leading-relaxed mb-4">
-              You retain ownership of content you post on devTinder (profile information, photos, 
-              messages). However, by posting content, you grant us a license to use, display, and 
-              distribute your content on the platform to provide our services.
-            </p>
-
-            <h3 className="text-xl font-semibold mb-3 mt-6">Platform Content</h3>
-            <p className="text-lg leading-relaxed">
-              All platform features, design, logos, and software are owned by devTinder and protected 
-              by copyright and intellectual property laws. You may not copy, modify, or distribute 
-              our platform content without permission.
-            </p>
-          </section>
-
-          <div className="divider"></div>
-
-          {/* Disclaimers */}
-          <section className="mb-8">
-            <h2 className="text-3xl font-bold mb-4 flex items-center gap-2">
-              <Scale className="w-6 h-6" />
-              Disclaimers and Limitation of Liability
-            </h2>
-            
-            <h3 className="text-xl font-semibold mb-3">"AS IS" Service</h3>
-            <p className="text-lg leading-relaxed mb-4">
-              devTinder is provided "as is" without warranties of any kind. We do not guarantee:
-            </p>
-            <ul className="list-disc list-inside space-y-2 ml-4 text-lg">
-              <li>Uninterrupted or error-free service</li>
-              <li>The accuracy or reliability of user profiles</li>
-              <li>That connections will lead to professional opportunities</li>
-              <li>The behavior or actions of other users</li>
-            </ul>
-
-            <h3 className="text-xl font-semibold mb-3 mt-6">Limitation of Liability</h3>
-            <p className="text-lg leading-relaxed">
-              To the maximum extent permitted by law, devTinder shall not be liable for any indirect, 
-              incidental, special, or consequential damages arising from your use of the platform. 
-              Our total liability shall not exceed the amount you paid for premium services in the 
-              past 12 months.
-            </p>
-          </section>
-
-          <div className="divider"></div>
-
-          {/* Indemnification */}
-          <section className="mb-8">
-            <h2 className="text-3xl font-bold mb-4">Indemnification</h2>
-            <p className="text-lg leading-relaxed">
-              You agree to indemnify and hold harmless devTinder, its affiliates, and employees 
-              from any claims, damages, or expenses arising from your use of the platform, your 
-              violation of these Terms, or your violation of any rights of another user.
-            </p>
-          </section>
-
-          <div className="divider"></div>
-
-          {/* Modifications */}
-          <section className="mb-8">
-            <h2 className="text-3xl font-bold mb-4">Modifications to Terms</h2>
-            <p className="text-lg leading-relaxed">
-              We reserve the right to modify these Terms at any time. We will notify users of 
-              material changes by email or through platform notifications. Continued use of 
-              devTinder after changes constitutes acceptance of the modified Terms.
-            </p>
-          </section>
-
-          <div className="divider"></div>
-
-          {/* Governing Law */}
-          <section className="mb-8">
-            <h2 className="text-3xl font-bold mb-4">Governing Law and Dispute Resolution</h2>
-            <p className="text-lg leading-relaxed mb-4">
-              These Terms are governed by the laws of India. Any disputes arising from these Terms 
-              or your use of devTinder shall be resolved through:
-            </p>
-            <ul className="list-disc list-inside space-y-2 ml-4 text-lg">
-              <li>Good faith negotiations between the parties</li>
-              <li>If unresolved, through arbitration in accordance with Indian law</li>
-              <li>Courts in the jurisdiction where devTinder is registered</li>
-            </ul>
-          </section>
-
-          <div className="divider"></div>
-
-          {/* Contact */}
-          <section className="mb-8">
-            <h2 className="text-3xl font-bold mb-4">Contact Information</h2>
-            <p className="text-lg leading-relaxed mb-4">
-              If you have questions about these Terms of Service, please contact us:
-            </p>
-            <div className="bg-base-200 p-6 rounded-lg">
-              <div className="space-y-3">
-                <div className="flex items-center gap-3">
-                  <FileText className="w-5 h-5 text-secondary" />
-                  <span className="text-lg">
-                    <strong>Email:</strong> raushankumarsaw15@gmail.com
-                  </span>
+          {/* 02. ELIGIBILITY - List Style */}
+          <section className="text-white md:text-black">
+            <div className="flex items-center gap-6 mb-12">
+              <span className="text-5xl font-black italic opacity-20">02</span>
+              <h2 className="text-3xl font-black uppercase tracking-tighter flex items-center gap-4">
+                <CheckCircle size={24} className="text-[#ff4d00]" /> Eligibility
+              </h2>
+            </div>
+            <div className="grid md:grid-cols-2 gap-6">
+              {[
+                "Minimum Age: 18 Years",
+                "Full Legal Capacity",
+                "Compliance with Local Laws",
+                "Valid Developer Credentials"
+              ].map((item, i) => (
+                <div key={i} className="p-6 border-l-4 border-[#ff4d00] bg-white/5 md:bg-black/5 backdrop-blur-xl">
+                  <span className="text-[10px] font-black uppercase tracking-widest">{item}</span>
                 </div>
-                <div className="flex items-center gap-3">
-                  <FileText className="w-5 h-5 text-secondary" />
-                  <span className="text-lg">
-                    <strong>Phone:</strong> +91 8252341916
-                  </span>
-                </div>
+              ))}
+            </div>
+          </section>
+
+          {/* 03. SERVICES - High Contrast Block */}
+          <section className="text-white md:text-black">
+            <div className="flex items-center gap-6 mb-12">
+              <span className="text-5xl font-black italic opacity-20">03</span>
+              <h2 className="text-3xl font-black uppercase tracking-tighter flex items-center gap-4">
+                <Users size={24} className="text-[#ff4d00]" /> Service Logic
+              </h2>
+            </div>
+            <div className="space-y-8">
+              <div className="p-10 border-2 border-white/20 md:border-black shadow-[20px_20px_0px_0px_rgba(255,77,0,0.2)] md:shadow-[20px_20px_0px_0px_rgba(0,0,0,1)] bg-white/10 md:bg-white backdrop-blur-2xl md:backdrop-blur-none">
+                <h3 className="text-xl font-black uppercase mb-6 text-[#ff4d00]">Premium Tier (₹100)</h3>
+                <ul className="space-y-4 text-xs font-black uppercase tracking-widest">
+                  <li className="flex items-center gap-4"><ChevronRight size={14}/> Real-time Chat Capabilities</li>
+                  <li className="flex items-center gap-4"><ChevronRight size={14}/> Advanced Matching Logic</li>
+                  <li className="flex items-center gap-4"><ChevronRight size={14}/> Verified Connection Status</li>
+                </ul>
+                <p className="mt-8 pt-8 border-t border-current/10 text-[10px] opacity-60">
+                  Note: Both nodes in a connection must hold Premium status to initiate data transmission (Chat).
+                </p>
               </div>
             </div>
           </section>
 
-          {/* Agreement Notice */}
-          <div className="alert alert-warning mt-8">
-            <AlertTriangle className="w-6 h-6" />
-            <div>
-              <h3 className="font-bold">Important Notice</h3>
-              <div className="text-sm">
-                By using devTinder, you acknowledge that you have read, understood, and agree to 
-                be bound by these Terms of Service.
+          {/* 04. DISCLAIMERS - Black Morphism */}
+          <section className="text-white md:text-black">
+            <div className="flex items-center gap-6 mb-12">
+              <span className="text-5xl font-black italic opacity-20">04</span>
+              <h2 className="text-3xl font-black uppercase tracking-tighter flex items-center gap-4">
+                <Scale size={24} className="text-[#ff4d00]" /> Disclaimers
+              </h2>
+            </div>
+            <div className="grid md:grid-cols-2 gap-8">
+              <div className="p-8 backdrop-blur-3xl bg-white/5 md:bg-black/5 border border-white/10 md:border-black/10 group hover:bg-black transition-all">
+                <h4 className="text-[12px] font-black uppercase mb-4 group-hover:text-white">"AS IS" Basis</h4>
+                <p className="text-[10px] uppercase font-black opacity-60 group-hover:text-white/80">No guarantee of error-free service or professional outcomes.</p>
+              </div>
+              <div className="p-8 backdrop-blur-3xl bg-white/5 md:bg-black/5 border border-white/10 md:border-black/10 group hover:bg-black transition-all">
+                <h4 className="text-[12px] font-black uppercase mb-4 group-hover:text-white">Liability Cap</h4>
+                <p className="text-[10px] uppercase font-black opacity-60 group-hover:text-white/80">Liability limited to the amount paid for premium services.</p>
               </div>
             </div>
-          </div>
+          </section>
+
+          {/* 05. CONDUCT & ALERT */}
+          <section className="bg-[#ff4d00] md:bg-black text-white p-12 shadow-2xl relative overflow-hidden">
+            <AlertTriangle className="absolute -right-10 -bottom-10 size-64 opacity-10 rotate-12" />
+            <div className="relative z-10">
+              <h2 className="text-2xl font-black uppercase tracking-[0.2em] mb-8">User Conduct Warning</h2>
+              <p className="text-sm font-black uppercase tracking-widest leading-loose opacity-90 max-w-2xl">
+                Impersonation, malicious code injection, or platform scraping will result in immediate permanent banning and potential legal retaliation.
+              </p>
+            </div>
+          </section>
+
+          {/* FOOTER CONTACT */}
+          <footer className="pt-24 border-t-2 border-white/20 md:border-black/10">
+            <div className="backdrop-blur-3xl bg-white/10 md:bg-black/5 p-16 text-center border-2 border-white/20 md:border-black/10 text-white md:text-black rounded-3xl md:rounded-none">
+              <h2 className="text-4xl font-black uppercase tracking-tighter mb-12">Protocol Support</h2>
+              <div className="flex flex-col md:flex-row justify-center gap-16">
+                <div>
+                  <p className="text-[10px] font-black uppercase opacity-40 mb-2">Electronic</p>
+                  <p className="text-sm font-black uppercase border-b-2 border-[#ff4d00]">raushankumarsaw15@gmail.com</p>
+                </div>
+                <div>
+                  <p className="text-[10px] font-black uppercase opacity-40 mb-2">Direct Line</p>
+                  <p className="text-sm font-black uppercase border-b-2 border-[#ff4d00]">+91 8252341916</p>
+                </div>
+              </div>
+            </div>
+          </footer>
 
         </div>
       </div>

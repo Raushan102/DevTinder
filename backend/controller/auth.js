@@ -26,7 +26,7 @@ exports.login = async (req, res) => {
     if (result) {
       const token = await user.getJWTToken();
       res.cookie("token", token, {
-        expires: new Date(Date.now() + 8 * 3600000),
+        expires: new Date(Date.now() + 7 * 24 * 3600000),
       });
       res.status(200).json({
         message: "login successfully",
