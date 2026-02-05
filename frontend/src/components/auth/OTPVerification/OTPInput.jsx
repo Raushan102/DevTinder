@@ -130,8 +130,8 @@ function OTPInput() {
 
   return (
     <GlassmorphismLayout
-      backgroundImage="/assets/hero-bg.jpg"
-      mobileBackgroundImage="/assets/hero-sm-bg.png"
+      backgroundImage="assets/hero-bg.jpg"
+      mobileBackgroundImage="assets/hero-sm-bg.png"
       overlayStyle="warm"
       loaderDuration={2800}
       showShutterEffect={true}

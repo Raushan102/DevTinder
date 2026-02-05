@@ -390,8 +390,8 @@ function Login({ signUp = false, edit = false }) {
 
   return (
     <GlassmorphismLayout
-      backgroundImage="/assets/bgc-1.jpg"
-      mobileBackgroundImage="/assets/c1.jpg"
+      backgroundImage="assets/bgc-1.jpg"
+      mobileBackgroundImage="assets/c1.jpg"
       overlayStyle="editorial"
       loaderDuration={2800}
       showShutterEffect={true}
