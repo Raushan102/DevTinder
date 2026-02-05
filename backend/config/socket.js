@@ -30,7 +30,7 @@ function initializeSocket(server) {
             senderId:userId,
             timestamp: new Date(),
           });
-          
+
           let chat = await Chat.findOne({
             participants: { $all: [userId, targetUserId] },
           });
