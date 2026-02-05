@@ -51,14 +51,14 @@ const LandingPage = () => {
             <div className="absolute inset-0 z-10">
               {/* MOBILE IMAGE */}
               <img
-                src="/assets/hero-sm-bg.png"
+                src="assets/hero-sm-bg.png"
                 className="w-full h-full object-cover block sm:hidden"
                 alt="Mobile Background"
               />
 
               {/* DESKTOP IMAGE */}
               <img
-                src="/assets/hero-bg.jpg"
+                src="assets/hero-bg.jpg"
                 className="w-full h-full object-cover hidden sm:block"
                 alt="Desktop Background"
               />

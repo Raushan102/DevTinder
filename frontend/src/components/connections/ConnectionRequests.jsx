@@ -11,8 +11,8 @@ export default function ConnectionRequests() {
 
   return (
     <GlassmorphismLayout
-      backgroundImage="/assets/bgc-1.jpg"
-      mobileBackgroundImage="/assets/c1.jpg"
+      backgroundImage="assets/bgc-1.jpg"
+      mobileBackgroundImage="assets/c1.jpg"
       overlayStyle="editorial"
       loaderDuration={1000}
       showShutterEffect={true}

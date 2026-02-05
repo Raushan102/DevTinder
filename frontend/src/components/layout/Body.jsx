@@ -57,8 +57,8 @@ function Body() {
 
   return (
     <GlassmorphismLayout
-      backgroundImage="/assets/hero-bg.jpg"
-      mobileBackgroundImage="/assets/c1.jpg"
+      backgroundImage="assets/hero-bg.jpg"
+      mobileBackgroundImage="assets/c1.jpg"
       overlayStyle="dark"
       loaderDuration={1500}
       showShutterEffect={true}

@@ -91,8 +91,8 @@ function Connections() {
 
   return (
     <GlassmorphismLayout
-      backgroundImage="/assets/hero-bg.jpg"
-      mobileBackgroundImage="/assets/c1.jpg"
+      backgroundImage="assets/hero-bg.jpg"
+      mobileBackgroundImage="assets/c1.jpg"
       overlayStyle="editorial"
       loaderDuration={1000}
       showShutterEffect={true}
