@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import axios from 'axios'
 import { BASE_URL } from "../util/constent";
 import { motion, AnimatePresence } from "framer-motion";
-import { Send, ArrowLeft, Phone, MoreVertical, Smile, ShieldCheck } from "lucide-react";
+import { Send, ArrowLeft, Phone, MoreVertical, Smile, ShieldCheck, Crown } from "lucide-react";
 
 function ChatWindow({ currentChatProfile, onBack, loading: parentLoading }) {
   const user = useSelector((store) => store.user);
@@ -118,7 +118,7 @@ function ChatWindow({ currentChatProfile, onBack, loading: parentLoading }) {
 
       {/* 1. HEADER */}
       <div className="flex-none h-20 backdrop-blur-xl border-b border-white/20 px-6 flex items-center justify-between z-10"
-           style={{ backgroundImage: 'linear-gradient(to right, rgba(255,255,255,0.2), rgba(255,255,255,0.1))' }}>
+        style={{ backgroundImage: 'linear-gradient(to right, rgba(255,255,255,0.2), rgba(255,255,255,0.1))' }}>
         <div className="flex items-center gap-4">
           {onBack && (
             <button onClick={onBack} className="md:hidden w-10 h-10 border border-black rounded-none flex items-center justify-center bg-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] text-black">
@@ -129,11 +129,19 @@ function ChatWindow({ currentChatProfile, onBack, loading: parentLoading }) {
             <img src={currentChatProfile.photoUrl} className="w-full h-full object-cover" />
           </div>
           <div>
-            <h2 className="font-bold text-sm uppercase tracking-widest text-black leading-none">
-              {currentChatProfile.firstName}
-            </h2>
-            <div className="flex items-center gap-1 mt-1.5">
-              <ShieldCheck size={10} className="text-black/60" />
+            <div className="flex items-center gap-1">
+              <h2 className={`font-bold text-[0.5rem] md:text-sm  tracking-widest leading-none ${currentChatProfile.isPremium ? 'text-black' : 'text-black'}`}>
+                {currentChatProfile.firstName}
+              </h2>
+              {currentChatProfile.isPremium && (
+                <div className="flex items-center gap-1 px-1.5 py-0.5 bg-amber-100 border border-amber-300 rounded-sm shadow-sm animate-pulse">
+                  <Crown size={10} className="text-amber-600 fill-amber-600" />
+                  <span className="text-[7px] font-black text-amber-700 uppercase tracking-tighter">Premium</span>
+                </div>
+              )}
+            </div>
+            <div className="flex items-center gap-1 mt-1.5 mr-3">
+
               <p className="text-[9px] font-bold text-black/60 uppercase tracking-tighter">
                 {isLoading ? "SYNCING..." : currentChatProfile.profession}
               </p>
@@ -141,8 +149,8 @@ function ChatWindow({ currentChatProfile, onBack, loading: parentLoading }) {
           </div>
         </div>
         <div className="flex gap-3">
-          <button className="w-10 h-10 border border-black flex items-center justify-center bg-white/20 text-black hover:bg-black hover:text-white transition-all"><Phone size={16}/></button>
-          <button className="w-10 h-10 border border-black flex items-center justify-center bg-white/20 text-black hover:bg-black hover:text-white transition-all"><MoreVertical size={16}/></button>
+          <button className="w-10 h-10 border border-black flex items-center justify-center bg-white/20 text-black hover:bg-black hover:text-white transition-all"><Phone size={16} /></button>
+          <button className="w-10 h-10 border border-black flex items-center justify-center bg-white/20 text-black hover:bg-black hover:text-white transition-all"><MoreVertical size={16} /></button>
         </div>
       </div>
 
@@ -175,11 +183,10 @@ function ChatWindow({ currentChatProfile, onBack, loading: parentLoading }) {
                     </div>
                   )}
                   <div className={`flex flex-col ${isOwn ? 'items-end' : 'items-start'} max-w-[75%]`}>
-                    <div className={`px-5 py-3 border-2 border-black ${
-                      isOwn
-                        ? 'bg-black text-white'
-                        : 'backdrop-blur-lg bg-white/80 text-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]'
-                    }`}>
+                    <div className={`px-5 py-3 border-2 border-black ${isOwn
+                      ? 'bg-black text-white'
+                      : 'backdrop-blur-lg bg-white/80 text-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]'
+                      }`}>
                       <p className="text-sm font-bold leading-relaxed tracking-tight uppercase">
                         {msg.text}
                       </p>
@@ -197,7 +204,7 @@ function ChatWindow({ currentChatProfile, onBack, loading: parentLoading }) {
 
       {/* 3. INPUT AREA */}
       <div className="flex-none p-6 backdrop-blur-2xl border-t border-white/20 flex gap-4 items-center"
-           style={{ backgroundImage: 'linear-gradient(to top, rgba(255,255,255,0.2), rgba(255,255,255,0.1))' }}>
+        style={{ backgroundImage: 'linear-gradient(to top, rgba(255,255,255,0.2), rgba(255,255,255,0.1))' }}>
         <button className="w-12 h-12 border border-black flex items-center justify-center bg-white/40 text-black hover:bg-black hover:text-white transition-all">
           <Smile size={20} />
         </button>

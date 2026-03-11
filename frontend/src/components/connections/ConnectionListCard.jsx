@@ -1,5 +1,5 @@
 import React from "react";
-import { User, Briefcase } from "lucide-react";
+import { User, Briefcase, Crown } from "lucide-react";
 import { motion } from "framer-motion";
 
 function ConnectionListCard({ profile, onSelectprofile, isActive }) {
@@ -15,7 +15,7 @@ function ConnectionListCard({ profile, onSelectprofile, isActive }) {
       onClick={() => onSelectprofile(profile)}
       className={`
         flex items-start gap-4 p-5 cursor-pointer transition-all duration-500
-        border-b border-white/20 backdrop-blur-md 
+        border-b border-white/20 backdrop-blur-md
         ${isActive ? 'border-l-4 border-l-black' : ''}
       `}
       style={{
@@ -25,7 +25,10 @@ function ConnectionListCard({ profile, onSelectprofile, isActive }) {
       }}
     >
       {/* 🖼️ Sharp Avatar */}
-      <div className={`w-14 h-14 flex-shrink-0 border-2 transition-all duration-500 overflow-hidden shadow-sm ${isActive ? 'border-black scale-105 shadow-xl' : 'border-white/50'}`}>
+      <div className={`w-14 h-14 flex-shrink-0 border-2 transition-all duration-500 overflow-hidden shadow-sm ${profile.isPremium
+        ? 'border-amber-400 shadow-[0_0_10px_rgba(251,191,36,0.5)]'
+        : (isActive ? 'border-black scale-105 shadow-xl' : 'border-white/50')
+        }`}>
         {photoUrl ? (
           <img src={photoUrl} alt={firstName} className="w-full h-full object-cover" />
         ) : (
@@ -39,8 +42,9 @@ function ConnectionListCard({ profile, onSelectprofile, isActive }) {
       <div className="flex-1 min-w-0 ">
         <div className="flex justify-between items-start">
           <div>
-            <h3 className={`font-black text-xs sm:text-sm uppercase tracking-widest truncate ${isActive ? 'text-black' : 'text-black/90'}`}>
+            <h3 className={`font-black text-xs sm:text-sm uppercase tracking-widest truncate flex items-center gap-1 ${isActive ? 'text-black' : 'text-black/90'}`}>
               {firstName} {lastName}
+              {profile.isPremium && <Crown size={12} className="text-amber-500 fill-amber-500" />}
             </h3>
             {/* 🛠️ PROFESSION DISPLAY */}
             <p className="text-[9px] font-bold text-black/50 uppercase tracking-widest flex items-center gap-1 mt-0.5">

@@ -1,0 +1,6 @@
+beforeDepReaad/
+node_modules/
+.env
+*.log
+git_push_error.txt
+git_push_full_error.txt

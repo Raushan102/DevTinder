@@ -13,7 +13,6 @@ const GlassmorphismLayout = ({
   const [loading, setLoading] = useState(true);
   const [shutterOpen, setShutterOpen] = useState(false);
 
-  // 🛠️ Handle transition with a slight buffer for mobile browser rendering
   const handleLoadComplete = () => {
     setLoading(false);
     if (showShutterEffect) {
@@ -31,10 +30,17 @@ const GlassmorphismLayout = ({
         <>
           <div className="absolute inset-0 bg-gradient-to-r from-black/20 via-transparent to-black/20" />
           <div className="absolute inset-0 bg-gradient-to-b from-black/15 via-transparent to-black/30" />
-          <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 via-purple-500/5 to-pink-500/5 mix-blend-overlay" />
+          {/* 🛠️ TEXTURE OVERLAY: Adding a fine grain/noise */}
+          <div className="absolute inset-0 opacity-[0.03] pointer-events-none bg-[url('https://grainy-gradients.vercel.app/noise.svg')]" />
         </>
       ),
-      mobile: <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/20 to-black/90" />,
+      mobile: (
+        <>
+          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/20 to-black/90" />
+          {/* 🛠️ TEXTURE OVERLAY: Mobile Grain */}
+          <div className="absolute inset-0 opacity-[0.05] pointer-events-none bg-[url('https://grainy-gradients.vercel.app/noise.svg')]" />
+        </>
+      ),
     },
   };
 
@@ -76,31 +82,31 @@ const GlassmorphismLayout = ({
             className="fixed inset-0 w-full h-full z-0 overflow-hidden"
             style={{ transform: 'translateZ(0)' }}
           >
-            {/* Desktop Background */}
+            {/* Desktop Background - Added slight blur for texture depth */}
             <div
               className={`absolute inset-0 w-full h-full bg-center bg-cover ${mobileBackgroundImage ? 'hidden sm:block' : 'block'}`}
               style={{
                 backgroundImage: `url(${backgroundImage})`,
                 backgroundAttachment: 'fixed',
-                filter: 'brightness(1.1) contrast(1.1) saturate(1.15)',
+                filter: 'brightness(1.1) contrast(1.1) saturate(1.15) blur(2px)', // Light desktop blur
+                transform: 'scale(1.05)'
               }}
             />
 
-            {/* Mobile Background - Subtle Blur Applied */}
+            {/* Mobile Background - Increased Blur + Scale */}
             {mobileBackgroundImage && (
               <div
                 className="block sm:hidden absolute inset-0 w-full h-full bg-center bg-cover"
                 style={{
                   backgroundImage: `url(${mobileBackgroundImage})`,
                   backgroundAttachment: 'scroll',
-                  // Added blur for mobile focus and scale to prevent white edges
-                  filter: 'brightness(1.05) contrast(1.1) saturate(1.1) blur(3px)',
-                  transform: 'scale(1.1)',
+                  filter: 'brightness(1.05) contrast(1.1) saturate(1.1) blur(6px)', // Increased from 3px to 6px
+                  transform: 'scale(1.15)',
                 }}
               />
             )}
 
-            {/* Overlays */}
+            {/* Overlays (Gradients + Noise Texture) */}
             <div className="absolute inset-0 pointer-events-none">
               <div className="hidden sm:block">{selectedOverlay.desktop}</div>
               <div className="block sm:hidden">{selectedOverlay.mobile}</div>

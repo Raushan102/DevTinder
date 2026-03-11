@@ -1,4 +1,4 @@
-// Body.jsx - Main Layout with Mobile Chat Support
+// Body.jsx - Main Layout with Integrated Loader & Background
 import { useEffect, useState } from "react";
 import { Outlet, useNavigate, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -18,28 +18,21 @@ function Body() {
   const [showModal, setShowModal] = useState({ open: false, errorMessage: null });
   const [hideNavbar, setHideNavbar] = useState(false);
 
-  // ============================
   // 📱 DETECT MOBILE CHAT VIEW
-  // ============================
   useEffect(() => {
-    // Hide navbar on mobile when on connections page
-    const isMobile = window.innerWidth < 640; // sm breakpoint
+    const isMobile = window.innerWidth < 640;
     const isConnectionsPage = location.pathname === '/connections';
 
     if (isMobile && isConnectionsPage) {
-      // Listen for custom event from Connections component
-      const handleChatOpen = (e) => {
-        setHideNavbar(e.detail.showChat);
-      };
-
+      const handleChatOpen = (e) => setHideNavbar(e.detail.showChat);
       window.addEventListener('chatWindowToggle', handleChatOpen);
       return () => window.removeEventListener('chatWindowToggle', handleChatOpen);
+    } else {
+      setHideNavbar(false); // Reset when navigating away
     }
   }, [location.pathname]);
 
-  // ============================
   // 📥 FETCH USER
-  // ============================
   const fetchUser = async () => {
     try {
       const res = await axios.get(`${BASE_URL}/profile/view`, { withCredentials: true });
@@ -51,49 +44,45 @@ function Body() {
   };
 
   useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect
     if (!userData) fetchUser();
   }, []);
 
   return (
+    /* 🛠️ KEY={LOCATION.KEY} is crucial here.
+       It resets the GlassmorphismLayout state (and the loader)
+       whenever the URL changes.
+    */
     <GlassmorphismLayout
+      key={location.key}
       backgroundImage="assets/hero-bg.jpg"
       mobileBackgroundImage="assets/c1.jpg"
-      overlayStyle="dark"
-      loaderDuration={1500}
+      overlayStyle="editorial"
+      loaderDuration={1200}
       showShutterEffect={true}
     >
-      {/* ============================
-          NAVBAR - Hidden on mobile chat
-          ============================ */}
-      {!hideNavbar && (
-        <div className="sticky top-0 z-50">
-          <Navbar />
-        </div>
-      )}
+      <div className="flex flex-col min-h-screen">
+        {/* NAVBAR */}
+        {!hideNavbar && (
+          <div className="sticky top-0 z-50">
+            <Navbar />
+          </div>
+        )}
 
-      {/* ============================
-          MAIN CONTENT
-          ============================ */}
-      <main className="h-auto lg:min-h-screen">
-        <Outlet context={{ setHideNavbar }} />
-      </main>
+        {/* MAIN CONTENT AREA */}
+        <main className="flex-grow">
+          <Outlet context={{ setHideNavbar }} />
+        </main>
 
-      {/* ============================
-          FOOTER - Hidden on mobile chat
-          ============================ */}
-      {!hideNavbar && (
-        <Footer />
-      )}
+        {/* FOOTER */}
+        {!hideNavbar && <Footer />}
 
-      {/* ============================
-          ERROR MODAL
-          ============================ */}
-      <ErrorModal
-        isOpen={showModal.open}
-        message={showModal.errorMessage}
-        onClose={() => setShowModal({ open: false, errorMessage: null })}
-      />
+        {/* MODALS */}
+        <ErrorModal
+          isOpen={showModal.open}
+          message={showModal.errorMessage}
+          onClose={() => setShowModal({ open: false, errorMessage: null })}
+        />
+      </div>
     </GlassmorphismLayout>
   );
 }

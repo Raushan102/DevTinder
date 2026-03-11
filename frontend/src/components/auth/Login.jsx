@@ -15,7 +15,7 @@ import { addSignUpData } from "../../store/signUpLayer";
 import sendOtp from "./OTPVerification/SendOtp";
 import GlassmorphismLayout from "../util/Glassmorphismlayout";
 import ProfilePreview from "./ProfilePreview";
-import { Upload, X } from "lucide-react";
+import { Upload, X, ShieldCheck } from "lucide-react";
 
 function Login({ signUp = false, edit = false }) {
   const dispatch = useDispatch();
@@ -981,6 +981,14 @@ function LoginSignupForm({
             className="w-full px-4 py-3.5 bg-white/30 backdrop-blur-md border border-white/40 text-white sm:text-black placeholder-gray-300 sm:placeholder-gray-600 text-base font-medium focus:outline-none focus:bg-white/40 focus:border-white/60 transition-all duration-300 shadow-lg"
             required
           />
+          {signUp && (
+            <div className="mt-2.5 flex items-start gap-2 opacity-50">
+              <ShieldCheck size={12} className="mt-0.5 text-white sm:text-black flex-shrink-0" />
+              <p className="text-[9px] text-white sm:text-black font-bold  tracking-[0.2em] leading-tight">
+                Security Protocol: 8+ Characters, 1 Uppercase, 1 Number & 1 Symbol (Ex:Raushan@2003)
+              </p>
+            </div>
+          )}
         </div>
 
         {/* Gender - Signup only */}

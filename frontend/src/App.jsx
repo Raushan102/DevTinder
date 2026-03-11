@@ -17,13 +17,17 @@ import RefundPolicy from "./components/policies/RefundPolicy";
 import ContactUs from "./components/policies/ContactUs";
 import AboutUs from "./components/policies/AboutUs";
 import Team from "./components/policies/Team";
+import PaymentForm from "./components/payment/Membership";
+import PremiumSuccess from "./components/payment/PremiumSuccess";
+import PremiumFailed from "./components/payment/PremiumFailed";
+import ScrollToTop from "./components/util/ScrollToTop";
 
 
 function App() {
   return (
     <Provider store={store}>
       <BrowserRouter basename="/devtinder">
-
+        <ScrollToTop />
 
         <Routes>
           {/* 🌐 PUBLIC ROUTES */}
@@ -46,6 +50,9 @@ function App() {
             <Route path="/contact-us" element={<ContactUs />} />
             <Route path="/about-us" element={<AboutUs />} />
             <Route path="/team" element={<Team />} />
+            <Route path="/paymentForm" element={<PaymentForm />} />
+            <Route path="/premium-success" element={<PremiumSuccess />} />
+            <Route path="/premium-failed" element={<PremiumFailed />} />
           </Route>
         </Routes>
 

@@ -1,7 +1,7 @@
 import ConnectionList from "./ConnectionList";
 import ChartWindow from "./ChartWindow";
 import ErrorModal from "../util/ErrorModal";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import axios from "axios";
 import { BASE_URL } from "../util/constent";
 import { useDispatch, useSelector } from "react-redux";
@@ -28,7 +28,7 @@ function Connections() {
   // ============================
   // 📥 FETCH CONNECTIONS
   // ============================
-  async function fetchConnections() {
+  const fetchConnections = useCallback(async () => {
     try {
       setLoading(true);
       const profiles = await axios(`${BASE_URL}/request/connectedDeveloper`, {
@@ -45,13 +45,14 @@ function Connections() {
       setShowModal({
         open: true,
         errorMessage:
+          error?.response?.data?.message ||
           error?.data?.message ||
           `Something went wrong while fetching the connections request`,
       });
     } finally {
       setLoading(false);
     }
-  }
+  }, [dispatch]);
 
   // ============================
   // 👆 HANDLE PROFILE CLICK
@@ -87,16 +88,10 @@ function Connections() {
   // ============================
   useEffect(() => {
     fetchConnections();
-  }, [user]);
+  }, [user, fetchConnections]);
 
   return (
-    <GlassmorphismLayout
-      backgroundImage="assets/hero-bg.jpg"
-      mobileBackgroundImage="assets/c1.jpg"
-      overlayStyle="editorial"
-      loaderDuration={1000}
-      showShutterEffect={true}
-    >
+    <>
       <main
         className={`
           w-full h-[85vh] flex overflow-hidden gap-0 sm:px-6 md:px-8
@@ -216,8 +211,8 @@ function Connections() {
           background: rgba(251, 146, 60, 0.7);
         }
       `}</style>
-    </GlassmorphismLayout>
-  );
+
+    </>)
 }
 
 export default Connections;

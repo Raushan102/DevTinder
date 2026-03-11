@@ -15,6 +15,7 @@ const SHOW_FIELDS = [
   "github",
   "linkedin",
   "twitter",
+  "isPremium",
 ];
 exports.getRequest = async (req, res) => {
   try {
@@ -35,6 +36,9 @@ exports.getRequest = async (req, res) => {
       "photoUrl",
       "about",
       "gender",
+      "isPremium",
+      "membershipType",
+      "premiumEndDate",
     ]);
 
     res.status(200).json({

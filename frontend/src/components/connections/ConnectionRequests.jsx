@@ -10,13 +10,8 @@ export default function ConnectionRequests() {
   const validRequests = requests?.filter((request) => request && request._id && request.fromUserId) || [];
 
   return (
-    <GlassmorphismLayout
-      backgroundImage="assets/bgc-1.jpg"
-      mobileBackgroundImage="assets/c1.jpg"
-      overlayStyle="editorial"
-      loaderDuration={1000}
-      showShutterEffect={true}
-    >
+    <
+      >
       <div className="min-h-screen w-full flex flex-col items-center px-4 sm:px-6 py-10 sm:py-20">
         <div className="w-full max-w-4xl">
 
@@ -112,6 +107,6 @@ export default function ConnectionRequests() {
           background: rgba(255, 255, 255, 0.2);
         }
       `}</style>
-    </GlassmorphismLayout>
+    </>
   );
 }

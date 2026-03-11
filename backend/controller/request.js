@@ -181,7 +181,7 @@ exports.getConnectedDeveloper = async (req, res) => {
     const connectionsOfUser = await User.find({
       _id: { $in: user.connections },
     }).select(
-      "firstName lastName age gender photoUrl headline profession about skills socialMedia github linkedin twitter",
+      "firstName lastName age gender photoUrl headline profession about skills socialMedia github linkedin twitter isPremium membershipType premiumEndDate",
     );
 
     if (connectionsOfUser) {

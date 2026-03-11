@@ -1,4 +1,4 @@
-import { Check, X, MapPin, Briefcase, Code, User, Mail, Calendar, Sparkles } from "lucide-react";
+import { Check, X, MapPin, Briefcase, Code, User, Mail, Calendar, Sparkles, Crown } from "lucide-react";
 import { removeConnectionRequest } from "../../store/ConnectionRequestSlice";
 import { useDispatch } from "react-redux";
 import axios from "axios";
@@ -10,14 +10,6 @@ import Notification from "../util/Notification";
 
 const ConnectionRequest = ({ request }) => {
   const dispatch = useDispatch();
-
-  // ✅ Safety check: If request or sender is invalid, don't render
-  if (!request || !request._id || !request.fromUserId) {
-    console.warn('Invalid request data:', request);
-    return null;
-  }
-
-  const sender = request.fromUserId;
 
   const [loading, setLoading] = useState({
     accepted: false,
@@ -34,6 +26,15 @@ const ConnectionRequest = ({ request }) => {
     open: false,
     errorMessage: null,
   });
+
+  // ✅ Safety check: If request or sender is invalid, don't render
+  // Moved after hooks to avoid conditional hook usage error
+  if (!request || !request._id || !request.fromUserId) {
+    if (request) console.warn('Invalid request data:', request);
+    return null;
+  }
+
+  const sender = request.fromUserId;
 
   const requestAcceptedOrRejected = async (id, status) => {
     setLoading((previousState) => ({
@@ -107,8 +108,16 @@ const ConnectionRequest = ({ request }) => {
                   <span className="text-black">{sender.lastName}</span>
                 </h2>
 
-                <div className="inline-block px-3 py-1 bg-orange-400/20 border border-orange-400/30 text-black text-[10px] uppercase tracking-[0.15em] font-bold">
-                  New Request
+                <div className="flex flex-wrap justify-center lg:justify-start gap-2">
+                  <div className="inline-block px-3 py-1 bg-orange-400/20 border border-orange-400/30 text-black text-[10px] uppercase tracking-[0.15em] font-bold">
+                    New Request
+                  </div>
+                  {sender.isPremium && (
+                    <div className="flex items-center gap-1 px-3 py-1 bg-gradient-to-r from-yellow-400 to-amber-600 border border-yellow-500/50 text-white text-[10px] uppercase tracking-[0.15em] font-bold shadow-sm animate-pulse">
+                      <Crown size={10} className="fill-white" />
+                      Premium
+                    </div>
+                  )}
                 </div>
               </div>
 

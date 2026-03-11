@@ -122,13 +122,7 @@ function Feed() {
   const activeFilterCount = activeFilters.skills.length + activeFilters.experienceLevels.length;
 
   return (
-      <GlassmorphismLayout
-          backgroundImage="assets/hero-bg.jpg"
-          mobileBackgroundImage="assets/c1.jpg"
-          overlayStyle="editorial"
-          loaderDuration={500}
-          showShutterEffect={true}
-        >
+
     <div className="flex w-full h-full overflow-hidden p-1 sm:px-6 md:px-8 py-4">
 
       {/* Mobile Filter Toggle */}
@@ -183,7 +177,7 @@ function Feed() {
             )}
           </div>
         ) : (
-          <div className="flex items-start justify-center w-full sm:max-w-[25rem] h-full pt-0 sm:pt-0 lg:pt-0">
+          <div className="flex items-start justify-center w-full sm:max-w-[25rem] h-full pt-12 sm:pt-0 lg:pt-0">
             {/* Compact Card Container - Max 500px height */}
             <div className="relative w-full aspect-[3/4] h-[600px] sm:max-h-[600px]">
               {feed.slice(0, 3).map((profile, index) => (
@@ -229,7 +223,7 @@ function Feed() {
         )}
       </div>
     </div>
-    </GlassmorphismLayout>
+
   );
 }
 

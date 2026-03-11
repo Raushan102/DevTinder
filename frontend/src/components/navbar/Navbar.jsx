@@ -98,6 +98,17 @@ export default function Navbar() {
                 <span>Feed</span>
               </Link>
 
+
+              <Link
+                to="/paymentForm"
+                className="px-5 py-2.5 text-white sm:text-black text-[10px] uppercase tracking-[0.15em] font-bold
+                         transition-all duration-300 hover:bg-white/30 backdrop-blur-sm
+                         flex items-center gap-2"
+              >
+                <Compass size={14} strokeWidth={2.5} />
+                <span>upgrade to premium</span>
+              </Link>
+
               <Link
                 to="/connections"
                 className="px-5 py-2.5 text-white sm:text-black text-[10px] uppercase tracking-[0.15em] font-bold
